@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://MetaBoy/MetaBoy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 192.5, 10 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 64, 180 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 64, 180 )
+
+[node name="Gameplay" type="Node2D"]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BgLeft" type="ColorRect" parent="."]
+margin_right = 128.0
+margin_bottom = 360.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="BgRight" type="ColorRect" parent="."]
+margin_left = 512.0
+margin_right = 640.0
+margin_bottom = 360.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 270, 350 )
+
+[node name="Icon" type="Sprite" parent="StaticBody2D"]
+position = Vector2( 47, -0.499985 )
+scale = Vector2( 6, 0.328125 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 45.5, 0 )
+shape = SubResource( 1 )
+
+[node name="WallLeft" type="StaticBody2D" parent="."]
+position = Vector2( 64, 180 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft"]
+shape = SubResource( 2 )
+
+[node name="WallRight" type="StaticBody2D" parent="."]
+position = Vector2( 576, 180 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
+shape = SubResource( 3 )
+
+[node name="MetaBoy" parent="." instance=ExtResource( 1 )]
+position = Vector2( 264, 184 )

@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://TowerArea/Pillar.tscn" type="PackedScene" id=1]
+
+[node name="LargePillar" type="Node2D"]
+
+[node name="Pillar" parent="." instance=ExtResource( 1 )]
+position = Vector2( 32, 144 )
+
+[node name="Pillar2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 32, 0 )
+
+[node name="Pillar3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, 144 )
+
+[node name="Pillar4" parent="." instance=ExtResource( 1 )]

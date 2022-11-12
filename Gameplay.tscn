@@ -1,11 +1,13 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://MetaBoy/MetaBoy.tscn" type="PackedScene" id=1]
-[ext_resource path="res://TowerArea/Pillar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://TowerArea/sand_tileset.png" type="Texture" id=3]
 [ext_resource path="res://TowerArea/sky.png" type="Texture" id=4]
 [ext_resource path="res://TowerArea/SpaceBackground.gd" type="Script" id=5]
 [ext_resource path="res://BreakableObjects/Crate.tscn" type="PackedScene" id=6]
+[ext_resource path="res://TowerArea/TrackingWall.gd" type="Script" id=7]
+[ext_resource path="res://TowerArea/PillarSpawner.gd" type="Script" id=8]
+[ext_resource path="res://TowerArea/LargePillar.tscn" type="PackedScene" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=5]
 points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
@@ -56,6 +58,9 @@ points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 1/z_index = 0
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 192, 10 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 64, 180 )
@@ -113,42 +118,46 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="PillarLeft" type="Node2D" parent="."]
+[node name="PillarSpawner" type="Area2D" parent="."]
+position = Vector2( 0, -8 )
+collision_layer = 0
+collision_mask = 2
+script = ExtResource( 8 )
+target_pillar_path = NodePath("../LargePillarLeft")
 
-[node name="Pillar" parent="PillarLeft" instance=ExtResource( 2 )]
-position = Vector2( 96, 112 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PillarSpawner"]
+position = Vector2( 320, 200 )
+shape = SubResource( 8 )
 
-[node name="Pillar2" parent="PillarLeft" instance=ExtResource( 2 )]
-position = Vector2( 96, -32 )
+[node name="PillarSpawnerRight" type="Area2D" parent="."]
+position = Vector2( 0, -8 )
+collision_layer = 0
+collision_mask = 2
+script = ExtResource( 8 )
+target_pillar_path = NodePath("../LargePillarRight")
 
-[node name="Pillar3" parent="PillarLeft" instance=ExtResource( 2 )]
-position = Vector2( 64, 112 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PillarSpawnerRight"]
+position = Vector2( 320, 200 )
+shape = SubResource( 8 )
 
-[node name="Pillar4" parent="PillarLeft" instance=ExtResource( 2 )]
+[node name="LargePillarLeft" parent="." instance=ExtResource( 9 )]
 position = Vector2( 64, -32 )
 
-[node name="PillarRight" type="Node2D" parent="."]
-
-[node name="Pillar" parent="PillarRight" instance=ExtResource( 2 )]
-position = Vector2( 512, 112 )
-
-[node name="Pillar2" parent="PillarRight" instance=ExtResource( 2 )]
+[node name="LargePillarRight" parent="." instance=ExtResource( 9 )]
 position = Vector2( 512, -32 )
 
-[node name="Pillar3" parent="PillarRight" instance=ExtResource( 2 )]
-position = Vector2( 544, -32 )
-
-[node name="Pillar4" parent="PillarRight" instance=ExtResource( 2 )]
-position = Vector2( 544, 112 )
-
-[node name="WallLeft" type="StaticBody2D" parent="."]
+[node name="WallLeft" type="KinematicBody2D" parent="."]
 position = Vector2( 64, 180 )
+collision_mask = 0
+script = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft"]
 shape = SubResource( 2 )
 
-[node name="WallRight" type="StaticBody2D" parent="."]
+[node name="WallRight" type="KinematicBody2D" parent="."]
 position = Vector2( 576, 180 )
+collision_mask = 0
+script = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
 shape = SubResource( 3 )

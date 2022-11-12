@@ -156,3 +156,7 @@ func _on_SwordDamageArea_body_entered(body):
 			"damage_amount": 1
 		}
 		body.take_damage(damage_data)
+
+func _on_JumpGraceTimer_timeout():
+	if not is_on_floor() and state_machine.state == state_machine.States.FALL:
+		jump_count += 1

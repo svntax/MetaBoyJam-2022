@@ -12,7 +12,7 @@ const KEYBOARD_CONTROLS = {
 onready var input_controls
 
 const SNAP = Vector2(0, 12)
-const MAX_FALL_SPEED = 248
+const MAX_FALL_SPEED = 264
 
 onready var gravity = 16
 onready var speed = 164
@@ -148,3 +148,11 @@ func is_on_ground() -> bool:
 
 func is_jump_grace_active() -> bool:
 	return not jump_grace_timer.is_stopped()
+
+func _on_SwordDamageArea_body_entered(body):
+	if body.has_method("take_damage"):
+		var damage_data = {
+			"source_object": self,
+			"damage_amount": 1
+		}
+		body.take_damage(damage_data)

@@ -1,10 +1,60 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://MetaBoy/MetaBoy.tscn" type="PackedScene" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://TowerArea/Pillar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://TowerArea/sand_tileset.png" type="Texture" id=3]
+[ext_resource path="res://TowerArea/sky.png" type="Texture" id=4]
+[ext_resource path="res://TowerArea/SpaceBackground.gd" type="Script" id=5]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 192.5, 10 )
+[sub_resource type="ConvexPolygonShape2D" id=5]
+points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=6]
+points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
+
+[sub_resource type="TileSet" id=7]
+0/name = "sand_top"
+0/texture = ExtResource( 3 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 32, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 5 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 5 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+1/name = "sand"
+1/texture = ExtResource( 3 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 32, 0, 32, 32 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape = SubResource( 6 )
+1/shape_one_way = false
+1/shape_one_way_margin = 1.0
+1/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 6 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+1/z_index = 0
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 64, 180 )
@@ -12,36 +62,83 @@ extents = Vector2( 64, 180 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 64, 180 )
 
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 50, 10 )
-
 [node name="Gameplay" type="Node2D"]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="BgLeft" type="ColorRect" parent="."]
-margin_right = 128.0
-margin_bottom = 360.0
-color = Color( 0, 0, 0, 1 )
+[node name="SpaceLayer" type="CanvasLayer" parent="."]
+layer = -105
+script = ExtResource( 5 )
+player_path = NodePath("../MetaBoy")
 
-[node name="BgRight" type="ColorRect" parent="."]
-margin_left = 512.0
-margin_right = 640.0
-margin_bottom = 360.0
-color = Color( 0, 0, 0, 1 )
+[node name="OuterSpace" type="ColorRect" parent="SpaceLayer"]
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 648.0
+margin_bottom = 368.0
+color = Color( 0.0509804, 0.101961, 0.211765, 1 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2( 270, 350 )
+[node name="SkyGreen" type="ColorRect" parent="SpaceLayer"]
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 648.0
+margin_bottom = 368.0
+color = Color( 0, 0.439216, 0.215686, 1 )
 
-[node name="Icon" type="Sprite" parent="StaticBody2D"]
-position = Vector2( 47, -0.499985 )
-scale = Vector2( 6, 0.328125 )
-texture = ExtResource( 2 )
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 45.5, 0 )
-shape = SubResource( 1 )
+[node name="SkyLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 1, 0.1 )
+
+[node name="SkyLight" type="ColorRect" parent="ParallaxBackground/SkyLayer"]
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 648.0
+margin_bottom = 368.0
+color = Color( 0, 0.741176, 0.392157, 1 )
+
+[node name="Sky2" type="Sprite" parent="ParallaxBackground/SkyLayer"]
+position = Vector2( 0, -360 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource( 7 )
+cell_size = Vector2( 32, 32 )
+format = 1
+tile_data = PoolIntArray( 4, 0, 0, 5, 0, 0, 9, 0, 0, 196622, 0, 0, 196623, 0, 0, 262153, 0, 0, 393220, 0, 0, 393221, 0, 0, 524288, 0, 0, 524289, 0, 0, 524290, 0, 0, 524291, 0, 0, 524292, 0, 0, 524293, 0, 0, 524294, 0, 0, 524295, 0, 0, 524296, 0, 0, 524297, 0, 0, 524298, 0, 0, 524299, 0, 0, 524300, 0, 0, 524301, 0, 0, 524302, 0, 0, 524303, 0, 0, 524304, 0, 0, 524305, 0, 0, 524306, 0, 0, 524307, 0, 0, 589824, 1, 0, 589825, 1, 0, 589826, 1, 0, 589827, 1, 0, 589828, 1, 0, 589829, 1, 0, 589830, 1, 0, 589831, 1, 0, 589832, 1, 0, 589833, 1, 0, 589834, 1, 0, 589835, 1, 0, 589836, 1, 0, 589837, 1, 0, 589838, 1, 0, 589839, 1, 0, 589840, 1, 0, 589841, 1, 0, 589842, 1, 0, 589843, 1, 0, 655360, 1, 0, 655361, 1, 0, 655362, 1, 0, 655363, 1, 0, 655364, 1, 0, 655365, 1, 0, 655366, 1, 0, 655367, 1, 0, 655368, 1, 0, 655369, 1, 0, 655370, 1, 0, 655371, 1, 0, 655372, 1, 0, 655373, 1, 0, 655374, 1, 0, 655375, 1, 0, 655376, 1, 0, 655377, 1, 0, 655378, 1, 0, 655379, 1, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PillarLeft" type="Node2D" parent="."]
+
+[node name="Pillar" parent="PillarLeft" instance=ExtResource( 2 )]
+position = Vector2( 96, 112 )
+
+[node name="Pillar2" parent="PillarLeft" instance=ExtResource( 2 )]
+position = Vector2( 96, -32 )
+
+[node name="Pillar3" parent="PillarLeft" instance=ExtResource( 2 )]
+position = Vector2( 64, 112 )
+
+[node name="Pillar4" parent="PillarLeft" instance=ExtResource( 2 )]
+position = Vector2( 64, -32 )
+
+[node name="PillarRight" type="Node2D" parent="."]
+
+[node name="Pillar" parent="PillarRight" instance=ExtResource( 2 )]
+position = Vector2( 512, 112 )
+
+[node name="Pillar2" parent="PillarRight" instance=ExtResource( 2 )]
+position = Vector2( 512, -32 )
+
+[node name="Pillar3" parent="PillarRight" instance=ExtResource( 2 )]
+position = Vector2( 544, -32 )
+
+[node name="Pillar4" parent="PillarRight" instance=ExtResource( 2 )]
+position = Vector2( 544, 112 )
 
 [node name="WallLeft" type="StaticBody2D" parent="."]
 position = Vector2( 64, 180 )
@@ -56,14 +153,23 @@ position = Vector2( 576, 180 )
 shape = SubResource( 3 )
 
 [node name="MetaBoy" parent="." instance=ExtResource( 1 )]
-position = Vector2( 264, 184 )
+position = Vector2( 321, 232 )
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="."]
-position = Vector2( 200, 288 )
+[node name="Camera2D" type="Camera2D" parent="MetaBoy"]
+current = true
+limit_left = 0
+limit_right = 640
+limit_bottom = 360
+drag_margin_v_enabled = true
+drag_margin_top = 0.1
+drag_margin_bottom = 0.1
+editor_draw_drag_margin = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-shape = SubResource( 4 )
+[node name="UILayer" type="CanvasLayer" parent="."]
 
-[node name="Icon2" type="Sprite" parent="StaticBody2D2"]
-scale = Vector2( 1.5, 0.328125 )
-texture = ExtResource( 2 )
+[node name="PanelBg" type="ColorRect" parent="UILayer"]
+margin_left = -8.0
+margin_top = 312.0
+margin_right = 648.0
+margin_bottom = 360.0
+color = Color( 0, 0, 0, 1 )

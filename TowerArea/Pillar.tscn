@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://TowerArea/tower_pillar_32.png" type="Texture" id=1]
+[ext_resource path="res://TowerArea/tower_pillar_32_no_ring.png" type="Texture" id=2]
+
+[node name="Pillar" type="Node2D"]
+
+[node name="TowerPillar32" type="Sprite" parent="."]
+position = Vector2( 0, 96 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="TowerPillar32NoRing" type="Sprite" parent="."]
+position = Vector2( 0, 48 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="TowerPillar32NoRing2" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+centered = false

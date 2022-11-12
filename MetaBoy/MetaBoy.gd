@@ -44,13 +44,9 @@ func _physics_process(_delta):
 	if can_move():
 		# TODO: do we want the player to be able to turn at any time?
 		if Input.is_action_just_pressed(input_controls["left"]):
-			#velocity.x -= get_speed()
-			face_direction = -1
+			turn_towards(-1)
 		if Input.is_action_just_pressed(input_controls["right"]):
-			#velocity.x += get_speed()
-			face_direction = 1
-#		if velocity.x != 0:
-#			face_direction = sign(velocity.x)
+			turn_towards(1)
 		body.scale.x = face_direction
 		if Input.is_action_just_pressed(input_controls["action"]):
 			_handle_action()
@@ -71,7 +67,7 @@ func _physics_process(_delta):
 		var slide_collision = get_slide_collision(i)
 		var normal = slide_collision.normal
 		if normal.x != 0:
-			face_direction = sign(velocity.bounce(normal).x)
+			turn_towards(int(sign(velocity.bounce(normal).x)))
 	
 	if is_on_floor() and jump_count != 0:
 		jump_count = 0
@@ -83,6 +79,18 @@ func _physics_process(_delta):
 func _handle_action() -> void:
 	if can_attack():
 		attack()
+
+func turn_towards(dir: int) -> void:
+	if dir != 1 and dir != -1:
+		return
+	
+	var old_dir = face_direction
+	face_direction = dir
+	
+	if old_dir != dir:
+		# Sync double-jump animation to the correct direction
+		if animation_player.is_playing() and animation_player.current_animation == "double_jump":
+			play_double_jump_animation()
 
 func attack() -> void:
 	action_player.play("swing")
@@ -107,6 +115,12 @@ func jump() -> void:
 	else:
 		velocity.y = -get_jump_speed()
 	state_machine.set_state(state_machine.States.JUMP)
+
+func play_double_jump_animation() -> void:
+	var play_speed = 2.7
+	if face_direction == -1:
+		play_speed = -2.7
+	animation_player.play("double_jump", -1, play_speed)
 
 func get_gravity() -> float:
 	var g = gravity

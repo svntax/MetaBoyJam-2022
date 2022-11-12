@@ -41,10 +41,20 @@ func _enter_state(new_state, old_state):
 		States.RUN:
 			actor.animation_player.play("run", -1, 2)
 		States.JUMP:
-			actor.animation_player.play("jump")
+			if actor.jump_count > 1:
+				actor.play_double_jump_animation()
+			else:
+				actor.animation_player.play("jump")
 		States.FALL:
 			if old_state == States.IDLE or old_state == States.RUN:
 				actor.jump_grace_timer.start()
+
+func _exit_state(old_state, _new_state):
+	match old_state:
+		States.JUMP:
+			actor.body.rotation = 0
+		States.FALL:
+			actor.body.rotation = 0
 
 func is_in_movement_state() -> bool:
 	return state in CONTROLLABLE_STATES

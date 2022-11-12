@@ -211,7 +211,7 @@ anims/run = SubResource( 7 )
 script = ExtResource( 6 )
 
 [node name="JumpGraceTimer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.18
 one_shot = true
 
 [node name="ActionPlayer" type="AnimationPlayer" parent="."]

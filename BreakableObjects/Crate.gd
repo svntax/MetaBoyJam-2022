@@ -30,6 +30,6 @@ func spawn_broken_piece() -> RigidBody2D:
 #	else:
 #		debris = CratePieceD.instance()
 	debris.global_position = global_position
-	get_parent().add_child(debris)
+	get_tree().get_root().get_node("Gameplay").add_child(debris)
 	
 	return debris

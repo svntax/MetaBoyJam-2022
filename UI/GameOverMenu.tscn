@@ -110,6 +110,7 @@ tracks/3/keys = {
 [node name="GameOverMenu" type="NinePatchRect"]
 margin_right = 128.0
 margin_bottom = 120.0
+rect_min_size = Vector2( 128, 120 )
 theme = ExtResource( 2 )
 texture = ExtResource( 1 )
 patch_margin_left = 8

@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://BreakableObjects/Crate.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Enemies/RobotGround/RobotGround.tscn" type="PackedScene" id=2]
+[ext_resource path="res://TowerArea/Rooms/RoomBase.tscn" type="PackedScene" id=3]
+
+[node name="Room00" instance=ExtResource( 3 )]
+
+[node name="PlatformsTileMap" parent="." index="2"]
+tile_data = PoolIntArray( 12, 0, 0, 13, 1, 0, 14, 1, 0, 15, 2, 0, 20, 0, 0, 21, 1, 0, 22, 1, 0, 23, 2, 0, 28, 0, 0, 29, 1, 0, 30, 1, 0, 31, 2, 0, 262152, 0, 0, 262153, 1, 0, 262154, 1, 0, 262155, 2, 0, 262160, 0, 0, 262161, 1, 0, 262162, 1, 0, 262163, 2, 0, 262168, 0, 0, 262169, 1, 0, 262170, 1, 0, 262171, 2, 0, 524300, 0, 0, 524301, 1, 0, 524302, 1, 0, 524303, 2, 0, 524308, 0, 0, 524309, 1, 0, 524310, 1, 0, 524311, 2, 0, 524316, 0, 0, 524317, 1, 0, 524318, 1, 0, 524319, 2, 0, 786440, 0, 0, 786441, 1, 0, 786442, 1, 0, 786443, 2, 0, 786448, 0, 0, 786449, 1, 0, 786450, 1, 0, 786451, 2, 0, 786456, 0, 0, 786457, 1, 0, 786458, 1, 0, 786459, 2, 0 )
+
+[node name="Crate" parent="Crates" index="0" instance=ExtResource( 1 )]
+position = Vector2( 224, 116 )
+
+[node name="Crate2" parent="Crates" index="1" instance=ExtResource( 1 )]
+position = Vector2( 416, 52 )
+
+[node name="RobotGround" parent="Enemies" index="0" instance=ExtResource( 2 )]
+position = Vector2( 160, 176 )

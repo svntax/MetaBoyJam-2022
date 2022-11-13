@@ -38,7 +38,7 @@ func shoot() -> void:
 	var laser = LaserShot.instance()
 	laser.source_shooter = self # To prevent the laser from hitting this robot
 	laser.global_position = projectile_spawn.global_position
-	get_parent().add_child(laser)
+	get_tree().get_root().get_node("Gameplay").add_child(laser)
 	laser.set_direction(direction)
 
 func _on_TelegraphTimer_timeout():

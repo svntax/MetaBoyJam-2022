@@ -1,11 +1,10 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://MetaBoy/MetaBoy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://TowerArea/TowerTileset.tres" type="TileSet" id=3]
 [ext_resource path="res://TowerArea/sky.png" type="Texture" id=4]
 [ext_resource path="res://TowerArea/SpaceBackground.gd" type="Script" id=5]
 [ext_resource path="res://BreakableObjects/Crate.tscn" type="PackedScene" id=6]
-[ext_resource path="res://TowerArea/TrackingWall.gd" type="Script" id=7]
 [ext_resource path="res://TowerArea/PillarSpawner.gd" type="Script" id=8]
 [ext_resource path="res://TowerArea/LargePillar.tscn" type="PackedScene" id=9]
 [ext_resource path="res://MetaBoy/HealthUI.tscn" type="PackedScene" id=10]
@@ -133,7 +132,6 @@ shape = SubResource( 9 )
 [node name="WallLeft" type="KinematicBody2D" parent="Walls"]
 position = Vector2( 96, 180 )
 collision_mask = 0
-script = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallLeft"]
 shape = SubResource( 2 )
@@ -141,7 +139,6 @@ shape = SubResource( 2 )
 [node name="WallRight" type="KinematicBody2D" parent="Walls"]
 position = Vector2( 544, 180 )
 collision_mask = 0
-script = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallRight"]
 shape = SubResource( 3 )

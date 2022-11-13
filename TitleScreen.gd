@@ -1,6 +1,7 @@
 extends Node2D
 
 onready var menu = $Menu
+onready var high_score_label = get_node("%HighScore")
 onready var play_button = get_node("%PlayButton")
 onready var controls_button = get_node("%ControlsButton")
 
@@ -11,6 +12,8 @@ func _ready():
 	var screen_size = OS.get_screen_size()
 	var window_size = OS.get_window_size()
 	OS.set_window_position(screen_size*0.5 - window_size*0.5)
+
+	high_score_label.set_text("High Score: " + str(Globals.high_score))
 
 	play_button.grab_focus()
 

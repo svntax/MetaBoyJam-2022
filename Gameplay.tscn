@@ -196,6 +196,14 @@ margin_bottom = 48.0
 text = "TIME LEFT: 123"
 valign = 1
 
+[node name="ScoreLabel" type="Label" parent="UILayer/PanelBg"]
+unique_name_in_owner = true
+margin_left = 456.0
+margin_right = 502.0
+margin_bottom = 48.0
+text = "SCORE: 123"
+valign = 1
+
 [node name="HealthUI" parent="UILayer" instance=ExtResource( 10 )]
 unique_name_in_owner = true
 margin_left = 32.0
@@ -207,6 +215,9 @@ margin_bottom = 348.0
 margin_right = 640.0
 margin_bottom = 312.0
 mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="GameOverMenu" parent="UILayer/CenterContainer" instance=ExtResource( 14 )]
 unique_name_in_owner = true

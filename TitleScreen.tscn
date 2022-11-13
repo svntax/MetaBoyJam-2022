@@ -18,12 +18,13 @@ margin_right = 640.0
 margin_bottom = 360.0
 rect_min_size = Vector2( 4, 4 )
 mouse_filter = 2
+theme = ExtResource( 3 )
 color = Color( 0.329412, 0.454902, 0.607843, 1 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="Bg"]
 margin_left = 192.0
 margin_top = 40.0
 margin_right = 448.0
@@ -32,6 +33,14 @@ theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 1 )
 text = "Game Title"
 align = 1
+
+[node name="HighScore" type="Label" parent="Bg"]
+unique_name_in_owner = true
+margin_left = 24.0
+margin_top = 24.0
+margin_right = 92.0
+margin_bottom = 40.0
+text = "High Score: 0"
 
 [node name="Menu" type="VBoxContainer" parent="."]
 margin_left = 192.0

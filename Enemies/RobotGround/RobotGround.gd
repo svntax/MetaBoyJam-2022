@@ -4,6 +4,8 @@ const LaserShot = preload("res://Enemies/RobotGround/LaserShot.tscn")
 
 export (bool) var facing_left = false
 
+const SCORE_VALUE = 10
+
 onready var animation_player = $AnimationPlayer
 onready var attack_cooldown_timer = $AttackCooldown
 onready var telegraph_timer = $TelegraphTimer
@@ -31,6 +33,7 @@ func take_damage(damage_data: Dictionary) -> void:
 
 func destroy(source_obj) -> void:
 	# TODO: debris pieces
+	Globals.add_score(SCORE_VALUE)
 	queue_free()
 
 func shoot() -> void:

@@ -4,6 +4,7 @@ onready var header_label = $Header
 onready var score_label = $Score
 onready var main_menu_button = $MainMenuButton
 onready var animation_player = $AnimationPlayer
+onready var effects_player = $EffectsPlayer
 
 onready var menu_active = false
 
@@ -27,6 +28,11 @@ func _process(_delta):
 			_on_MainMenuButton_pressed()
 
 func display() -> void:
+	score_label.set_text("Score: " + str(Globals.current_score))
+	
+	if Globals.reached_new_high_score:
+		effects_player.play("new_high_score")
+	
 	animation_player.play("display")
 
 func _on_MainMenuButton_pressed():

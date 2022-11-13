@@ -3,6 +3,7 @@ extends Node2D
 onready var health_ui = get_node("%HealthUI")
 onready var game_over_menu = get_node("%GameOverMenu")
 onready var time_label = get_node("%TimeLabel")
+onready var score_label = get_node("%ScoreLabel")
 onready var player = $MetaBoy
 
 # In seconds
@@ -10,6 +11,10 @@ onready var time_left = 20
 onready var countdown_timer: Timer
 
 func _ready():
+	Globals.start_new_game()
+	update_score()
+	Globals.connect("current_score_changed", self, "update_score")
+	
 	countdown_timer = Timer.new()
 	countdown_timer.wait_time = 1
 	countdown_timer.one_shot = true
@@ -32,6 +37,10 @@ func _on_time_added(amount: int) -> void:
 # Syncs the time label to display time_left
 func update_time() -> void:
 	time_label.set_text("TIME LEFT: " + str(time_left))
+
+# Syncs the score label to display the global current_score
+func update_score() -> void:
+	score_label.set_text("SCORE: " + str(Globals.current_score))
 
 func _on_countdown_timer_timeout() -> void:
 	if not player.is_alive():

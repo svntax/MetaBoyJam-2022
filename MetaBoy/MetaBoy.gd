@@ -169,6 +169,9 @@ func can_take_damage() -> bool:
 	return damage_flash_timer.is_stopped()
 
 func _on_SwordDamageArea_body_entered(other_body):
+	if other_body == self:
+		return
+	
 	if other_body.has_method("take_damage"):
 		var damage_data = {
 			"source_object": self,

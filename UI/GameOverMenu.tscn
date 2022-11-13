@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://UI/ui_panel.png" type="Texture" id=1]
+[ext_resource path="res://UI/MainUITheme.tres" type="Theme" id=2]
+[ext_resource path="res://UI/GameOverMenu.gd" type="Script" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "display"
+
+[node name="GameOverMenu" type="NinePatchRect"]
+margin_right = 128.0
+margin_bottom = 120.0
+theme = ExtResource( 2 )
+texture = ExtResource( 1 )
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+script = ExtResource( 3 )
+
+[node name="Header" type="Label" parent="."]
+margin_top = 16.0
+margin_right = 128.0
+margin_bottom = 32.0
+text = "YOU DIED!"
+align = 1
+
+[node name="Score" type="Label" parent="."]
+margin_top = 48.0
+margin_right = 128.0
+margin_bottom = 64.0
+text = "Score: 12345"
+align = 1
+
+[node name="MainMenuButton" type="Button" parent="."]
+margin_left = 24.0
+margin_top = 80.0
+margin_right = 104.0
+margin_bottom = 102.0
+rect_min_size = Vector2( 80, 0 )
+text = "Main Menu"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/display = SubResource( 1 )
+
+[connection signal="pressed" from="MainMenuButton" to="." method="_on_MainMenuButton_pressed"]

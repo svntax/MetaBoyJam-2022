@@ -299,5 +299,6 @@ anims/swing = SubResource( 11 )
 wait_time = 0.5
 one_shot = true
 
+[connection signal="area_entered" from="MainBody/SwordDamageArea" to="." method="_on_SwordDamageArea_area_entered"]
 [connection signal="body_entered" from="MainBody/SwordDamageArea" to="." method="_on_SwordDamageArea_body_entered"]
 [connection signal="timeout" from="JumpGraceTimer" to="." method="_on_JumpGraceTimer_timeout"]

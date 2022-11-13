@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://MetaBoy/MetaBoy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Enemies/RobotGround/RobotGround.tscn" type="PackedScene" id=2]
 [ext_resource path="res://TowerArea/sand_tileset.png" type="Texture" id=3]
 [ext_resource path="res://TowerArea/sky.png" type="Texture" id=4]
 [ext_resource path="res://TowerArea/SpaceBackground.gd" type="Script" id=5]
@@ -62,11 +63,14 @@ points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 192, 10 )
 
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 32, 128 )
+
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 64, 180 )
+extents = Vector2( 32, 180 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 64, 180 )
+extents = Vector2( 32, 180 )
 
 [node name="Gameplay" type="Node2D"]
 __meta__ = {
@@ -146,21 +150,55 @@ position = Vector2( 64, -32 )
 [node name="LargePillarRight" parent="." instance=ExtResource( 9 )]
 position = Vector2( 512, -32 )
 
-[node name="WallLeft" type="KinematicBody2D" parent="."]
-position = Vector2( 64, 180 )
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="WallLeftBase" type="StaticBody2D" parent="Walls"]
+position = Vector2( 96, 128 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallLeftBase"]
+shape = SubResource( 9 )
+
+[node name="WallRightBase" type="StaticBody2D" parent="Walls"]
+position = Vector2( 544, 128 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallRightBase"]
+shape = SubResource( 9 )
+
+[node name="WallLeft" type="KinematicBody2D" parent="Walls"]
+position = Vector2( 96, 180 )
 collision_mask = 0
 script = ExtResource( 7 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallLeft"]
 shape = SubResource( 2 )
 
-[node name="WallRight" type="KinematicBody2D" parent="."]
-position = Vector2( 576, 180 )
+[node name="WallRight" type="KinematicBody2D" parent="Walls"]
+position = Vector2( 544, 180 )
 collision_mask = 0
 script = ExtResource( 7 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallRight"]
 shape = SubResource( 3 )
+
+[node name="Crates" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Crate" parent="Crates" instance=ExtResource( 6 )]
+position = Vector2( 444, 244 )
+
+[node name="Enemies" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RobotGround" parent="Enemies" instance=ExtResource( 2 )]
+position = Vector2( 264, 240 )
+
+[node name="RobotGround2" parent="Enemies" instance=ExtResource( 2 )]
+position = Vector2( 480, 80 )
+facing_left = true
 
 [node name="MetaBoy" parent="." instance=ExtResource( 1 )]
 position = Vector2( 321, 232 )
@@ -183,6 +221,3 @@ margin_top = 312.0
 margin_right = 648.0
 margin_bottom = 360.0
 color = Color( 0, 0, 0, 1 )
-
-[node name="Crate" parent="." instance=ExtResource( 6 )]
-position = Vector2( 444, 244 )

@@ -7,11 +7,17 @@ onready var animation_player = $AnimationPlayer
 
 onready var menu_active = false
 
+func _ready():
+	hide()
+
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "display":
 		menu_active = true
 
 func _process(_delta):
+	if not menu_active:
+		return
+	
 	var jump_pressed = Input.is_action_just_pressed("jump")
 	if Input.is_action_just_pressed("ui_down") or Input.is_action_just_pressed("ui_up") or jump_pressed:
 		var focus_owner = get_focus_owner()
@@ -21,7 +27,7 @@ func _process(_delta):
 			_on_MainMenuButton_pressed()
 
 func display() -> void:
-	animation_player.play("RESET")
+	animation_player.play("display")
 
 func _on_MainMenuButton_pressed():
 	get_tree().change_scene("res://TitleScreen.tscn")

@@ -1,6 +1,7 @@
 extends Node2D
 
 onready var health_ui = get_node("%HealthUI")
+onready var game_over_menu = get_node("%GameOverMenu")
 onready var player = $MetaBoy
 
 func _ready():
@@ -11,4 +12,4 @@ func _on_player_health_changed(new_hp: int) -> void:
 	health_ui.set_health(new_hp)
 
 func _on_death() -> void:
-	print("Player dead") # TODO
+	game_over_menu.display()

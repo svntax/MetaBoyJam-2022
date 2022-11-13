@@ -39,11 +39,7 @@ onready var damage_flash_timer = $DamageFlashTimer
 func _ready():
 	input_controls = KEYBOARD_CONTROLS
 
-func _physics_process(_delta):
-	velocity.x = speed * face_direction
-	
-	# Gravity
-	velocity.y += get_gravity()
+func _physics_process(delta):
 	
 	# Movement
 	if can_move():
@@ -60,6 +56,16 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed(input_controls["jump"]):
 		if can_jump():
 			jump()
+	
+	if not state_machine.state == state_machine.States.DEAD:
+		_handle_movement(delta)
+
+func _handle_movement(_delta):
+	# Running
+	velocity.x = speed * face_direction
+	
+	# Gravity
+	velocity.y += get_gravity()
 	
 	if state_machine.state == state_machine.States.JUMP:
 		velocity.y = move_and_slide(velocity, Vector2.UP, true).y
@@ -102,7 +108,7 @@ func attack() -> void:
 	attack_cooldown_timer.start()
 
 func can_attack() -> bool:
-	return attack_cooldown_timer.is_stopped()
+	return attack_cooldown_timer.is_stopped() and state_machine.is_in_movement_state()
 
 func can_move() -> bool:
 	return state_machine.is_in_movement_state()
@@ -161,9 +167,14 @@ func take_damage(damage_data: Dictionary) -> void:
 	#var source_obj = damage_data.get("source_object", null)
 	var damage_amount = damage_data.get("damage_amount", 1)
 	hp -= damage_amount
-	effects_player.play("damaged")
+	effects_player.play("damaged", -1, 1.2)
 	damage_flash_timer.start()
 	emit_signal("health_changed", hp)
+	
+	# Death
+	if hp <= 0:
+		state_machine.set_state(state_machine.States.DEAD)
+		
 
 func can_take_damage() -> bool:
 	return damage_flash_timer.is_stopped()

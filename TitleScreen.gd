@@ -14,6 +14,15 @@ func _ready():
 
 	play_button.grab_focus()
 
+func _process(_delta):
+	var jump_pressed = Input.is_action_just_pressed("jump")
+	if jump_pressed:
+		var focus_owner = menu.get_focus_owner()
+		if focus_owner == play_button:
+			_on_PlayButton_pressed()
+		elif focus_owner == controls_button:
+			_on_ControlsButton_pressed()
+
 func _on_PlayButton_pressed():
 	get_tree().change_scene("res://Gameplay.tscn")
 

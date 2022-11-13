@@ -95,6 +95,7 @@ action={
 2d_physics/layer_2="PLAYER"
 2d_physics/layer_3="ENEMY"
 2d_physics/layer_4="BREAKABLE"
+2d_physics/layer_5="GHOST"
 
 [physics]
 

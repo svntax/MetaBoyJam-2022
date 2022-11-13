@@ -14,7 +14,7 @@ func _ready():
 	assert(target_pillar != null)
 	current_y = target_pillar.global_position.y
 
-func _on_player_entered(body):
+func _on_player_entered(_body):
 	self.global_position.y -= pillar_height
 	current_y -= pillar_height
 	var pillar_copy = target_pillar.duplicate()

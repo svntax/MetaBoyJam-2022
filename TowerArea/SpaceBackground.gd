@@ -16,7 +16,7 @@ func _ready():
 	
 	max_dist = abs(start_height - end_height)
 
-func _process(delta):
+func _process(_delta):
 	if player.global_position.y <= end_height:
 		sky_bg.modulate.a = 0
 	elif player.global_position.y > start_height:

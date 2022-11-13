@@ -9,6 +9,8 @@ const KEYBOARD_CONTROLS = {
 	"action": "action"
 }
 
+signal health_changed(new_hp)
+
 onready var input_controls
 
 const SNAP = Vector2(0, 12)
@@ -20,6 +22,7 @@ onready var jump_speed = 320
 onready var double_jump_speed = 292
 onready var max_jumps = 2
 onready var jump_count = 0
+onready var hp = 3
 
 onready var velocity = Vector2()
 onready var face_direction = 1
@@ -27,9 +30,11 @@ onready var face_direction = 1
 onready var state_machine = $StateMachine
 onready var animation_player = $AnimationPlayer
 onready var action_player = $ActionPlayer
+onready var effects_player = $EffectsPlayer
 onready var body = $MainBody
 onready var jump_grace_timer = $JumpGraceTimer
 onready var attack_cooldown_timer = $AttackCooldownTimer
+onready var damage_flash_timer = $DamageFlashTimer
 
 func _ready():
 	input_controls = KEYBOARD_CONTROLS
@@ -149,13 +154,27 @@ func is_on_ground() -> bool:
 func is_jump_grace_active() -> bool:
 	return not jump_grace_timer.is_stopped()
 
-func _on_SwordDamageArea_body_entered(body):
-	if body.has_method("take_damage"):
+func take_damage(damage_data: Dictionary) -> void:
+	if not can_take_damage():
+		return
+	
+	#var source_obj = damage_data.get("source_object", null)
+	var damage_amount = damage_data.get("damage_amount", 1)
+	hp -= damage_amount
+	effects_player.play("damaged")
+	damage_flash_timer.start()
+	emit_signal("health_changed", hp)
+
+func can_take_damage() -> bool:
+	return damage_flash_timer.is_stopped()
+
+func _on_SwordDamageArea_body_entered(other_body):
+	if other_body.has_method("take_damage"):
 		var damage_data = {
 			"source_object": self,
 			"damage_amount": 1
 		}
-		body.take_damage(damage_data)
+		other_body.take_damage(damage_data)
 
 func _on_SwordDamageArea_area_entered(area):
 	if area.has_method("take_hit"):
@@ -164,3 +183,6 @@ func _on_SwordDamageArea_area_entered(area):
 func _on_JumpGraceTimer_timeout():
 	if not is_on_floor() and state_machine.state == state_machine.States.FALL:
 		jump_count += 1
+
+func _on_DamageFlashTimer_timeout():
+	effects_player.play("RESET")

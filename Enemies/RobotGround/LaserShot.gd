@@ -24,15 +24,15 @@ func _physics_process(delta):
 func take_hit() -> void:
 	queue_free()
 
-func _on_body_entered(body):
-	if source_shooter != null and body == source_shooter:
+func _on_body_entered(other_body):
+	if source_shooter != null and other_body == source_shooter:
 		return
 	
-	if body.has_method("take_damage"):
+	if other_body.has_method("take_damage"):
 		var damage_data = {
 			"source_object": self,
 			"damage_amount": 1
 		}
-		body.take_damage(damage_data)
+		other_body.take_damage(damage_data)
 
 	queue_free()

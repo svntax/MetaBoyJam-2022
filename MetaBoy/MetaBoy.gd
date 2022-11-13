@@ -10,6 +10,7 @@ const KEYBOARD_CONTROLS = {
 }
 
 signal health_changed(new_hp)
+signal time_added(amount)
 
 onready var input_controls
 
@@ -23,6 +24,7 @@ onready var double_jump_speed = 292
 onready var max_jumps = 2
 onready var jump_count = 0
 onready var hp = 3
+onready var max_hp = 3
 
 onready var velocity = Vector2()
 onready var face_direction = 1
@@ -174,10 +176,35 @@ func take_damage(damage_data: Dictionary) -> void:
 	# Death
 	if hp <= 0:
 		state_machine.set_state(state_machine.States.DEAD)
-		
 
 func can_take_damage() -> bool:
 	return damage_flash_timer.is_stopped()
+
+func heal(amount: int) -> void:
+	if hp <= 0:
+		# Can't heal a dead player
+		return
+	
+	if amount <= 0:
+		amount = 1
+		
+	hp += amount
+	if hp > max_hp:
+		hp = max_hp
+	# TODO: heal animation
+	emit_signal("health_changed", hp)
+
+# Instantly kills the player. Used by the game timer to kill the player when time runs out.
+# Note: does not emit the health_changed signal
+func kill() -> void:
+	hp = 0
+	state_machine.set_state(state_machine.States.DEAD)
+
+func is_alive() -> bool:
+	return state_machine.state != state_machine.States.DEAD
+
+func add_time(amount: int) -> void:
+	emit_signal("time_added", amount)
 
 func _on_SwordDamageArea_body_entered(other_body):
 	if other_body == self:

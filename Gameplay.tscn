@@ -185,7 +185,16 @@ margin_left = -8.0
 margin_top = 312.0
 margin_right = 648.0
 margin_bottom = 360.0
+theme = ExtResource( 13 )
 color = Color( 0, 0, 0, 1 )
+
+[node name="TimeLabel" type="Label" parent="UILayer/PanelBg"]
+unique_name_in_owner = true
+margin_left = 284.0
+margin_right = 379.0
+margin_bottom = 48.0
+text = "TIME LEFT: 123"
+valign = 1
 
 [node name="HealthUI" parent="UILayer" instance=ExtResource( 10 )]
 unique_name_in_owner = true
@@ -193,20 +202,6 @@ margin_left = 32.0
 margin_top = 324.0
 margin_right = 56.0
 margin_bottom = 348.0
-
-[node name="Control" type="CenterContainer" parent="UILayer"]
-margin_left = 322.0
-margin_top = 312.0
-margin_right = 399.0
-margin_bottom = 360.0
-theme = ExtResource( 13 )
-
-[node name="Label" type="Label" parent="UILayer/Control"]
-margin_left = 4.0
-margin_top = 16.0
-margin_right = 72.0
-margin_bottom = 32.0
-text = "Placeholder"
 
 [node name="CenterContainer" type="CenterContainer" parent="UILayer"]
 margin_right = 640.0

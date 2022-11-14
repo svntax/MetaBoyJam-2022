@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Powerups/clock.png" type="Texture" id=1]
 [ext_resource path="res://Powerups/ClockPowerup.gd" type="Script" id=2]
 [ext_resource path="res://UI/MainUITheme.tres" type="Theme" id=3]
+[ext_resource path="res://Powerups/pickup_time.wav" type="AudioStream" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -173,5 +174,9 @@ margin_right = 7.0
 margin_bottom = 9.0
 theme = ExtResource( 3 )
 text = "+5"
+
+[node name="PickupSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -6.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

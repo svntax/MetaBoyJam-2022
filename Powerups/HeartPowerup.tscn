@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Powerups/HeartPowerup.gd" type="Script" id=1]
 [ext_resource path="res://Powerups/heart_powerup.png" type="Texture" id=2]
+[ext_resource path="res://Powerups/pickup_heart.wav" type="AudioStream" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -49,3 +50,9 @@ shape = SubResource( 1 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 2 )
 anims/hover = SubResource( 3 )
+
+[node name="PickupSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -4.0
+
+[connection signal="finished" from="PickupSound" to="." method="_on_PickupSound_finished"]

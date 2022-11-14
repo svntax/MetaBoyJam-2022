@@ -12,11 +12,17 @@ onready var telegraph_timer = $TelegraphTimer
 onready var body = $Body
 onready var projectile_spawn = $Body/ProjectileSpawn
 
+onready var shoot_sound = $ShootSound
+onready var explode_sound = $ExplosionSound
+
+onready var alive = true
 onready var attack_cooldown = 1
 onready var direction = 1 # 1 = right, -1 = left
 
+onready var player = get_tree().get_nodes_in_group("Players")[0]
+
 func _ready():
-	attack_cooldown_timer.start(rand_range(1, 3))
+	attack_cooldown_timer.start(rand_range(1, 2))
 	if facing_left:
 		set_direction(-1)
 
@@ -29,25 +35,42 @@ func set_direction(dir: int) -> void:
 
 func take_damage(damage_data: Dictionary) -> void:
 	var source_obj = damage_data.get("source_object", null)
+	alive = false
 	call_deferred("destroy", source_obj)
 
 func destroy(source_obj) -> void:
 	# TODO: debris pieces
 	Globals.add_score(SCORE_VALUE)
-	queue_free()
+	collision_layer = 0
+	collision_mask = 0
+	body.hide()
+	explode_sound.play()
 
 func shoot() -> void:
 	animation_player.play("shoot")
+	shoot_sound.play()
+	
 	var laser = LaserShot.instance()
 	laser.source_shooter = self # To prevent the laser from hitting this robot
 	laser.global_position = projectile_spawn.global_position
 	get_tree().get_root().get_node("Gameplay").add_child(laser)
 	laser.set_direction(direction)
 
+func can_shoot() -> bool:
+	if not alive:
+		return false
+	
+	var dist = abs(player.global_position.y - global_position.y)
+	return dist <= 360
+
 func _on_TelegraphTimer_timeout():
-	shoot()
+	if can_shoot():
+		shoot()
 	attack_cooldown_timer.start(attack_cooldown)
 
 func _on_AttackCooldown_timeout():
 	animation_player.play("telegraph")
 	telegraph_timer.start()
+
+func _on_ExplosionSound_finished():
+	queue_free()

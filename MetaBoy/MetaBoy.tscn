@@ -450,11 +450,11 @@ volume_db = -8.0
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 11 )
-volume_db = -10.0
+volume_db = -16.0
 
 [node name="Jump02Sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
-volume_db = -10.0
+volume_db = -16.0
 
 [node name="HurtSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 12 )

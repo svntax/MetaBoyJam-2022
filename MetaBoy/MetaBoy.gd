@@ -9,6 +9,7 @@ const KEYBOARD_CONTROLS = {
 	"action": "action"
 }
 
+signal damage_taken(new_hp)
 signal health_changed(new_hp)
 signal time_added(amount)
 
@@ -182,6 +183,7 @@ func take_damage(damage_data: Dictionary) -> void:
 	damage_flash_timer.start()
 	hurt_sound.play()
 	emit_signal("health_changed", hp)
+	emit_signal("damage_taken", hp)
 	
 	# Death
 	if hp <= 0:

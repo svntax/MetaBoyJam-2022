@@ -4,6 +4,7 @@ onready var health_ui = get_node("%HealthUI")
 onready var game_over_menu = get_node("%GameOverMenu")
 onready var time_label = get_node("%TimeLabel")
 onready var score_label = get_node("%ScoreLabel")
+onready var camera = get_node("%PlayerCamera")
 onready var player = $MetaBoy
 
 # In seconds
@@ -26,9 +27,14 @@ func _ready():
 	health_ui.connect("out_of_hp", self, "_on_death")
 	player.connect("health_changed", self, "_on_player_health_changed")
 	player.connect("time_added", self, "_on_time_added")
+	player.connect("damage_taken", self, "_on_player_damage_taken")
 
 func _on_player_health_changed(new_hp: int) -> void:
 	health_ui.set_health(new_hp)
+
+func _on_player_damage_taken(new_hp: int) -> void:
+	if new_hp > 0:
+		camera.screenshake(0.4, 2, 0.05)
 
 func _on_time_added(amount: int) -> void:
 	time_left += amount

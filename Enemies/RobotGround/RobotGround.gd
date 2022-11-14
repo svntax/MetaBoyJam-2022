@@ -50,7 +50,8 @@ func take_damage(damage_data: Dictionary) -> void:
 func destroy(source_obj) -> void:
 	spawn_broken_pieces(source_obj)
 	spawn_powerup()
-	Globals.add_score(SCORE_VALUE)
+	if player.hp > 0:
+		Globals.add_score(SCORE_VALUE)
 	collision_layer = 0
 	collision_mask = 0
 	body.hide()

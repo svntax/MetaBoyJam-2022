@@ -2,7 +2,9 @@ extends Node2D
 
 const RoomsList = [
 	preload("res://TowerArea/Rooms/Room00.tscn"),
-	preload("res://TowerArea/Rooms/Room01.tscn")
+	preload("res://TowerArea/Rooms/Room01.tscn"),
+	preload("res://TowerArea/Rooms/Room02.tscn"),
+	preload("res://TowerArea/Rooms/Room03.tscn"),
 ]
 
 export (int) var number_of_rooms = 10

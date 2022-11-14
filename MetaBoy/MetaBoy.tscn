@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://MetaBoy/Loud-Crying.png" type="Texture" id=1]
 [ext_resource path="res://MetaBoy/Superhero.png" type="Texture" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://MetaBoy/jump_02.wav" type="AudioStream" id=10]
 [ext_resource path="res://MetaBoy/jump.wav" type="AudioStream" id=11]
 [ext_resource path="res://MetaBoy/hurt.wav" type="AudioStream" id=12]
+[ext_resource path="res://MetaBoy/slash.wav" type="AudioStream" id=13]
 
 [sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 20, 26 )
@@ -459,6 +460,11 @@ volume_db = -16.0
 [node name="HurtSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 12 )
 volume_db = -8.0
+
+[node name="SlashSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+volume_db = -18.0
+pitch_scale = 1.25
 
 [connection signal="area_entered" from="MainBody/SwordDamageArea" to="." method="_on_SwordDamageArea_area_entered"]
 [connection signal="body_entered" from="MainBody/SwordDamageArea" to="." method="_on_SwordDamageArea_body_entered"]

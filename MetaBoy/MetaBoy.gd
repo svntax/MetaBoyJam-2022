@@ -42,6 +42,7 @@ onready var explode_sound = $ExplodeSound
 onready var jump_sound = $JumpSound
 onready var jump_02_sound = $Jump02Sound
 onready var hurt_sound = $HurtSound
+onready var slash_sound = $SlashSound
 
 func _ready():
 	input_controls = KEYBOARD_CONTROLS
@@ -112,6 +113,7 @@ func turn_towards(dir: int) -> void:
 
 func attack() -> void:
 	action_player.play("swing")
+	slash_sound.play()
 	attack_cooldown_timer.start()
 
 func can_attack() -> bool:

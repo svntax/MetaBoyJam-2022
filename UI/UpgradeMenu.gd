@@ -3,6 +3,8 @@ extends NinePatchRect
 onready var jump_button = get_node("%JumpButton")
 onready var heart_button = get_node("%HeartButton")
 onready var effects_player = $EffectsPlayer
+onready var heart_upgrade_sound = $HeartUpgradeSound
+onready var jump_upgrade_sound = $JumpUpgradeSound
 
 onready var menu_active = false
 onready var player = get_tree().get_nodes_in_group("Players")[0]
@@ -31,10 +33,12 @@ func display() -> void:
 
 func _on_JumpButton_pressed():
 	player.add_max_jumps()
+	jump_upgrade_sound.play()
 	hide_menu()
 
 func _on_HeartButton_pressed():
 	player.add_heart()
+	heart_upgrade_sound.play()
 	hide_menu()
 
 func hide_menu() -> void:

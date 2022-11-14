@@ -47,6 +47,10 @@ func _ready():
 			set_direction(-1)
 		else:
 			set_direction(1)
+	
+	# Hacky fix to make sure robots don't spawn close to the player at the start
+	if global_position.y >= 176:
+		queue_free()
 
 func _physics_process(delta):
 	var collision = move_and_collide(velocity * delta)

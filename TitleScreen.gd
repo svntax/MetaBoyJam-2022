@@ -20,6 +20,10 @@ func _ready():
 	play_button.grab_focus()
 
 func _process(_delta):
+	# Hacky fix for web build
+	if not title_music.playing:
+		title_music.play()
+	
 	var jump_pressed = Input.is_action_just_pressed("jump")
 	if jump_pressed:
 		var focus_owner = menu.get_focus_owner()

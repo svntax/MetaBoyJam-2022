@@ -99,12 +99,13 @@ centered = false
 
 [node name="Title" type="Label" parent="Bg"]
 margin_left = 64.0
-margin_top = 40.0
+margin_top = 32.0
 margin_right = 320.0
-margin_bottom = 88.0
+margin_bottom = 131.0
 theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 1 )
-text = "Game Title"
+text = "Tower of
+Metababel"
 
 [node name="HighScore" type="Label" parent="Bg"]
 unique_name_in_owner = true
@@ -116,10 +117,10 @@ text = "High Score: 0"
 align = 1
 
 [node name="Menu" type="VBoxContainer" parent="."]
-margin_left = 80.0
-margin_top = 136.0
-margin_right = 240.0
-margin_bottom = 272.0
+margin_left = 70.0
+margin_top = 152.0
+margin_right = 230.0
+margin_bottom = 288.0
 theme = ExtResource( 3 )
 custom_constants/separation = 24
 alignment = 1

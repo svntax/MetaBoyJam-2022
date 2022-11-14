@@ -1,11 +1,15 @@
 extends Area2D
 
+const LaserSparks = preload("res://Enemies/LaserSparks.tscn")
+
 var source_shooter = null
 
 onready var speed = 128
 onready var direction = 1
+onready var alive = true
 
 onready var body = $Sprite
+onready var laser_hit_sound = $LaserHit
 
 func _ready():
 	connect("body_entered", self, "_on_body_entered")
@@ -18,14 +22,28 @@ func set_direction(dir: int) -> void:
 	body.scale.x = direction
 
 func _physics_process(delta):
-	global_position.x += speed * delta * direction
+	if alive:
+		global_position.x += speed * delta * direction
 
 # Different from take_damage because no damage calculations are used.
 func take_hit() -> void:
-	queue_free()
+	if alive:
+		alive = false
+		body.hide()
+		spawn_sparks()
+		laser_hit_sound.play()
+
+func spawn_sparks() -> void:
+	var sparks = LaserSparks.instance()
+	get_parent().add_child(sparks)
+	sparks.global_position = global_position
+	sparks.start_particles()
 
 func _on_body_entered(other_body):
 	if source_shooter != null and other_body == source_shooter:
+		return
+	
+	if not alive:
 		return
 	
 	if other_body.has_method("take_damage"):
@@ -35,4 +53,8 @@ func _on_body_entered(other_body):
 		}
 		other_body.take_damage(damage_data)
 
+	alive = false
+	body.hide()
+
+func _on_LaserHit_finished():
 	queue_free()

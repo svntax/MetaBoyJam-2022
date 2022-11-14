@@ -16,6 +16,7 @@ func _on_body_entered(body):
 	if body == player and !was_collected:
 		player.add_time(time_bonus)
 		animation_player.play("collect")
+		time_text_root.show()
 		was_collected = true
 
 func _on_AnimationPlayer_animation_finished(anim_name):

@@ -2,6 +2,9 @@ extends Area2D
 
 const LaserSparks = preload("res://Enemies/LaserSparks.tscn")
 
+# Slicing up laser shots gives you points
+const SCORE_VALUE = 2
+
 var source_shooter = null
 
 onready var speed = 128
@@ -32,6 +35,7 @@ func take_hit() -> void:
 		body.hide()
 		spawn_sparks()
 		laser_hit_sound.play()
+		Globals.add_score(SCORE_VALUE)
 
 func spawn_sparks() -> void:
 	var sparks = LaserSparks.instance()

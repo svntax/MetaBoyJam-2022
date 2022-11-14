@@ -47,6 +47,10 @@ func _on_body_entered(other_body):
 	if not alive:
 		return
 	
+	# Hacky fix for making sure lasers don't get removed if they collide with a one-way platform.
+	if other_body.is_in_group("OneWayObjects") and velocity.y <= 0:
+		return
+	
 	if other_body.has_method("take_damage"):
 		var damage_data = {
 			"source_object": self,

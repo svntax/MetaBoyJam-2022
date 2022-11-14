@@ -38,6 +38,11 @@ onready var jump_grace_timer = $JumpGraceTimer
 onready var attack_cooldown_timer = $AttackCooldownTimer
 onready var damage_flash_timer = $DamageFlashTimer
 
+onready var explode_sound = $ExplodeSound
+onready var jump_sound = $JumpSound
+onready var jump_02_sound = $Jump02Sound
+onready var hurt_sound = $HurtSound
+
 func _ready():
 	input_controls = KEYBOARD_CONTROLS
 
@@ -124,8 +129,10 @@ func can_jump() -> bool:
 func jump() -> void:
 	jump_count += 1
 	if jump_count > 1:
+		jump_02_sound.play()
 		velocity.y = -get_double_jump_speed()
 	else:
+		jump_sound.play()
 		velocity.y = -get_jump_speed()
 	state_machine.set_state(state_machine.States.JUMP)
 
@@ -171,6 +178,7 @@ func take_damage(damage_data: Dictionary) -> void:
 	hp -= damage_amount
 	effects_player.play("damaged", -1, 1.2)
 	damage_flash_timer.start()
+	hurt_sound.play()
 	emit_signal("health_changed", hp)
 	
 	# Death

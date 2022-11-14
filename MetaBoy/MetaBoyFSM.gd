@@ -51,6 +51,7 @@ func _enter_state(new_state, old_state):
 		States.DEAD:
 			actor.animation_player.stop()
 			actor.animation_player.play("death")
+			actor.explode_sound.play()
 
 func _exit_state(old_state, _new_state):
 	match old_state:

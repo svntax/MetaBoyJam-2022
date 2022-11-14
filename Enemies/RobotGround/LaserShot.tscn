@@ -22,7 +22,7 @@ shape = SubResource( 1 )
 
 [node name="LaserHit" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
-volume_db = -6.0
+volume_db = -3.0
 pitch_scale = 1.5
 max_distance = 650.0
 

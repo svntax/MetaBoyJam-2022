@@ -5,6 +5,7 @@ const BrokenHeadPiece = preload("res://Enemies/RobotGround/RobotGroundHead.tscn"
 const ClockPowerup = preload("res://Powerups/ClockPowerup.tscn")
 
 export (bool) var facing_left = false
+export (bool) var random_direction = false
 
 const SCORE_VALUE = 10
 
@@ -28,6 +29,11 @@ func _ready():
 	attack_cooldown_timer.start(rand_range(1, 2))
 	if facing_left:
 		set_direction(-1)
+	if random_direction:
+		if randf() < 0.5:
+			set_direction(1)
+		else:
+			set_direction(-1)
 
 func set_direction(dir: int) -> void:
 	var new_dir = sign(dir)

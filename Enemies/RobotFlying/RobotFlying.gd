@@ -7,6 +7,7 @@ const BrokenBodyPiece = preload("res://Enemies/RobotFlying/RobotFlyingBody.tscn"
 const ClockPowerup = preload("res://Powerups/ClockPowerup.tscn")
 
 export (bool) var facing_left = false
+export (bool) var random_direction = false
 
 const SCORE_VALUE = 20
 
@@ -36,10 +37,16 @@ onready var player = get_tree().get_nodes_in_group("Players")[0]
 func _ready():
 	attack_cooldown_timer.start(rand_range(1, 2))
 	effects_player.play("flying")
-	if facing_left:
-		set_direction(-1)
+	if random_direction:
+		if randf() < 0.5:
+			set_direction(1)
+		else:
+			set_direction(-1)
 	else:
-		set_direction(1)
+		if facing_left:
+			set_direction(-1)
+		else:
+			set_direction(1)
 
 func _physics_process(delta):
 	var collision = move_and_collide(velocity * delta)

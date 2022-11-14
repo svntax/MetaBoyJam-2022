@@ -177,7 +177,7 @@ __meta__ = {
 }
 
 [node name="MetaBoy" parent="." instance=ExtResource( 1 )]
-position = Vector2( 321, 232 )
+position = Vector2( 320, 232 )
 
 [node name="PlayerCamera" type="Camera2D" parent="MetaBoy"]
 unique_name_in_owner = true

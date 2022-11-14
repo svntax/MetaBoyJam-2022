@@ -17,6 +17,7 @@ config/icon="res://game_icon.png"
 [autoload]
 
 Globals="*res://Globals.gd"
+SceneManager="*res://SceneManager.tscn"
 
 [display]
 

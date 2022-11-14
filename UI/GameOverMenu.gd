@@ -36,4 +36,5 @@ func display() -> void:
 	animation_player.play("display")
 
 func _on_MainMenuButton_pressed():
-	get_tree().change_scene("res://TitleScreen.tscn")
+	SceneManager.switch_to_scene("res://TitleScreen.tscn")
+	#get_tree().change_scene("res://TitleScreen.tscn")

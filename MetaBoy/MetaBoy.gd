@@ -13,6 +13,7 @@ signal damage_taken(new_hp)
 signal health_changed(new_hp)
 signal max_health_increased()
 signal time_added(amount)
+signal max_jumps_changed(new_jump_count)
 
 onready var input_controls
 
@@ -226,6 +227,10 @@ func is_alive() -> bool:
 
 func add_time(amount: int) -> void:
 	emit_signal("time_added", amount)
+
+func add_max_jumps() -> void:
+	max_jumps += 1
+	emit_signal("max_jumps_changed", max_jumps)
 
 func _on_SwordDamageArea_body_entered(other_body):
 	if other_body == self:

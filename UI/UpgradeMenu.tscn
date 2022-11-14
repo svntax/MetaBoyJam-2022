@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://UI/ui_panel.png" type="Texture" id=1]
+[ext_resource path="res://UI/MainUITheme.tres" type="Theme" id=2]
+[ext_resource path="res://UI/UpgradeMenu.gd" type="Script" id=3]
+
+[node name="UpgradeMenu" type="NinePatchRect"]
+pause_mode = 2
+margin_right = 224.0
+margin_bottom = 112.0
+rect_min_size = Vector2( 224, 112 )
+theme = ExtResource( 2 )
+texture = ExtResource( 1 )
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+script = ExtResource( 3 )
+
+[node name="Header" type="Label" parent="."]
+margin_top = 16.0
+margin_right = 224.0
+margin_bottom = 32.0
+text = "CHOOSE YOUR UPGRADE"
+align = 1
+
+[node name="JumpLabel" type="Label" parent="."]
+visible = false
+margin_top = 88.0
+margin_right = 112.0
+margin_bottom = 104.0
+text = "Extra Jump"
+align = 1
+
+[node name="HeartLabel" type="Label" parent="."]
+margin_left = 96.0
+margin_top = 80.0
+margin_right = 220.0
+margin_bottom = 96.0
+text = "(Heal if maxed)"
+align = 1
+
+[node name="EffectsPlayer" type="AnimationPlayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_top = 48.0
+margin_right = 224.0
+margin_bottom = 72.0
+
+[node name="Buttons" type="HBoxContainer" parent="CenterContainer"]
+margin_left = 24.0
+margin_top = 4.0
+margin_right = 200.0
+margin_bottom = 20.0
+custom_constants/separation = 16
+
+[node name="JumpButton" type="Button" parent="CenterContainer/Buttons"]
+unique_name_in_owner = true
+margin_right = 80.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 80, 0 )
+text = "+1 Jump"
+
+[node name="HeartButton" type="Button" parent="CenterContainer/Buttons"]
+unique_name_in_owner = true
+margin_left = 96.0
+margin_right = 176.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 80, 0 )
+text = "+1 Heart"
+
+[connection signal="pressed" from="CenterContainer/Buttons/JumpButton" to="." method="_on_JumpButton_pressed"]
+[connection signal="pressed" from="CenterContainer/Buttons/HeartButton" to="." method="_on_HeartButton_pressed"]

@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 const LaserShot = preload("res://Enemies/RobotGround/LaserShot.tscn")
 const BrokenHeadPiece = preload("res://Enemies/RobotGround/RobotGroundHead.tscn")
+const ClockPowerup = preload("res://Powerups/ClockPowerup.tscn")
 
 export (bool) var facing_left = false
 
@@ -42,6 +43,7 @@ func take_damage(damage_data: Dictionary) -> void:
 
 func destroy(source_obj) -> void:
 	spawn_broken_pieces(source_obj)
+	spawn_powerup()
 	Globals.add_score(SCORE_VALUE)
 	collision_layer = 0
 	collision_mask = 0
@@ -77,6 +79,12 @@ func spawn_broken_pieces(source_obj) -> void:
 	var vx = rand_range(48, 72) * dir
 	var vy = rand_range(-48, -24)
 	debris.apply_central_impulse(Vector2(vx, vy))
+
+func spawn_powerup() -> void:
+	var powerup = ClockPowerup.instance()
+	powerup.global_position = global_position
+	get_tree().get_root().get_node("Gameplay").add_child(powerup)
+	powerup.set_type_small() # Robots spawn the smaller time pickups
 
 func _on_TelegraphTimer_timeout():
 	if can_shoot():

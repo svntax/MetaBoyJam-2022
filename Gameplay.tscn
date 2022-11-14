@@ -43,7 +43,7 @@ margin_left = -8.0
 margin_top = -8.0
 margin_right = 648.0
 margin_bottom = 368.0
-color = Color( 0.0509804, 0.101961, 0.211765, 1 )
+color = Color( 0.101961, 0.101961, 0.152941, 1 )
 
 [node name="SkyGreen" type="ColorRect" parent="SpaceLayer"]
 margin_left = -8.0

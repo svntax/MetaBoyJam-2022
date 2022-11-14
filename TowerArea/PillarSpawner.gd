@@ -9,6 +9,7 @@ onready var target_pillar
 onready var current_y
 
 func _ready():
+	# warning-ignore:return_value_discarded
 	connect("body_entered", self, "_on_player_entered")
 	target_pillar = get_node_or_null(target_pillar_path)
 	assert(target_pillar != null)

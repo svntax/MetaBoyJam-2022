@@ -1,9 +1,47 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://UI/FontLarge.tres" type="DynamicFont" id=1]
 [ext_resource path="res://TitleScreen.gd" type="Script" id=2]
 [ext_resource path="res://UI/MainUITheme.tres" type="Theme" id=3]
 [ext_resource path="res://UI/FontMedium.tres" type="DynamicFont" id=4]
+[ext_resource path="res://title_background.png" type="Texture" id=5]
+[ext_resource path="res://Enemies/RobotGround/robot_ground.png" type="Texture" id=6]
+[ext_resource path="res://Enemies/RobotGround/robot_ground_dead.png" type="Texture" id=7]
+[ext_resource path="res://Enemies/RobotGround/robot_ground_head.png" type="Texture" id=8]
+[ext_resource path="res://Enemies/RobotFlying/robot_flying.png" type="Texture" id=9]
+[ext_resource path="res://HoverOffsetEffect.gd" type="Script" id=10]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("RobotFlying:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "flying"
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("RobotFlying:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 0 ]
+}
 
 [node name="TitleScreen" type="Node2D"]
 script = ExtResource( 2 )
@@ -24,49 +62,87 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="BackgroundArt" type="Sprite" parent="Bg"]
+texture = ExtResource( 5 )
+centered = false
+
 [node name="Title" type="Label" parent="Bg"]
-margin_left = 192.0
+margin_left = 64.0
 margin_top = 40.0
-margin_right = 448.0
+margin_right = 320.0
 margin_bottom = 88.0
 theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 1 )
 text = "Game Title"
-align = 1
 
 [node name="HighScore" type="Label" parent="Bg"]
 unique_name_in_owner = true
-margin_left = 24.0
+margin_left = 520.0
 margin_top = 24.0
-margin_right = 92.0
+margin_right = 640.0
 margin_bottom = 40.0
 text = "High Score: 0"
+align = 1
 
 [node name="Menu" type="VBoxContainer" parent="."]
-margin_left = 192.0
-margin_top = 152.0
-margin_right = 448.0
-margin_bottom = 222.0
+margin_left = 80.0
+margin_top = 136.0
+margin_right = 240.0
+margin_bottom = 272.0
 theme = ExtResource( 3 )
 custom_constants/separation = 24
 alignment = 1
 
 [node name="PlayButton" type="Button" parent="Menu"]
 unique_name_in_owner = true
-margin_right = 256.0
+margin_right = 160.0
 margin_bottom = 56.0
-rect_min_size = Vector2( 80, 56 )
+rect_min_size = Vector2( 160, 56 )
 custom_fonts/font = ExtResource( 4 )
 text = "Play"
 
 [node name="ControlsButton" type="Button" parent="Menu"]
 unique_name_in_owner = true
 margin_top = 80.0
-margin_right = 256.0
+margin_right = 160.0
 margin_bottom = 136.0
-rect_min_size = Vector2( 80, 56 )
+rect_min_size = Vector2( 160, 56 )
 custom_fonts/font = ExtResource( 4 )
 text = "Controls"
+
+[node name="Props" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RobotGround" type="Sprite" parent="Props"]
+position = Vector2( 580, 283 )
+texture = ExtResource( 6 )
+flip_h = true
+hframes = 3
+
+[node name="RobotGroundBody" type="Sprite" parent="Props"]
+position = Vector2( 409, 281 )
+texture = ExtResource( 7 )
+flip_h = true
+
+[node name="RobotGroundHead" type="Sprite" parent="Props"]
+position = Vector2( 382, 291 )
+texture = ExtResource( 8 )
+flip_h = true
+
+[node name="RobotFlying" type="Sprite" parent="Props"]
+position = Vector2( 600, 205 )
+texture = ExtResource( 9 )
+flip_h = true
+hframes = 3
+script = ExtResource( 10 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Props/RobotFlying"]
+root_node = NodePath("../..")
+autoplay = "flying"
+anims/RESET = SubResource( 1 )
+anims/flying = SubResource( 2 )
 
 [connection signal="pressed" from="Menu/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Menu/ControlsButton" to="." method="_on_ControlsButton_pressed"]

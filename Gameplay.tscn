@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://MetaBoy/MetaBoy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://CustomCamera.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://TowerArea/sky.png" type="Texture" id=4]
 [ext_resource path="res://TowerArea/SpaceBackground.gd" type="Script" id=5]
 [ext_resource path="res://BreakableObjects/Crate.tscn" type="PackedScene" id=6]
+[ext_resource path="res://TowerArea/sandy_hills.png" type="Texture" id=7]
 [ext_resource path="res://TowerArea/PillarSpawner.gd" type="Script" id=8]
 [ext_resource path="res://TowerArea/LargePillar.tscn" type="PackedScene" id=9]
 [ext_resource path="res://MetaBoy/HealthUI.tscn" type="PackedScene" id=10]
@@ -67,6 +68,15 @@ color = Color( 0, 0.741176, 0.392157, 1 )
 [node name="Sky2" type="Sprite" parent="ParallaxBackground/SkyLayer"]
 position = Vector2( 0, -360 )
 texture = ExtResource( 4 )
+centered = false
+
+[node name="HillsLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 1, 0.8 )
+motion_mirroring = Vector2( 640, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/HillsLayer"]
+position = Vector2( 0, -66 )
+texture = ExtResource( 7 )
 centered = false
 
 [node name="TileMap" type="TileMap" parent="."]

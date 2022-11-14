@@ -18,7 +18,7 @@ func _ready():
 	for i in range(number_of_rooms):
 		spawn_room()
 
-func _process(delta):
+func _process(_delta):
 	if player.global_position.y < current_pos.y + room_height * 3:
 		# Spawn n rooms at a time
 		for i in range(6):

@@ -49,7 +49,6 @@ func _ready():
 	input_controls = KEYBOARD_CONTROLS
 
 func _physics_process(delta):
-	
 	# Movement
 	if can_move():
 		# TODO: do we want the player to be able to turn at any time?

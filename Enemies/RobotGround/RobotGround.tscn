@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Enemies/RobotGround/robot_ground.png" type="Texture" id=1]
 [ext_resource path="res://Enemies/RobotGround/RobotGround.gd" type="Script" id=2]
 [ext_resource path="res://Enemies/laser_shoot.wav" type="AudioStream" id=3]
 [ext_resource path="res://Enemies/explosion_robot.wav" type="AudioStream" id=4]
+[ext_resource path="res://Enemies/RobotGround/robot_ground_dead.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 9, 10 )
@@ -24,6 +25,18 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BodyDead:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -84,6 +97,10 @@ hframes = 3
 
 [node name="ProjectileSpawn" type="Position2D" parent="Body"]
 position = Vector2( 10, 1 )
+
+[node name="BodyDead" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1, 6 )

@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 const LaserShot = preload("res://Enemies/RobotGround/LaserShot.tscn")
+const BrokenHeadPiece = preload("res://Enemies/RobotGround/RobotGroundHead.tscn")
 
 export (bool) var facing_left = false
 
@@ -10,6 +11,7 @@ onready var animation_player = $AnimationPlayer
 onready var attack_cooldown_timer = $AttackCooldown
 onready var telegraph_timer = $TelegraphTimer
 onready var body = $Body
+onready var body_dead = $BodyDead
 onready var projectile_spawn = $Body/ProjectileSpawn
 
 onready var shoot_sound = $ShootSound
@@ -39,11 +41,12 @@ func take_damage(damage_data: Dictionary) -> void:
 	call_deferred("destroy", source_obj)
 
 func destroy(source_obj) -> void:
-	# TODO: debris pieces
+	spawn_broken_pieces(source_obj)
 	Globals.add_score(SCORE_VALUE)
 	collision_layer = 0
 	collision_mask = 0
 	body.hide()
+	body_dead.show()
 	explode_sound.play()
 
 func shoot() -> void:
@@ -63,6 +66,18 @@ func can_shoot() -> bool:
 	var dist = abs(player.global_position.y - global_position.y)
 	return dist <= 360
 
+func spawn_broken_pieces(source_obj) -> void:
+	var debris = BrokenHeadPiece.instance()
+	debris.global_position = global_position
+	get_tree().get_root().get_node("Gameplay").add_child(debris)
+	debris.scale.x = direction
+	
+	# Knock back in the direction away from the player
+	var dir = sign(global_position.x - source_obj.global_position.x)
+	var vx = rand_range(48, 72) * dir
+	var vy = rand_range(-48, -24)
+	debris.apply_central_impulse(Vector2(vx, vy))
+
 func _on_TelegraphTimer_timeout():
 	if can_shoot():
 		shoot()
@@ -73,4 +88,4 @@ func _on_AttackCooldown_timeout():
 	telegraph_timer.start()
 
 func _on_ExplosionSound_finished():
-	queue_free()
+	pass# queue_free()

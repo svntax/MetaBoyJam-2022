@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://MetaBoy/MetaBoy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://CustomCamera.gd" type="Script" id=2]
@@ -15,6 +15,8 @@
 [ext_resource path="res://UI/MainUITheme.tres" type="Theme" id=13]
 [ext_resource path="res://UI/GameOverMenu.tscn" type="PackedScene" id=14]
 [ext_resource path="res://TowerArea/RoomSpawnerSystem.gd" type="Script" id=15]
+[ext_resource path="res://GameplayTheme.wav" type="AudioStream" id=16]
+[ext_resource path="res://Powerups/UpgradeJingle.wav" type="AudioStream" id=17]
 
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 192, 10 )
@@ -247,3 +249,12 @@ margin_left = 208.0
 margin_top = 100.0
 margin_right = 432.0
 margin_bottom = 212.0
+
+[node name="GameMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
+volume_db = -16.0
+
+[node name="UpgradeJingle" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = ExtResource( 17 )
+volume_db = -14.0

@@ -4,6 +4,8 @@ onready var menu = $Menu
 onready var high_score_label = get_node("%HighScore")
 onready var play_button = get_node("%PlayButton")
 onready var controls_button = get_node("%ControlsButton")
+onready var title_music = $TitleMusic
+onready var animation_player = $AnimationPlayer
 
 func _ready():
 	# Default size 1280x720
@@ -14,7 +16,7 @@ func _ready():
 	OS.set_window_position(screen_size*0.5 - window_size*0.5)
 
 	high_score_label.set_text("High Score: " + str(Globals.high_score))
-
+	title_music.play()
 	play_button.grab_focus()
 
 func _process(_delta):
@@ -27,9 +29,11 @@ func _process(_delta):
 			_on_ControlsButton_pressed()
 
 func _on_PlayButton_pressed():
+	animation_player.play("transition")
 	SceneManager.switch_to_scene("res://Gameplay.tscn")
 	#get_tree().change_scene("res://Gameplay.tscn")
 
 func _on_ControlsButton_pressed():
+	animation_player.play("transition")
 	SceneManager.switch_to_scene("res://ControlsScreen.tscn", true)
 	#get_tree().change_scene("res://ControlsScreen.tscn")

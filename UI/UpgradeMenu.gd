@@ -1,5 +1,7 @@
 extends NinePatchRect
 
+signal menu_closed()
+
 onready var jump_button = get_node("%JumpButton")
 onready var heart_button = get_node("%HeartButton")
 onready var effects_player = $EffectsPlayer
@@ -45,3 +47,4 @@ func hide_menu() -> void:
 	hide()
 	menu_active = false
 	get_tree().paused = false
+	emit_signal("menu_closed")

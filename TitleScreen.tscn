@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://UI/FontLarge.tres" type="DynamicFont" id=1]
 [ext_resource path="res://TitleScreen.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Enemies/RobotGround/robot_ground_head.png" type="Texture" id=8]
 [ext_resource path="res://Enemies/RobotFlying/robot_flying.png" type="Texture" id=9]
 [ext_resource path="res://HoverOffsetEffect.gd" type="Script" id=10]
+[ext_resource path="res://TitleTheme.wav" type="AudioStream" id=11]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -41,6 +42,36 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 0 ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("TitleMusic:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ -8.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "transition"
+tracks/0/type = "value"
+tracks/0/path = NodePath("TitleMusic:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -8.0, -80.0 ]
 }
 
 [node name="TitleScreen" type="Node2D"]
@@ -143,6 +174,14 @@ root_node = NodePath("../..")
 autoplay = "flying"
 anims/RESET = SubResource( 1 )
 anims/flying = SubResource( 2 )
+
+[node name="TitleMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+volume_db = -8.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 3 )
+anims/transition = SubResource( 4 )
 
 [connection signal="pressed" from="Menu/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Menu/ControlsButton" to="." method="_on_ControlsButton_pressed"]

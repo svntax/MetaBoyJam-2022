@@ -7,6 +7,11 @@ const RoomsList = [
 	preload("res://TowerArea/Rooms/Room03.tscn"),
 	preload("res://TowerArea/Rooms/Room04.tscn"),
 	preload("res://TowerArea/Rooms/Room05.tscn"),
+	preload("res://TowerArea/Rooms/Room06.tscn"),
+	preload("res://TowerArea/Rooms/Room07.tscn"),
+	preload("res://TowerArea/Rooms/Room08.tscn"),
+	preload("res://TowerArea/Rooms/Room09.tscn"),
+	preload("res://TowerArea/Rooms/Room10.tscn"),
 ]
 
 export (int) var number_of_rooms = 10

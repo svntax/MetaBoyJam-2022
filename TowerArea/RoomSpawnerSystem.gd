@@ -12,9 +12,17 @@ onready var room_width = 640
 onready var room_height = 256
 onready var current_pos = Vector2(global_position.x, global_position.y)
 
+onready var player = get_tree().get_nodes_in_group("Players")[0]
+
 func _ready():
 	for i in range(number_of_rooms):
 		spawn_room()
+
+func _process(delta):
+	if player.global_position.y < current_pos.y + room_height * 3:
+		# Spawn n rooms at a time
+		for i in range(6):
+			spawn_room()
 
 func spawn_room() -> void:
 	var choice = randi() % RoomsList.size()

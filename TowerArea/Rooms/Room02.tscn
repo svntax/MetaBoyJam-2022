@@ -17,7 +17,7 @@ position = Vector2( 480, 84 )
 position = Vector2( 160, 84 )
 
 [node name="RobotFlying" parent="Enemies" index="0" instance=ExtResource( 2 )]
-position = Vector2( 320, 224 )
+position = Vector2( 288, 224 )
 random_direction = true
 
 [node name="RobotGround" parent="Enemies" index="1" instance=ExtResource( 4 )]

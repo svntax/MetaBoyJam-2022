@@ -28,9 +28,13 @@ func _ready():
 	player.connect("health_changed", self, "_on_player_health_changed")
 	player.connect("time_added", self, "_on_time_added")
 	player.connect("damage_taken", self, "_on_player_damage_taken")
+	player.connect("max_health_increased", self, "_on_player_max_health_increased")
 
 func _on_player_health_changed(new_hp: int) -> void:
 	health_ui.set_health(new_hp)
+
+func _on_player_max_health_increased() -> void:
+	health_ui.add_heart()
 
 func _on_player_damage_taken(new_hp: int) -> void:
 	if new_hp > 0:

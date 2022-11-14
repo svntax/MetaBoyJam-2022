@@ -2,6 +2,8 @@ extends Node
 
 signal current_score_changed()
 
+const MAX_HEALTH_CAP = 7
+
 var current_score = 0
 var high_score = 0
 var reached_new_high_score = false

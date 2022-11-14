@@ -2,7 +2,6 @@ extends Control
 
 signal out_of_hp()
 
-const MAX_HEALTH_CAP = 7
 onready var max_health = 3
 onready var current_health = 3
 
@@ -26,5 +25,10 @@ func set_health(hp: int) -> void:
 		emit_signal("out_of_hp")
 
 func add_heart() -> void:
-	max_health += 1
-	set_health(current_health + 1)
+	if max_health < Globals.MAX_HEALTH_CAP:
+		max_health += 1
+		var new_heart_icon = hearts_base.get_child(0).duplicate()
+		hearts_base.add_child(new_heart_icon)
+		var new_heart_icon2 = hearts_current.get_child(0).duplicate()
+		hearts_current.add_child(new_heart_icon2)
+		set_health(current_health)

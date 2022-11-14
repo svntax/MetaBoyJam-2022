@@ -11,6 +11,7 @@ const KEYBOARD_CONTROLS = {
 
 signal damage_taken(new_hp)
 signal health_changed(new_hp)
+signal max_health_increased()
 signal time_added(amount)
 
 onready var input_controls
@@ -24,6 +25,7 @@ onready var jump_speed = 320
 onready var double_jump_speed = 292
 onready var max_jumps = 2
 onready var jump_count = 0
+
 onready var hp = 3
 onready var max_hp = 3
 
@@ -204,6 +206,14 @@ func heal(amount: int) -> void:
 		hp = max_hp
 	# TODO: heal animation
 	emit_signal("health_changed", hp)
+
+# Adds a heart container, or heals 1 if maxed out.
+func add_heart() -> void:
+	if max_hp >= Globals.MAX_HEALTH_CAP:
+		heal(1)
+	else:
+		max_hp += 1
+		emit_signal("max_health_increased")
 
 # Instantly kills the player. Used by the game timer to kill the player when time runs out.
 # Note: does not emit the health_changed signal

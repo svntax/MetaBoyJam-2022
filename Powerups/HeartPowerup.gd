@@ -17,10 +17,11 @@ func _on_body_entered(body):
 		return
 	
 	if body == player:
+		player.heal(heal_amount)
+		
 		picked_up = true
 		collision_layer = 0
 		collision_mask = 0
-		player.heal(heal_amount)
 		pickup_sound.play()
 		sprite.hide()
 

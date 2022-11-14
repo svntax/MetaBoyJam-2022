@@ -6,14 +6,26 @@ const CratePieceV = preload("res://BreakableObjects/CratePieceV.tscn")
 const ClockPowerup = preload("res://Powerups/ClockPowerup.tscn")
 const HeartPowerup = preload("res://Powerups/HeartPowerup.tscn")
 
+onready var break_sound = $BreakSound
+onready var crate_broken = $BodyBroken
+onready var crate_normal = $Sprite
+
 onready var powerups_pool = [
 	ClockPowerup,
 	HeartPowerup
 ]
 
+func _ready():
+	crate_broken.hide()
+	crate_normal.show()
+	# Randomly flip the broken sprite
+	if randf() < 0.5:
+		crate_broken.scale.x = -1
+
 func take_damage(damage_data: Dictionary) -> void:
 	var source_obj = damage_data.get("source_object", null)
-	call_deferred("spawn_broken_pieces", 3, source_obj)
+	var num_pieces = randi() % 2 + 1
+	call_deferred("spawn_broken_pieces", num_pieces, source_obj)
 
 func spawn_broken_pieces(amount: int, source_obj) -> void:
 	if amount <= 0:
@@ -28,8 +40,11 @@ func spawn_broken_pieces(amount: int, source_obj) -> void:
 		debris.apply_central_impulse(Vector2(vx, vy))
 	
 	spawn_powerup()
-	
-	queue_free()
+	crate_normal.hide()
+	crate_broken.show()
+	collision_layer = 0
+	collision_mask = 0
+	break_sound.play()
 
 func spawn_broken_piece() -> RigidBody2D:
 	#var choice = randi() % 2
@@ -47,5 +62,5 @@ func spawn_broken_piece() -> RigidBody2D:
 func spawn_powerup() -> void:
 	var choice = randi() % powerups_pool.size()
 	var powerup = powerups_pool[choice].instance()
-	powerup.global_position = global_position
+	powerup.global_position = global_position + Vector2(0, -6)
 	get_tree().get_root().get_node("Gameplay").add_child(powerup)

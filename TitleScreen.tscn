@@ -110,11 +110,13 @@ Metababel"
 [node name="HighScore" type="Label" parent="Bg"]
 unique_name_in_owner = true
 margin_left = 520.0
-margin_top = 24.0
+margin_top = 16.0
 margin_right = 640.0
-margin_bottom = 40.0
-text = "High Score: 0"
+margin_bottom = 51.0
+text = "High Score:
+123456"
 align = 1
+autowrap = true
 
 [node name="Menu" type="VBoxContainer" parent="."]
 margin_left = 70.0

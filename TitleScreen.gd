@@ -15,7 +15,7 @@ func _ready():
 	var window_size = OS.get_window_size()
 	OS.set_window_position(screen_size*0.5 - window_size*0.5)
 
-	high_score_label.set_text("High Score: " + str(Globals.high_score))
+	high_score_label.set_text("High Score\n" + str(Globals.high_score))
 	title_music.play()
 	play_button.grab_focus()
 

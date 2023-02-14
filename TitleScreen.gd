@@ -33,11 +33,11 @@ func _process(_delta):
 			_on_ControlsButton_pressed()
 
 func _on_PlayButton_pressed():
-	animation_player.play("transition")
-	SceneManager.switch_to_scene("res://Gameplay.tscn")
-	#get_tree().change_scene("res://Gameplay.tscn")
+	if not SceneManager.transition_running:
+		animation_player.play("transition")
+		SceneManager.switch_to_scene("res://Gameplay.tscn")
 
 func _on_ControlsButton_pressed():
-	animation_player.play("transition")
-	SceneManager.switch_to_scene("res://ControlsScreen.tscn", true)
-	#get_tree().change_scene("res://ControlsScreen.tscn")
+	if not SceneManager.transition_running:
+		animation_player.play("transition")
+		SceneManager.switch_to_scene("res://ControlsScreen.tscn", true)

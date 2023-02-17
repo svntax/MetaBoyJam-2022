@@ -65,7 +65,7 @@ func shoot() -> void:
 	var laser = LaserShot.instance()
 	laser.source_shooter = self # To prevent the laser from hitting this robot
 	laser.global_position = projectile_spawn.global_position
-	get_tree().get_root().get_node("Gameplay").add_child(laser)
+	get_tree().current_scene.add_child(laser)
 	laser.set_direction(direction)
 
 func can_shoot() -> bool:
@@ -78,7 +78,7 @@ func can_shoot() -> bool:
 func spawn_broken_pieces(source_obj) -> void:
 	var debris = BrokenHeadPiece.instance()
 	debris.global_position = global_position
-	get_tree().get_root().get_node("Gameplay").add_child(debris)
+	get_tree().current_scene.add_child(debris)
 	debris.scale.x = direction
 	
 	# Knock back in the direction away from the player
@@ -90,7 +90,7 @@ func spawn_broken_pieces(source_obj) -> void:
 func spawn_powerup() -> void:
 	var powerup = ClockPowerup.instance()
 	powerup.global_position = global_position
-	get_tree().get_root().get_node("Gameplay").add_child(powerup)
+	get_tree().current_scene.add_child(powerup)
 	powerup.set_type_small() # Robots spawn the smaller time pickups
 
 func _on_TelegraphTimer_timeout():

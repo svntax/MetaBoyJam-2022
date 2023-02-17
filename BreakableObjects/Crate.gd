@@ -55,7 +55,7 @@ func spawn_broken_piece() -> RigidBody2D:
 #	else:
 #		debris = CratePieceD.instance()
 	debris.global_position = global_position
-	get_tree().get_root().get_node("Gameplay").add_child(debris)
+	get_tree().current_scene.add_child(debris)
 	
 	return debris
 
@@ -63,4 +63,4 @@ func spawn_powerup() -> void:
 	var choice = randi() % powerups_pool.size()
 	var powerup = powerups_pool[choice].instance()
 	powerup.global_position = global_position + Vector2(0, -6)
-	get_tree().get_root().get_node("Gameplay").add_child(powerup)
+	get_tree().current_scene.add_child(powerup)

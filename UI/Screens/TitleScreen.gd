@@ -35,9 +35,9 @@ func _process(_delta):
 func _on_PlayButton_pressed():
 	if not SceneManager.transition_running:
 		animation_player.play("transition")
-		SceneManager.switch_to_scene("res://Gameplay.tscn")
+		SceneManager.switch_to_scene("res://UI/Screens/PlaySelectScreen.tscn", true)
 
 func _on_ControlsButton_pressed():
 	if not SceneManager.transition_running:
 		animation_player.play("transition")
-		SceneManager.switch_to_scene("res://ControlsScreen.tscn", true)
+		SceneManager.switch_to_scene("res://UI/Screens/ControlsScreen.tscn", true)

@@ -1,0 +1,135 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://BreakableObjects/Crate.tscn" type="PackedScene" id=1]
+[ext_resource path="res://TowerArea/PlatformsTileset.tres" type="TileSet" id=2]
+[ext_resource path="res://TowerArea/TowerTileset.tres" type="TileSet" id=3]
+[ext_resource path="res://TowerArea/LargePillar.tscn" type="PackedScene" id=4]
+[ext_resource path="res://CustomCamera.gd" type="Script" id=5]
+[ext_resource path="res://MetaBoy/MetaBoy.tscn" type="PackedScene" id=6]
+[ext_resource path="res://UI/MainUITheme.tres" type="Theme" id=7]
+[ext_resource path="res://Maps/PracticeRoom.gd" type="Script" id=8]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 128 )
+
+[node name="PracticeRoom" type="Node2D"]
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BackUI" type="Control" parent="."]
+margin_right = 640.0
+margin_bottom = 360.0
+theme = ExtResource( 7 )
+
+[node name="Bg2" type="ColorRect" parent="BackUI"]
+margin_right = 640.0
+margin_bottom = 360.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Bg" type="ColorRect" parent="BackUI"]
+margin_left = 64.0
+margin_right = 576.0
+margin_bottom = 256.0
+color = Color( 0.270588, 0.352941, 0.376471, 1 )
+
+[node name="Label" type="Label" parent="BackUI"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = -132.0
+margin_right = 128.0
+margin_bottom = -97.0
+custom_colors/font_color = Color( 1, 1, 1, 0.490196 )
+text = "PRACTICE
+ROOM"
+align = 1
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 3 )
+cell_size = Vector2( 32, 32 )
+format = 1
+tile_data = PoolIntArray( 524290, 0, 0, 524291, 0, 0, 524292, 0, 0, 524293, 0, 0, 524294, 0, 0, 524295, 0, 0, 524296, 0, 0, 524297, 0, 0, 524298, 0, 0, 524299, 0, 0, 524300, 0, 0, 524301, 0, 0, 524302, 0, 0, 524303, 0, 0, 524304, 0, 0, 524305, 0, 0, 589826, 1, 0, 589827, 1, 0, 589828, 1, 0, 589829, 1, 0, 589830, 1, 0, 589831, 1, 0, 589832, 1, 0, 589833, 1, 0, 589834, 1, 0, 589835, 1, 0, 589836, 1, 0, 589837, 1, 0, 589838, 1, 0, 589839, 1, 0, 589840, 1, 0, 589841, 1, 0, 655362, 1, 0, 655363, 1, 0, 655364, 1, 0, 655365, 1, 0, 655366, 1, 0, 655367, 1, 0, 655368, 1, 0, 655369, 1, 0, 655370, 1, 0, 655371, 1, 0, 655372, 1, 0, 655373, 1, 0, 655374, 1, 0, 655375, 1, 0, 655376, 1, 0, 655377, 1, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PlatformsTileMap" type="TileMap" parent="." groups=["OneWayObjects"]]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 16, 16 )
+cell_quadrant_size = 8
+cell_custom_transform = Transform2D( 32, 0, 0, 32, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 262152, 0, 0, 262153, 1, 0, 262154, 1, 0, 262155, 1, 0, 262156, 1, 0, 262157, 1, 0, 262158, 1, 0, 262159, 2, 0, 262168, 0, 0, 262169, 1, 0, 262170, 1, 0, 262171, 1, 0, 262172, 1, 0, 262173, 1, 0, 262174, 1, 0, 262175, 2, 0, 524304, 0, 0, 524305, 1, 0, 524306, 1, 0, 524307, 1, 0, 524308, 1, 0, 524309, 1, 0, 524310, 1, 0, 524311, 2, 0, 786440, 0, 0, 786441, 1, 0, 786442, 1, 0, 786443, 1, 0, 786444, 1, 0, 786445, 1, 0, 786446, 1, 0, 786447, 2, 0, 786456, 0, 0, 786457, 1, 0, 786458, 1, 0, 786459, 1, 0, 786460, 1, 0, 786461, 1, 0, 786462, 1, 0, 786463, 2, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="LargePillarLeft" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, -32 )
+
+[node name="LargePillarRight" parent="." instance=ExtResource( 4 )]
+position = Vector2( 512, -32 )
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="WallLeftBase" type="StaticBody2D" parent="Walls"]
+position = Vector2( 96, 128 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallLeftBase"]
+shape = SubResource( 1 )
+
+[node name="WallRightBase" type="StaticBody2D" parent="Walls"]
+position = Vector2( 544, 128 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallRightBase"]
+shape = SubResource( 1 )
+
+[node name="Crate" parent="." instance=ExtResource( 1 )]
+position = Vector2( 448, 181 )
+
+[node name="MetaBoy" parent="." instance=ExtResource( 6 )]
+position = Vector2( 320, 232 )
+z_index = 5
+
+[node name="PlayerCamera" type="Camera2D" parent="MetaBoy"]
+unique_name_in_owner = true
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 640
+limit_bottom = 360
+drag_margin_v_enabled = true
+drag_margin_top = 0.1
+drag_margin_bottom = 0.1
+editor_draw_limits = true
+editor_draw_drag_margin = true
+script = ExtResource( 5 )
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="PanelBg" type="ColorRect" parent="UILayer"]
+margin_left = -8.0
+margin_top = 312.0
+margin_right = 648.0
+margin_bottom = 360.0
+theme = ExtResource( 7 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="TimeLabel" type="Label" parent="UILayer/PanelBg"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -192.0
+margin_top = -48.0
+margin_right = 192.0
+text = "Press Esc to leave the practice room."
+align = 1
+valign = 1
+
+[node name="Node2D" type="Node2D" parent="."]

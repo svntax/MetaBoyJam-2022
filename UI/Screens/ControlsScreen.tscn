@@ -2,7 +2,7 @@
 
 [ext_resource path="res://UI/MainUITheme.tres" type="Theme" id=1]
 [ext_resource path="res://UI/FontLarge.tres" type="DynamicFont" id=2]
-[ext_resource path="res://ControlsScreen.gd" type="Script" id=3]
+[ext_resource path="res://UI/Screens/ControlsScreen.gd" type="Script" id=3]
 [ext_resource path="res://UI/FontMedium.tres" type="DynamicFont" id=4]
 
 [node name="ControlsScreen" type="Node2D"]

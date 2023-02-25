@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "ThrownProjectile",
+"language": "GDScript",
+"path": "res://MetaBoy/Projectiles/ThrownProjectile.gd"
+} ]
+_global_script_class_icons={
+"ThrownProjectile": ""
+}
+
 [application]
 
 config/name="TowerOfMetababel"
@@ -18,6 +28,7 @@ config/icon="res://game_icon.png"
 
 Globals="*res://Globals.gd"
 SceneManager="*res://SceneManager.tscn"
+MetaBoyGlobals="*res://MetaBoy/MetaBoyGlobals.gd"
 
 [display]
 

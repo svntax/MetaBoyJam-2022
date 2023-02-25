@@ -33,14 +33,49 @@ onready var max_hp = 3
 onready var velocity = Vector2()
 onready var face_direction = 1
 
+var weapon_type : String
+
 onready var state_machine = $StateMachine
 onready var animation_player = $AnimationPlayer
 onready var action_player = $ActionPlayer
 onready var effects_player = $EffectsPlayer
-onready var body = $MainBody
+onready var body_root = $MainBody
 onready var jump_grace_timer = $JumpGraceTimer
 onready var attack_cooldown_timer = $AttackCooldownTimer
 onready var damage_flash_timer = $DamageFlashTimer
+
+# MetaBoy parts
+onready var part_back = $MainBody/Back
+onready var part_body = $MainBody/Body
+onready var part_face = $MainBody/Face
+onready var part_hat = $MainBody/Hat
+onready var part_neck = $MainBody/Neck
+onready var part_waist = $MainBody/Waist
+onready var part_weapon = $MainBody/Weapon
+
+# Arm sprites, used if the weapon spritesheet needs to be separated
+onready var close_arm = $MainBody/CloseArm
+onready var far_arm = $MainBody/FarArm
+
+# Root nodes for specific weapon setups
+onready var yatagan_root = $MainBody/YataganArmRoot
+onready var bomb_root = $MainBody/BombArmRoot
+onready var dynamite_root = $MainBody/DynamiteArmRoot
+onready var snail_shell_root = $MainBody/SnailShellArmRoot
+onready var energy_sword_root = $MainBody/EnergySwordRoot
+
+# Projectiles
+const Bomb = preload("res://MetaBoy/Projectiles/Bomb/Bomb.tscn")
+onready var bomb_spawn_pos = get_node("%BombSpawn")
+
+const Dynamite = preload("res://MetaBoy/Projectiles/Dynamite/Dynamite.tscn")
+onready var dynamite_spawn_pos = get_node("%DynamiteSpawn")
+
+const SnailShell = preload("res://MetaBoy/Projectiles/SnailShell/SnailShell.tscn")
+onready var snail_shell_spawn_pos = get_node("%SnailShellSpawn")
+
+# TODO temporary, unless we want the bazooka to shoot bombs
+onready var bazooka_projectile_spawn_pos = get_node("%BazookaSpawn")
 
 onready var explode_sound = $ExplodeSound
 onready var jump_sound = $JumpSound
@@ -49,7 +84,109 @@ onready var hurt_sound = $HurtSound
 onready var slash_sound = $SlashSound
 
 func _ready():
+	init_setup_parts()
+	
 	input_controls = KEYBOARD_CONTROLS
+	# TODO: temporary for testing purposes
+	set_metaboy_attributes(MetaBoyGlobals.test_metaboy)
+
+func init_setup_parts() -> void:
+	action_player.stop()
+	part_weapon.show()
+	
+	far_arm.hide()
+	close_arm.hide()
+	
+	yatagan_root.hide()
+	bomb_root.hide()
+	dynamite_root.hide()
+	snail_shell_root.hide()
+	energy_sword_root.hide()
+
+func set_metaboy_attributes(attributes: Dictionary) -> void:
+	init_setup_parts()
+	
+	var path_root = "res://MetaBoy/spritesheets/"
+	var show_back = false
+	var show_hat = false
+	var show_neck = false
+	var show_waist = false
+	for key in attributes.keys():
+		var value = attributes.get(key)
+		var path = path_root + str(key) + "/" + str(value).replace(" ", "-") + ".png"
+		if ResourceLoader.exists(path):
+			if key == "Back":
+				part_back.texture = load(path)
+				show_back = true
+			elif key == "Body":
+				part_body.texture = load(path)
+			elif key == "Face":
+				part_face.texture = load(path)
+			elif key == "Hat":
+				part_hat.texture = load(path)
+				show_hat = true
+			elif key == "Neck":
+				part_neck.texture = load(path)
+				show_neck = true
+			elif key == "Waist":
+				part_waist.texture = load(path)
+				show_waist = true
+			elif key == "Weapon":
+				# Custom spritesheet setup for certain weapons.
+				weapon_type = str(value).replace(" ", "-")
+				if weapon_type == "Bomb":
+					part_weapon.hide()
+					bomb_root.show() # For the throwing animation
+					close_arm.show() # Close arm holds the weapon
+					close_arm.texture = load(path.replace("Bomb.png", "BombCloseArm.png"))
+					far_arm.show() # Far arm is empty
+					far_arm.texture = load(path.replace("Bomb.png", "BombFarArm.png"))
+				elif weapon_type == "Dynamite-Stick":
+					part_weapon.hide()
+					dynamite_root.show() # For the throwing animation
+					close_arm.show() # Close arm holds the weapon
+					close_arm.texture = load(path.replace("Dynamite-Stick.png", "Dynamite-Stick_CloseArm.png"))
+					far_arm.show() # Far arm is empty
+					far_arm.texture = load(path.replace("Dynamite-Stick.png", "Dynamite-Stick_FarArm.png"))
+				elif weapon_type == "Snail-Shell":
+					part_weapon.hide()
+					snail_shell_root.show() # For the throwing animation
+					close_arm.show() # Close arm holds the weapon
+					close_arm.texture = load(path.replace("Snail-Shell.png", "Snail-Shell_CloseArm.png"))
+					far_arm.show() # Far arm is empty
+					far_arm.texture = load(path.replace("Snail-Shell.png", "Snail-Shell_FarArm.png"))
+				elif weapon_type == "Yatagan":
+					part_weapon.hide()
+					yatagan_root.show() # Far arm holds the weapon
+					close_arm.show() # Close arm is empty
+					close_arm.texture = load(path.replace("Yatagan.png", "YataganCloseArm.png"))
+				elif weapon_type == "Energy-Sword":
+					part_weapon.hide()
+					energy_sword_root.show() # Far arm holds the weapon
+					close_arm.show() # Close arm is empty
+					close_arm.texture = load(path.replace("Energy-Sword.png", "Energy-Sword_CloseArm.png"))
+				else:
+					part_weapon.texture = load(path)
+	
+	part_back.visible = show_back
+	part_hat.visible = show_hat
+	part_neck.visible = show_neck
+	part_waist.visible = show_waist
+	
+	# Check for key in case of mismints that are missing these attributes
+	if attributes.has("Body") and attributes.has("Face"):
+		var body_type = attributes.get("Body").replace(" ", "-")
+		# Bodies with dark screens need the light version of the face
+		if MetaBoyGlobals.is_dark_screen_body(body_type):
+			var face_type = attributes.get("Face").replace(" ", "-")
+			var face_light_version_texture = MetaBoyGlobals.get_face_light_version(face_type)
+			if face_light_version_texture:
+				part_face.texture = face_light_version_texture
+
+func _process(_delta):
+	# TODO: temporary for testing purposes
+	if Input.is_action_just_pressed("move_down"):
+		set_metaboy_attributes(MetaBoyGlobals.get_random_attributes())
 
 func _physics_process(delta):
 	# Movement
@@ -59,7 +196,7 @@ func _physics_process(delta):
 			turn_towards(-1)
 		if Input.is_action_just_pressed(input_controls["right"]):
 			turn_towards(1)
-		body.scale.x = face_direction
+		body_root.scale.x = face_direction
 		if Input.is_action_just_pressed(input_controls["action"]):
 			_handle_action()
 	
@@ -115,8 +252,52 @@ func turn_towards(dir: int) -> void:
 			play_double_jump_animation()
 
 func attack() -> void:
-	action_player.play("swing")
-	slash_sound.play()
+	if weapon_type == "Yatagan":
+		action_player.play("swing")
+		slash_sound.play()
+	elif weapon_type == "Energy-Sword":
+		action_player.play("swing_energy_sword")
+		slash_sound.play()
+	elif weapon_type == "Bomb":
+		action_player.play("throw_bomb")
+		var bomb = Bomb.instance()
+		get_parent().add_child(bomb)
+		bomb.global_position = bomb_spawn_pos.global_position
+		bomb.z_index = z_index + 1
+		bomb.set_velocity(Vector2(400 * face_direction, -80))
+		if face_direction == -1:
+			bomb.flip_direction()
+	elif weapon_type == "Dynamite-Stick":
+		action_player.play("throw_dynamite")
+		var dynamite = Dynamite.instance()
+		get_parent().add_child(dynamite)
+		dynamite.global_position = dynamite_spawn_pos.global_position
+		dynamite.z_index = z_index + 1
+		dynamite.set_velocity(Vector2(400 * face_direction, -80))
+		if face_direction == -1:
+			dynamite.flip_direction()
+	elif weapon_type == "Snail-Shell":
+		action_player.play("throw_snail_shell")
+		var snail_shell = SnailShell.instance()
+		get_parent().add_child(snail_shell)
+		snail_shell.global_position = dynamite_spawn_pos.global_position
+		snail_shell.z_index = z_index + 1
+		snail_shell.set_velocity(Vector2(400 * face_direction, -80))
+		if face_direction == -1:
+			snail_shell.flip_direction()
+	elif weapon_type == "Bazooka":
+		var bazooka_projectile = Bomb.instance()
+		get_parent().add_child(bazooka_projectile)
+		bazooka_projectile.global_position = bazooka_projectile_spawn_pos.global_position
+		bazooka_projectile.z_index = z_index + 1
+		bazooka_projectile.set_velocity(Vector2(450 * face_direction, 0))
+		if face_direction == -1:
+			bazooka_projectile.flip_direction()
+	else:
+		# TODO: implement attacks for all weapons
+		action_player.play("swing")
+		slash_sound.play()
+	
 	attack_cooldown_timer.start()
 
 func can_attack() -> bool:

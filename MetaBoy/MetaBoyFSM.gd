@@ -56,9 +56,9 @@ func _enter_state(new_state, old_state):
 func _exit_state(old_state, _new_state):
 	match old_state:
 		States.JUMP:
-			actor.body.rotation = 0
+			actor.body_root.rotation = 0
 		States.FALL:
-			actor.body.rotation = 0
+			actor.body_root.rotation = 0
 
 func is_in_movement_state() -> bool:
 	return state in CONTROLLABLE_STATES

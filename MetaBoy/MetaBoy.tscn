@@ -1,18 +1,18 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://MetaBoy/Loud-Crying.png" type="Texture" id=1]
 [ext_resource path="res://MetaBoy/Superhero.png" type="Texture" id=2]
-[ext_resource path="res://MetaBoy/Yatagan.png" type="Texture" id=3]
+[ext_resource path="res://MetaBoy/spritesheets/Weapon/Energy-Sword_FarArm.png" type="Texture" id=3]
 [ext_resource path="res://MetaBoy/Layers.gd" type="Script" id=4]
 [ext_resource path="res://MetaBoy/MetaBoy.gd" type="Script" id=5]
 [ext_resource path="res://MetaBoy/MetaBoyFSM.gd" type="Script" id=6]
-[ext_resource path="res://MetaBoy/close_arm.png" type="Texture" id=7]
 [ext_resource path="res://MetaBoy/far_arm.png" type="Texture" id=8]
 [ext_resource path="res://MetaBoy/explosion.wav" type="AudioStream" id=9]
 [ext_resource path="res://MetaBoy/jump_02.wav" type="AudioStream" id=10]
 [ext_resource path="res://MetaBoy/jump.wav" type="AudioStream" id=11]
 [ext_resource path="res://MetaBoy/hurt.wav" type="AudioStream" id=12]
 [ext_resource path="res://MetaBoy/slash.wav" type="AudioStream" id=13]
+[ext_resource path="res://MetaBoy/Projectiles/ThrowingArmClose.png" type="Texture" id=14]
 
 [sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 20, 26 )
@@ -35,7 +35,7 @@ tracks/0/keys = {
 "values": [ 5 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("MainBody/FarArmRoot:position")
+tracks/1/path = NodePath("MainBody/YataganArmRoot:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -43,7 +43,7 @@ tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 14, 1 ) ]
 }
 tracks/2/type = "value"
@@ -105,6 +105,66 @@ tracks/6/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("MainBody/BombArmRoot:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( -3, 0 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("MainBody/DynamiteArmRoot:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( -3, 0 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("MainBody/SnailShellArmRoot:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -3, 0 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("MainBody/EnergySwordRoot:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 16, 1 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("MainBody/BazookaRoot:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 36, -8 ) ]
 }
 
 [sub_resource type="Animation" id=16]
@@ -191,7 +251,7 @@ tracks/0/keys = {
 "values": [ 2 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("MainBody/FarArmRoot:position")
+tracks/1/path = NodePath("MainBody/YataganArmRoot:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -214,6 +274,66 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 0.0 ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("MainBody/BombArmRoot:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( -5, 4 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("MainBody/DynamiteArmRoot:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( -5, 4 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("MainBody/SnailShellArmRoot:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( -5, 4 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("MainBody/EnergySwordRoot:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 16, 5 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("MainBody/BazookaRoot:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 37, -4 ) ]
+}
 
 [sub_resource type="Animation" id=9]
 resource_name = "jump"
@@ -231,7 +351,7 @@ tracks/0/keys = {
 "values": [ 10 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("MainBody/FarArmRoot:position")
+tracks/1/path = NodePath("MainBody/YataganArmRoot:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -241,6 +361,66 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ Vector2( 16, 2 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("MainBody/BombArmRoot:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( -6, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("MainBody/DynamiteArmRoot:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( -6, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("MainBody/SnailShellArmRoot:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( -6, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("MainBody/EnergySwordRoot:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 16, 2 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("MainBody/BazookaRoot:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 37, -7 ) ]
 }
 
 [sub_resource type="Animation" id=7]
@@ -259,7 +439,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("MainBody/FarArmRoot:position")
+tracks/1/path = NodePath("MainBody/YataganArmRoot:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -269,6 +449,66 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ Vector2( 14, 3 ), Vector2( 15, 4 ), Vector2( 16, 5 ), Vector2( 15, 3 ), Vector2( 14, 2 ), Vector2( 14, 1 ), Vector2( 14, 3 ), Vector2( 16, 4 ), Vector2( 15, 5 ), Vector2( 16, 3 ), Vector2( 16, 2 ), Vector2( 15, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("MainBody/BombArmRoot:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( -7, 2 ), Vector2( -6, 3 ), Vector2( -5, 4 ), Vector2( -4, 2 ), Vector2( -3, 1 ), Vector2( -3, 0 ), Vector2( -3, 2 ), Vector2( -4, 3 ), Vector2( -5, 4 ), Vector2( -6, 2 ), Vector2( -6, 1 ), Vector2( -7, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("MainBody/DynamiteArmRoot:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( -7, 2 ), Vector2( -6, 3 ), Vector2( -5, 4 ), Vector2( -4, 2 ), Vector2( -3, 1 ), Vector2( -3, 0 ), Vector2( -3, 2 ), Vector2( -4, 3 ), Vector2( -5, 4 ), Vector2( -6, 2 ), Vector2( -6, 1 ), Vector2( -7, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("MainBody/SnailShellArmRoot:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( -7, 2 ), Vector2( -6, 3 ), Vector2( -5, 4 ), Vector2( -4, 2 ), Vector2( -3, 1 ), Vector2( -3, 0 ), Vector2( -3, 2 ), Vector2( -4, 3 ), Vector2( -5, 4 ), Vector2( -6, 2 ), Vector2( -6, 1 ), Vector2( -7, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("MainBody/EnergySwordRoot:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 14, 3 ), Vector2( 15, 4 ), Vector2( 16, 5 ), Vector2( 16, 3 ), Vector2( 16, 2 ), Vector2( 16, 1 ), Vector2( 16, 3 ), Vector2( 17, 4 ), Vector2( 16, 5 ), Vector2( 16, 3 ), Vector2( 16, 2 ), Vector2( 15, 1 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("MainBody/BazookaRoot:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 35, -6 ), Vector2( 36, -5 ), Vector2( 37, -4 ), Vector2( 36, -6 ), Vector2( 36, -7 ), Vector2( 36, -8 ), Vector2( 36, -6 ), Vector2( 37, -5 ), Vector2( 36, -4 ), Vector2( 37, -6 ), Vector2( 37, -7 ), Vector2( 36, -8 ) ]
 }
 
 [sub_resource type="Animation" id=10]
@@ -285,13 +525,97 @@ tracks/0/keys = {
 "update": 0,
 "values": [ true ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("MainBody/BombArmRoot/BombArm:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("MainBody/DynamiteArmRoot/DynamiteArm:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("MainBody/YataganArmRoot/YataganArm:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("MainBody/YataganArmRoot/YataganArm:rotation_degrees")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("MainBody/SnailShellArmRoot/SnailShellArm:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("MainBody/EnergySwordRoot/EnergySwordArm:rotation_degrees")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("MainBody/SwordDamageArea/SlashPolygon:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=11]
 resource_name = "swing"
 length = 0.45
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("MainBody/FarArmRoot/FarArm:position")
+tracks/0/path = NodePath("MainBody/YataganArmRoot/YataganArm:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -303,7 +627,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("MainBody/FarArmRoot/FarArm:rotation_degrees")
+tracks/1/path = NodePath("MainBody/YataganArmRoot/YataganArm:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -325,6 +649,143 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("MainBody/SwordDamageArea/SlashPolygon:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.05, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+
+[sub_resource type="Animation" id=20]
+resource_name = "swing_energy_sword"
+length = 0.45
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("MainBody/SwordDamageArea/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MainBody/EnergySwordRoot/EnergySwordArm:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.4, 0.45 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 120.0, 120.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("MainBody/SwordDamageArea/SlashPolygon:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.05, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "throw_bomb"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("MainBody/BombArmRoot/BombArm:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MainBody/CloseArm:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "throw_dynamite"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("MainBody/CloseArm:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MainBody/DynamiteArmRoot/DynamiteArm:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "throw_snail_shell"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("MainBody/CloseArm:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MainBody/SnailShellArmRoot/SnailShellArm:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
 
 [sub_resource type="Animation" id=14]
@@ -367,15 +828,39 @@ script = ExtResource( 5 )
 script = ExtResource( 4 )
 frame = 5
 
-[node name="Weapon" type="Sprite" parent="MainBody"]
-visible = false
-texture = ExtResource( 3 )
+[node name="Back" type="Sprite" parent="MainBody"]
+texture = ExtResource( 2 )
 hframes = 5
 vframes = 3
 frame = 5
 
 [node name="Body" type="Sprite" parent="MainBody"]
 texture = ExtResource( 2 )
+hframes = 5
+vframes = 3
+frame = 5
+
+[node name="Neck" type="Sprite" parent="MainBody"]
+hframes = 5
+vframes = 3
+frame = 5
+
+[node name="Waist" type="Sprite" parent="MainBody"]
+hframes = 5
+vframes = 3
+frame = 5
+
+[node name="Hat" type="Sprite" parent="MainBody"]
+hframes = 5
+vframes = 3
+frame = 5
+
+[node name="Weapon" type="Sprite" parent="MainBody"]
+hframes = 5
+vframes = 3
+frame = 5
+
+[node name="FarArm" type="Sprite" parent="MainBody"]
 hframes = 5
 vframes = 3
 frame = 5
@@ -389,14 +874,36 @@ collision_mask = 12
 shape = SubResource( 13 )
 disabled = true
 
-[node name="FarArmRoot" type="Position2D" parent="MainBody"]
+[node name="SlashPolygon" type="Polygon2D" parent="MainBody/SwordDamageArea"]
+visible = false
+position = Vector2( 4, 0 )
+polygon = PoolVector2Array( -14, -25, -6, -23, 2, -18, 6, -11, 5, 2, -3, 12, -17, 18, -10, 21, -2, 22, 7, 20, 15, 12, 18, 1, 17, -11, 11, -20, 2, -25, -7, -26 )
+
+[node name="YataganArmRoot" type="Position2D" parent="MainBody"]
+visible = false
 position = Vector2( 14, 1 )
 
-[node name="FarArm" type="Sprite" parent="MainBody/FarArmRoot"]
+[node name="YataganArm" type="Sprite" parent="MainBody/YataganArmRoot"]
 texture = ExtResource( 8 )
 offset = Vector2( -14, -3 )
 hframes = 5
 vframes = 3
+
+[node name="EnergySwordRoot" type="Position2D" parent="MainBody"]
+visible = false
+position = Vector2( 16, 1 )
+
+[node name="EnergySwordArm" type="Sprite" parent="MainBody/EnergySwordRoot"]
+texture = ExtResource( 3 )
+offset = Vector2( -14, -3 )
+hframes = 5
+vframes = 3
+
+[node name="BazookaRoot" type="Position2D" parent="MainBody"]
+position = Vector2( 36, -8 )
+
+[node name="BazookaSpawn" type="Position2D" parent="MainBody/BazookaRoot"]
+unique_name_in_owner = true
 
 [node name="Face" type="Sprite" parent="MainBody"]
 texture = ExtResource( 1 )
@@ -405,10 +912,43 @@ vframes = 3
 frame = 5
 
 [node name="CloseArm" type="Sprite" parent="MainBody"]
-texture = ExtResource( 7 )
 hframes = 5
 vframes = 3
 frame = 5
+
+[node name="BombArmRoot" type="Position2D" parent="MainBody"]
+visible = false
+position = Vector2( -3, 0 )
+
+[node name="BombArm" type="Sprite" parent="MainBody/BombArmRoot"]
+visible = false
+texture = ExtResource( 14 )
+
+[node name="BombSpawn" type="Position2D" parent="MainBody/BombArmRoot"]
+unique_name_in_owner = true
+position = Vector2( -15, -6 )
+
+[node name="DynamiteArmRoot" type="Position2D" parent="MainBody"]
+position = Vector2( -3, 0 )
+
+[node name="DynamiteArm" type="Sprite" parent="MainBody/DynamiteArmRoot"]
+visible = false
+texture = ExtResource( 14 )
+
+[node name="DynamiteSpawn" type="Position2D" parent="MainBody/DynamiteArmRoot"]
+unique_name_in_owner = true
+position = Vector2( -19, -9 )
+
+[node name="SnailShellArmRoot" type="Position2D" parent="MainBody"]
+position = Vector2( -3, 0 )
+
+[node name="SnailShellArm" type="Sprite" parent="MainBody/SnailShellArmRoot"]
+visible = false
+texture = ExtResource( 14 )
+
+[node name="SnailShellSpawn" type="Position2D" parent="MainBody/SnailShellArmRoot"]
+unique_name_in_owner = true
+position = Vector2( -18, -12 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.5, 1.5 )
@@ -428,6 +968,10 @@ anims/run = SubResource( 7 )
 [node name="ActionPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 10 )
 anims/swing = SubResource( 11 )
+anims/swing_energy_sword = SubResource( 20 )
+anims/throw_bomb = SubResource( 17 )
+anims/throw_dynamite = SubResource( 18 )
+anims/throw_snail_shell = SubResource( 19 )
 
 [node name="EffectsPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 14 )

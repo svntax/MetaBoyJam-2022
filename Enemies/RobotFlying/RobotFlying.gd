@@ -80,6 +80,7 @@ func take_damage(damage_data: Dictionary) -> void:
 	call_deferred("destroy", source_obj)
 
 func destroy(source_obj) -> void:
+	alive = false
 	spawn_broken_pieces(source_obj)
 	spawn_powerup()
 	if player.hp > 0:

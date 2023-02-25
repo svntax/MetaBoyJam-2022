@@ -59,6 +59,7 @@ func _on_body_entered(other_body):
 
 	alive = false
 	body.hide()
+	queue_free()
 
 func _on_LaserHit_finished():
 	queue_free()

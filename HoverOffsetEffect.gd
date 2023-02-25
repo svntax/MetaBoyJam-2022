@@ -5,7 +5,7 @@ extends Node2D
 onready var original_pos = self.position
 onready var t = 0
 
-export (float) var time_offset = 0
+export (float) var time_offset = 0.0
 
 func _process(delta):
 	# Manual hovering movement

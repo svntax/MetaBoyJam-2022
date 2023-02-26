@@ -194,7 +194,10 @@ func set_metaboy_attributes(attributes: Dictionary) -> void:
 func _process(_delta):
 	# TODO: temporary for testing purposes
 	if Input.is_action_just_pressed("move_down"):
-		set_metaboy_attributes(MetaBoyGlobals.get_random_attributes())
+		MetaBoyGlobals.test_metaboy["Weapon"] = MetaBoyGlobals.WEAPONS_TO_TEST[MetaBoyGlobals.current_weapon_index]
+		MetaBoyGlobals.current_weapon_index += 1
+		MetaBoyGlobals.current_weapon_index %= MetaBoyGlobals.WEAPONS_TO_TEST.size()
+		set_metaboy_attributes(MetaBoyGlobals.test_metaboy)
 
 func _physics_process(delta):
 	# Movement

@@ -35,6 +35,8 @@ config/icon="res://game_icon.png"
 Globals="*res://Globals.gd"
 SceneManager="*res://SceneManager.tscn"
 MetaBoyGlobals="*res://MetaBoy/MetaBoyGlobals.gd"
+Loopring="*res://addons/godot-loopring-sdk/Loopring.tscn"
+LoopringGlobals="*res://addons/godot-loopring-sdk/LoopringGlobals.gd"
 
 [display]
 
@@ -124,6 +126,10 @@ action={
 2d_physics/layer_3="ENEMY"
 2d_physics/layer_4="BREAKABLE"
 2d_physics/layer_5="GHOST"
+
+[mono]
+
+project/assembly_name="TowerOfMetababel"
 
 [physics]
 

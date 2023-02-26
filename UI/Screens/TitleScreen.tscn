@@ -96,6 +96,9 @@ __meta__ = {
 [node name="BackgroundArt" type="Sprite" parent="Bg"]
 texture = ExtResource( 6 )
 centered = false
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Title" type="Label" parent="Bg"]
 margin_left = 64.0
@@ -132,6 +135,8 @@ unique_name_in_owner = true
 margin_right = 160.0
 margin_bottom = 56.0
 rect_min_size = Vector2( 160, 56 )
+focus_neighbour_right = NodePath("../../AccountInfo/LogoutButton")
+focus_neighbour_bottom = NodePath("../ControlsButton")
 custom_fonts/font = ExtResource( 2 )
 text = "Play"
 
@@ -141,6 +146,9 @@ margin_top = 80.0
 margin_right = 160.0
 margin_bottom = 136.0
 rect_min_size = Vector2( 160, 56 )
+focus_neighbour_top = NodePath("../PlayButton")
+focus_neighbour_right = NodePath("../../AccountInfo/LogoutButton")
+focus_neighbour_bottom = NodePath("../../AccountInfo/LogoutButton")
 custom_fonts/font = ExtResource( 2 )
 text = "Controls"
 
@@ -186,5 +194,45 @@ volume_db = -8.0
 anims/RESET = SubResource( 3 )
 anims/transition = SubResource( 4 )
 
+[node name="AccountInfo" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+theme = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Bg2" type="ColorRect" parent="AccountInfo"]
+margin_left = 4.0
+margin_top = 296.0
+margin_right = 436.0
+margin_bottom = 359.0
+
+[node name="Bg" type="ColorRect" parent="AccountInfo"]
+margin_left = 8.0
+margin_top = 299.0
+margin_right = 432.0
+margin_bottom = 355.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="AccountName" type="Label" parent="AccountInfo"]
+margin_left = 16.0
+margin_top = 307.0
+margin_right = 328.0
+margin_bottom = 342.0
+text = "Signed in as 0xe1234567890abcdefABCDEFghijklGHIJKLmnopq"
+autowrap = true
+
+[node name="LogoutButton" type="Button" parent="AccountInfo"]
+margin_left = 336.0
+margin_top = 307.0
+margin_right = 416.0
+margin_bottom = 345.0
+rect_min_size = Vector2( 80, 38 )
+focus_neighbour_left = NodePath("../../Menu/PlayButton")
+focus_neighbour_bottom = NodePath("../../Menu/PlayButton")
+text = "Sign Out"
+
 [connection signal="pressed" from="Menu/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Menu/ControlsButton" to="." method="_on_ControlsButton_pressed"]
+[connection signal="pressed" from="AccountInfo/LogoutButton" to="." method="_on_LogoutButton_pressed"]

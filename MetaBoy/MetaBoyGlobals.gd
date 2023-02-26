@@ -19,7 +19,7 @@ const DARK_SCREEN_BODIES = ["Bloodied", "Bread-Slice", "Camouflage", "Demon",
 var test_metaboy = {
 	"Body": "Superhero",
 	"Face": "Loud-Crying",
-	"Weapon": "Bazooka",
+	"Weapon": "Elder-Wand",
 }
 
 func is_dark_screen_body(body_type: String) -> bool:

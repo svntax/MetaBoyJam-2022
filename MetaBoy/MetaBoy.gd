@@ -77,11 +77,16 @@ onready var snail_shell_spawn_pos = get_node("%SnailShellSpawn")
 # TODO temporary, unless we want the bazooka to shoot bombs
 onready var bazooka_projectile_spawn_pos = get_node("%BazookaSpawn")
 
+const ElderWandProjectile = preload("res://MetaBoy/Projectiles/ElderWand/ElderWandProjectile.tscn")
+const ElderWandShotEffect = preload("res://MetaBoy/Projectiles/ElderWand/ElderWandShotEffect.tscn")
+onready var elder_wand_projectile_spawn_pos = get_node("%ElderWandSpawn")
+
 onready var explode_sound = $ExplodeSound
 onready var jump_sound = $JumpSound
 onready var jump_02_sound = $Jump02Sound
 onready var hurt_sound = $HurtSound
 onready var slash_sound = $SlashSound
+onready var elder_wand_shoot_sound = $ElderWandShootSound
 
 func _ready():
 	init_setup_parts()
@@ -102,6 +107,7 @@ func init_setup_parts() -> void:
 	dynamite_root.hide()
 	snail_shell_root.hide()
 	energy_sword_root.hide()
+	
 
 func set_metaboy_attributes(attributes: Dictionary) -> void:
 	init_setup_parts()
@@ -165,6 +171,8 @@ func set_metaboy_attributes(attributes: Dictionary) -> void:
 					energy_sword_root.show() # Far arm holds the weapon
 					close_arm.show() # Close arm is empty
 					close_arm.texture = load(path.replace("Energy-Sword.png", "Energy-Sword_CloseArm.png"))
+				elif weapon_type == "Elder-Wand":
+					part_weapon.texture = load(path.replace("Elder-Wand.png", "Elder-Wand_Base.png"))
 				else:
 					part_weapon.texture = load(path)
 	
@@ -293,6 +301,19 @@ func attack() -> void:
 		bazooka_projectile.set_velocity(Vector2(450 * face_direction, 0))
 		if face_direction == -1:
 			bazooka_projectile.flip_direction()
+	elif weapon_type == "Elder-Wand":
+		elder_wand_shoot_sound.play()
+		var elder_wand_projectile = ElderWandProjectile.instance()
+		get_parent().add_child(elder_wand_projectile)
+		elder_wand_projectile.global_position = elder_wand_projectile_spawn_pos.global_position
+		elder_wand_projectile.z_index = z_index + 1
+		var vel = Vector2(450 * face_direction, 0).rotated(body_root.rotation)
+		elder_wand_projectile.set_velocity(vel)
+		elder_wand_projectile.set_direction(vel)
+		
+		var shot_effect = ElderWandShotEffect.instance()
+		elder_wand_projectile_spawn_pos.add_child(shot_effect)
+		shot_effect.global_position = elder_wand_projectile_spawn_pos.global_position
 	else:
 		# TODO: implement attacks for all weapons
 		action_player.play("swing")

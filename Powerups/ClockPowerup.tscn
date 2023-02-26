@@ -182,7 +182,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 5 ) ]
 }
 
-[node name="ClockPowerup" type="Area2D"]
+[node name="ClockPowerup" type="Area2D" groups=["Powerups"]]
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]

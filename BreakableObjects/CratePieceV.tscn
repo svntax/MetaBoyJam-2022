@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 4.5 )
 
-[node name="CratePieceV" type="RigidBody2D"]
+[node name="CratePieceV" type="RigidBody2D" groups=["Debris"]]
 collision_layer = 8
 mode = 2
 mass = 4.0

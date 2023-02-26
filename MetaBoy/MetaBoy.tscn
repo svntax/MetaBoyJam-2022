@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://MetaBoy/Loud-Crying.png" type="Texture" id=1]
 [ext_resource path="res://MetaBoy/Superhero.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://MetaBoy/Layers.gd" type="Script" id=4]
 [ext_resource path="res://MetaBoy/MetaBoy.gd" type="Script" id=5]
 [ext_resource path="res://MetaBoy/MetaBoyFSM.gd" type="Script" id=6]
+[ext_resource path="res://MetaBoy/Projectiles/ElderWand/elder_wand_shoot.wav" type="AudioStream" id=7]
 [ext_resource path="res://MetaBoy/far_arm.png" type="Texture" id=8]
 [ext_resource path="res://MetaBoy/explosion.wav" type="AudioStream" id=9]
 [ext_resource path="res://MetaBoy/jump_02.wav" type="AudioStream" id=10]
@@ -13,6 +14,7 @@
 [ext_resource path="res://MetaBoy/hurt.wav" type="AudioStream" id=12]
 [ext_resource path="res://MetaBoy/slash.wav" type="AudioStream" id=13]
 [ext_resource path="res://MetaBoy/Projectiles/ThrowingArmClose.png" type="Texture" id=14]
+[ext_resource path="res://MetaBoy/spritesheets/Weapon/Elder-Wand_Base.png" type="Texture" id=16]
 
 [sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 20, 26 )
@@ -139,7 +141,7 @@ tracks/9/enabled = true
 tracks/9/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( -3, 0 ) ]
 }
 tracks/10/type = "value"
@@ -151,7 +153,7 @@ tracks/10/enabled = true
 tracks/10/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 16, 1 ) ]
 }
 tracks/11/type = "value"
@@ -163,8 +165,20 @@ tracks/11/enabled = true
 tracks/11/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 36, -8 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("MainBody/ElderWandRoot:position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( -11, 1 ) ]
 }
 
 [sub_resource type="Animation" id=16]
@@ -319,7 +333,7 @@ tracks/6/enabled = true
 tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 16, 5 ) ]
 }
 tracks/7/type = "value"
@@ -331,8 +345,20 @@ tracks/7/enabled = true
 tracks/7/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 37, -4 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("MainBody/ElderWandRoot:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( -14, 5 ) ]
 }
 
 [sub_resource type="Animation" id=9]
@@ -407,7 +433,7 @@ tracks/5/enabled = true
 tracks/5/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 16, 2 ) ]
 }
 tracks/6/type = "value"
@@ -419,8 +445,20 @@ tracks/6/enabled = true
 tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 37, -7 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("MainBody/ElderWandRoot:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( -14, 2 ) ]
 }
 
 [sub_resource type="Animation" id=7]
@@ -509,6 +547,18 @@ tracks/6/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ Vector2( 35, -6 ), Vector2( 36, -5 ), Vector2( 37, -4 ), Vector2( 36, -6 ), Vector2( 36, -7 ), Vector2( 36, -8 ), Vector2( 36, -6 ), Vector2( 37, -5 ), Vector2( 36, -4 ), Vector2( 37, -6 ), Vector2( 37, -7 ), Vector2( 36, -8 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("MainBody/ElderWandRoot:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( -15, 3 ), Vector2( -15, 4 ), Vector2( -14, 5 ), Vector2( -12, 3 ), Vector2( -11, 2 ), Vector2( -11, 1 ), Vector2( -11, 3 ), Vector2( -12, 4 ), Vector2( -13, 5 ), Vector2( -14, 3 ), Vector2( -14, 2 ), Vector2( -14, 1 ) ]
 }
 
 [sub_resource type="Animation" id=10]
@@ -820,6 +870,9 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ) ]
 }
 
+[sub_resource type="AudioStreamRandomPitch" id=21]
+audio_stream = ExtResource( 7 )
+
 [node name="MetaBoy" type="KinematicBody2D" groups=["Players"]]
 collision_layer = 2
 script = ExtResource( 5 )
@@ -916,6 +969,20 @@ hframes = 5
 vframes = 3
 frame = 5
 
+[node name="ElderWandRoot" type="Position2D" parent="MainBody"]
+position = Vector2( -11, 1 )
+
+[node name="PlaceholderArmSprite" type="Sprite" parent="MainBody/ElderWandRoot"]
+visible = false
+position = Vector2( 15, -3 )
+texture = ExtResource( 16 )
+hframes = 5
+vframes = 3
+
+[node name="ElderWandSpawn" type="Position2D" parent="MainBody/ElderWandRoot"]
+unique_name_in_owner = true
+position = Vector2( 45, 2.5 )
+
 [node name="BombArmRoot" type="Position2D" parent="MainBody"]
 visible = false
 position = Vector2( -3, 0 )
@@ -1009,6 +1076,10 @@ volume_db = -8.0
 stream = ExtResource( 13 )
 volume_db = -18.0
 pitch_scale = 1.25
+
+[node name="ElderWandShootSound" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 21 )
+volume_db = -10.0
 
 [connection signal="area_entered" from="MainBody/SwordDamageArea" to="." method="_on_SwordDamageArea_area_entered"]
 [connection signal="body_entered" from="MainBody/SwordDamageArea" to="." method="_on_SwordDamageArea_body_entered"]

@@ -9,12 +9,18 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Area2D",
+"class": "ShotProjectile",
+"language": "GDScript",
+"path": "res://MetaBoy/Projectiles/ShotProjectile.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "ThrownProjectile",
 "language": "GDScript",
 "path": "res://MetaBoy/Projectiles/ThrownProjectile.gd"
 } ]
 _global_script_class_icons={
+"ShotProjectile": "",
 "ThrownProjectile": ""
 }
 

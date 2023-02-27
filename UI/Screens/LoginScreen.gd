@@ -45,7 +45,7 @@ func _ready():
 	var account = LoopringGlobals.wallet
 	if account != null and account != "":
 		# Wallet detected, skip the login screen
-		get_tree().change_scene("res://UI/Screens/PlaySelectScreen.tscn")
+		get_tree().change_scene("res://UI/Screens/CharacterSelectScreen.tscn")
 	
 	# Connect the buttons to their respective callbacks
 	button_metamask = get_node(button_metamask_path)
@@ -110,7 +110,7 @@ func _on_wallet_connected(wallet: String):
 	# At this point, LoopringGlobals.wallet should be set.
 	print("Connected with wallet: " + wallet)
 	save_user_login()
-	get_tree().change_scene("res://UI/Screens/PlaySelectScreen.tscn")
+	get_tree().change_scene("res://UI/Screens/CharacterSelectScreen.tscn")
 
 func save_user_login() -> void:
 	var user_config = ConfigFile.new()
@@ -135,6 +135,7 @@ func _on_LoadingCancelButton_pressed():
 	hide_loading_ui()
 
 func _on_GuestButton_pressed():
+	MetaBoyGlobals.selected_metaboy = MetaBoyGlobals.default_metaboy
 	get_tree().change_scene("res://UI/Screens/PlaySelectScreen.tscn")
 
 func _on_LoginProcessButton_pressed():

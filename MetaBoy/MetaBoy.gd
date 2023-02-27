@@ -92,8 +92,7 @@ func _ready():
 	init_setup_parts()
 	
 	input_controls = KEYBOARD_CONTROLS
-	# TODO: temporary for testing purposes
-	set_metaboy_attributes(MetaBoyGlobals.test_metaboy)
+	set_metaboy_attributes(MetaBoyGlobals.selected_metaboy)
 
 func init_setup_parts() -> void:
 	action_player.stop()
@@ -107,7 +106,6 @@ func init_setup_parts() -> void:
 	dynamite_root.hide()
 	snail_shell_root.hide()
 	energy_sword_root.hide()
-	
 
 func set_metaboy_attributes(attributes: Dictionary) -> void:
 	init_setup_parts()
@@ -194,10 +192,10 @@ func set_metaboy_attributes(attributes: Dictionary) -> void:
 func _process(_delta):
 	# TODO: temporary for testing purposes
 	if Input.is_action_just_pressed("move_down"):
-		MetaBoyGlobals.test_metaboy["Weapon"] = MetaBoyGlobals.WEAPONS_TO_TEST[MetaBoyGlobals.current_weapon_index]
+		MetaBoyGlobals.selected_metaboy["Weapon"] = MetaBoyGlobals.WEAPONS_TO_TEST[MetaBoyGlobals.current_weapon_index]
 		MetaBoyGlobals.current_weapon_index += 1
 		MetaBoyGlobals.current_weapon_index %= MetaBoyGlobals.WEAPONS_TO_TEST.size()
-		set_metaboy_attributes(MetaBoyGlobals.test_metaboy)
+		set_metaboy_attributes(MetaBoyGlobals.selected_metaboy)
 
 func _physics_process(delta):
 	# Movement

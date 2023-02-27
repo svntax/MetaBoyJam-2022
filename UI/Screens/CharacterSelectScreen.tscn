@@ -1,0 +1,122 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://UI/FontLarge.tres" type="DynamicFont" id=1]
+[ext_resource path="res://UI/MainUITheme.tres" type="Theme" id=2]
+[ext_resource path="res://UI/Screens/CharacterSelectScreen.gd" type="Script" id=4]
+
+[node name="CharacterSelectScreen" type="Node2D"]
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Bg" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 640.0
+margin_bottom = 360.0
+rect_min_size = Vector2( 640, 360 )
+mouse_filter = 1
+color = Color( 0.329412, 0.454902, 0.607843, 1 )
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="TabContainer" type="TabContainer" parent="UI"]
+margin_left = 32.0
+margin_top = 80.0
+margin_right = 608.0
+margin_bottom = 320.0
+mouse_filter = 1
+theme = ExtResource( 2 )
+tab_align = 0
+
+[node name="MetaBoy" type="Tabs" parent="UI/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 34.0
+margin_right = -4.0
+margin_bottom = -4.0
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/TabContainer/MetaBoy"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+custom_constants/margin_right = 8
+custom_constants/margin_top = 4
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 4
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/TabContainer/MetaBoy/MarginContainer"]
+margin_left = 8.0
+margin_top = 4.0
+margin_right = 560.0
+margin_bottom = 198.0
+mouse_filter = 1
+follow_focus = true
+
+[node name="MetaBoyGrid" type="GridContainer" parent="UI/TabContainer/MetaBoy/MarginContainer/ScrollContainer"]
+unique_name_in_owner = true
+margin_left = 220.0
+margin_right = 332.0
+margin_bottom = 16.0
+size_flags_horizontal = 6
+columns = 5
+
+[node name="NoMetaBoyLabel" type="Label" parent="UI/TabContainer/MetaBoy/MarginContainer/ScrollContainer/MetaBoyGrid"]
+unique_name_in_owner = true
+margin_right = 112.0
+margin_bottom = 16.0
+text = "No MetaBoys Found"
+
+[node name="\?\?\?" type="Tabs" parent="UI/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/TabContainer/\?\?\?"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+custom_constants/margin_left = 8
+
+[node name="Label" type="Label" parent="UI/TabContainer/\?\?\?/MarginContainer"]
+margin_left = 8.0
+margin_top = 94.0
+margin_right = 568.0
+margin_bottom = 110.0
+text = "Other collections go here."
+align = 1
+
+[node name="FrontLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Title" type="Label" parent="FrontLayer"]
+margin_left = 64.0
+margin_top = 24.0
+margin_right = 576.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 1 )
+text = "Choose your Character"
+align = 1
+
+[node name="ReturnLabel" type="Label" parent="FrontLayer"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -256.0
+margin_top = -42.0
+margin_right = 256.0
+margin_bottom = 6.0
+theme = ExtResource( 2 )
+text = "Press Esc to go back"
+align = 1
+valign = 1

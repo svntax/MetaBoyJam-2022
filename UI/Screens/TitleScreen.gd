@@ -51,6 +51,7 @@ func _ready():
 		controls_button.focus_neighbour_bottom = null_path
 	
 	play_button.grab_focus()
+	MetaBoyGlobals.set_selected_metaboy(MetaBoyGlobals.default_metaboy)
 
 func _process(_delta):
 	# Hacky fix for web build

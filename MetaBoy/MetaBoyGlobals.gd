@@ -24,6 +24,20 @@ var test_metaboy = {
 const WEAPONS_TO_TEST = ["Yatagan", "Energy-Sword", "Bomb", "Dynamite-Stick", "Snail-Shell", "Elder-Wand", "Bazooka"]
 var current_weapon_index = 0
 
+# The MetaBoy the user has selected.
+var default_metaboy = {
+	"Body": "Superhero",
+	"Face": "Loud-Crying",
+	"Weapon": "Yatagan"
+}
+var selected_metaboy = {} setget set_selected_metaboy, get_selected_metaboy
+
+func set_selected_metaboy(metaboy_attributes: Dictionary) -> void:
+	selected_metaboy = metaboy_attributes
+
+func get_selected_metaboy() -> Dictionary:
+	return selected_metaboy
+
 func is_dark_screen_body(body_type: String) -> bool:
 	return body_type in DARK_SCREEN_BODIES
 

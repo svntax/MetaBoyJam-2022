@@ -2,6 +2,9 @@ extends Node
 
 signal current_score_changed()
 
+const API_ENV_PATH = "res://Configs/env.cfg"
+var loopring_api_key = ""
+
 const MAX_HEALTH_CAP = 7
 
 var current_score = 0
@@ -11,6 +14,17 @@ var reached_new_high_score = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
+	
+	# Read Loopring API key
+	var signed_in = false
+	var env_config = ConfigFile.new()
+	var err = env_config.load(API_ENV_PATH)
+	if err == ERR_FILE_NOT_FOUND:
+		printerr("env.cfg file is missing")
+	elif err != OK:
+		printerr("Error when attempting to load env.cfg")
+	else:
+		loopring_api_key = env_config.get_value("API_KEYS", "loopring")
 
 func start_new_game():
 	reached_new_high_score = false

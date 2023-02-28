@@ -79,4 +79,5 @@ func _on_ControlsButton_pressed():
 func _on_LogoutButton_pressed():
 	if not SceneManager.transition_running:
 		Loopring.logout()
+		MetaBoyGlobals.clear_data()
 		get_tree().reload_current_scene()

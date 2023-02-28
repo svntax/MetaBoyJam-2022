@@ -1,5 +1,10 @@
 extends Node
 
+# Address for the original MetaBoy collection smart contract
+const CONTRACT_OG = "0x1D006a27BD82E10F9194D30158d91201E9930420"
+# For storing the response array of NFT metadata from Loopring
+var user_nfts : Array = []
+
 # All attribute types for MetaBoys
 const BACK_TYPES = ["Angel-Wings", "Demon-Wings", "Fireball", "Golden-Wings", "Sai-Backpack", "Sword-Backpack"]
 const BODY_TYPES = ["Angel", "Assassin", "Astronaut", "Biker", "Bloodied", "Bread-Slice", "Camouflage", "Country", "Cowboy", "Demon", "Explorer", "Galaxy", "Gentleman", "Goth-Girl", "Lifeguard", "Light-Blue", "Lizard", "Lumberjack", "Mom-Jeans", "Monk", "Monster-Suit", "Muscular-Warrior", "Neon-Solid", "Neon-Transparent", "Nobleman", "Open-Jacket", "Prisoner", "Red-Dress", "Roman-Gladiator", "Samurai", "Santa-Claus", "Schoolboy", "Schoolgirl", "Stealth", "Stone", "Stripped", "Suit", "Superhero", "Supervillain", "Survivor", "Suspenders", "Tiger", "Turtle", "Underwater-Suit", "Water", "Watermelon", "Wood", "Yellow-Overalls", "Yellow", "Zombie"]
@@ -47,6 +52,9 @@ func get_face_light_version(face_type: String) -> Resource:
 		return load(path)
 	
 	return null
+
+func clear_data() -> void:
+	user_nfts = []
 
 # Generate a random mix of attributes. For testing purposes only.
 func get_random_attributes() -> Dictionary:

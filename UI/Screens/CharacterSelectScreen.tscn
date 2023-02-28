@@ -49,6 +49,15 @@ custom_constants/margin_top = 4
 custom_constants/margin_left = 8
 custom_constants/margin_bottom = 4
 
+[node name="NoMetaBoyLabel" type="Label" parent="UI/TabContainer/MetaBoy/MarginContainer"]
+unique_name_in_owner = true
+margin_left = 8.0
+margin_top = 93.0
+margin_right = 560.0
+margin_bottom = 109.0
+text = "No MetaBoys found."
+align = 1
+
 [node name="ScrollContainer" type="ScrollContainer" parent="UI/TabContainer/MetaBoy/MarginContainer"]
 margin_left = 8.0
 margin_top = 4.0
@@ -59,17 +68,11 @@ follow_focus = true
 
 [node name="MetaBoyGrid" type="GridContainer" parent="UI/TabContainer/MetaBoy/MarginContainer/ScrollContainer"]
 unique_name_in_owner = true
-margin_left = 220.0
-margin_right = 332.0
-margin_bottom = 16.0
+margin_left = 18.0
+margin_right = 534.0
+rect_min_size = Vector2( 516, 0 )
 size_flags_horizontal = 6
 columns = 5
-
-[node name="NoMetaBoyLabel" type="Label" parent="UI/TabContainer/MetaBoy/MarginContainer/ScrollContainer/MetaBoyGrid"]
-unique_name_in_owner = true
-margin_right = 112.0
-margin_bottom = 16.0
-text = "No MetaBoys Found"
 
 [node name="\?\?\?" type="Tabs" parent="UI/TabContainer"]
 visible = false
@@ -120,3 +123,23 @@ theme = ExtResource( 2 )
 text = "Press Esc to go back"
 align = 1
 valign = 1
+
+[node name="LoadingBg" type="ColorRect" parent="FrontLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 640, 360 )
+mouse_filter = 1
+color = Color( 0.784314, 0.784314, 0.784314, 0.305882 )
+
+[node name="LoadingLabel" type="Label" parent="FrontLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -256.0
+margin_top = -24.0
+margin_right = 256.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 1 )
+text = "Loading..."
+align = 1

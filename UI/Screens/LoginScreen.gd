@@ -28,20 +28,6 @@ func _ready():
 	login_prompt_ui.show()
 	login_process_button.grab_focus()
 	
-#	var user_config = ConfigFile.new()
-#	var err = user_config.load(LoopringGlobals.USER_DATA_SAVE_PATH)
-#	if err == ERR_FILE_NOT_FOUND:
-#		print("No user data found.")
-#	elif err != OK:
-#		print("Error when attempting to load user data.")
-#	else:
-#		var account = user_config.get_value(LoopringGlobals.DATA_SECTION, "Account", "")
-#		var wallet_type = user_config.get_value(LoopringGlobals.DATA_SECTION, "WalletType", -1)
-#		if account != null and account != "" and wallet_type != null and LoopringGlobals.is_valid_wallet_type(wallet_type):
-#			# Wallet account detected, skip the login screen
-#			LoopringGlobals.wallet = account
-#			LoopringGlobals.set_wallet_type(wallet_type)
-#			get_tree().change_scene("res://UI/Screens/PlaySelectScreen.tscn")
 	var account = LoopringGlobals.wallet
 	if account != null and account != "":
 		# Wallet detected, skip the login screen

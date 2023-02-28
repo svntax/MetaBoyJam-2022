@@ -229,8 +229,8 @@ margin_top = 307.0
 margin_right = 416.0
 margin_bottom = 345.0
 rect_min_size = Vector2( 80, 38 )
-focus_neighbour_left = NodePath("../../Menu/PlayButton")
-focus_neighbour_bottom = NodePath("../../Menu/PlayButton")
+focus_neighbour_left = NodePath("../../Menu/ControlsButton")
+focus_neighbour_top = NodePath("../../Menu/ControlsButton")
 text = "Sign Out"
 
 [connection signal="pressed" from="Menu/PlayButton" to="." method="_on_PlayButton_pressed"]

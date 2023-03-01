@@ -29,6 +29,8 @@ onready var jump_count = 0
 
 onready var hp = 3
 onready var max_hp = 3
+onready var attack_cooldown_duration = 0.5
+onready var laser_guns_cooldown_duration = 0.25
 
 onready var velocity = Vector2()
 onready var face_direction = 1
@@ -81,15 +83,23 @@ const ElderWandProjectile = preload("res://MetaBoy/Projectiles/ElderWand/ElderWa
 const ElderWandShotEffect = preload("res://MetaBoy/Projectiles/ElderWand/ElderWandShotEffect.tscn")
 onready var elder_wand_projectile_spawn_pos = get_node("%ElderWandSpawn")
 
+const LaserGunProjectile = preload("res://MetaBoy/Projectiles/LaserGun/LaserGunProjectile.tscn")
+onready var laser_gun_close_spawn_pos = get_node("%LaserGunCloseSpawn")
+onready var laser_gun_far_spawn_pos = get_node("%LaserGunFarSpawn")\
+# For switching back and forth between the close and far laser guns
+onready var laser_gun_pos_switch = true
+
 onready var explode_sound = $ExplodeSound
 onready var jump_sound = $JumpSound
 onready var jump_02_sound = $Jump02Sound
 onready var hurt_sound = $HurtSound
 onready var slash_sound = $SlashSound
 onready var elder_wand_shoot_sound = $ElderWandShootSound
+onready var laser_gun_shoot_sound = $LaserGunShootSound
 
 func _ready():
 	init_setup_parts()
+	attack_cooldown_timer.wait_time = attack_cooldown_duration
 	
 	input_controls = KEYBOARD_CONTROLS
 	set_metaboy_attributes(MetaBoyGlobals.selected_metaboy)
@@ -171,6 +181,8 @@ func set_metaboy_attributes(attributes: Dictionary) -> void:
 					close_arm.texture = load(path.replace("Energy-Sword.png", "Energy-Sword_CloseArm.png"))
 				elif weapon_type == "Elder-Wand":
 					part_weapon.texture = load(path.replace("Elder-Wand.png", "Elder-Wand_Base.png"))
+				elif weapon_type == "Laser-Guns":
+					part_weapon.texture = load(path.replace("Laser-Guns.png", "Laser-Guns_Base.png"))
 				else:
 					part_weapon.texture = load(path)
 	
@@ -261,6 +273,7 @@ func turn_towards(dir: int) -> void:
 			play_double_jump_animation()
 
 func attack() -> void:
+	attack_cooldown_timer.wait_time = attack_cooldown_duration
 	if weapon_type == "Yatagan":
 		action_player.play("swing")
 		slash_sound.play()
@@ -315,6 +328,25 @@ func attack() -> void:
 		var shot_effect = ElderWandShotEffect.instance()
 		elder_wand_projectile_spawn_pos.add_child(shot_effect)
 		shot_effect.global_position = elder_wand_projectile_spawn_pos.global_position
+	elif weapon_type == "Laser-Guns":
+		laser_gun_shoot_sound.play()
+		var laser_projectile = LaserGunProjectile.instance()
+		get_parent().add_child(laser_projectile)
+		
+		# Alternate between the two laser guns
+		if laser_gun_pos_switch:
+			laser_projectile.global_position = laser_gun_close_spawn_pos.global_position
+		else:
+			laser_projectile.global_position = laser_gun_far_spawn_pos.global_position
+		laser_projectile.global_position.y += 3 # Move down a bit so lasers can hit ground robot projectiles
+		laser_gun_pos_switch = !laser_gun_pos_switch
+
+		laser_projectile.z_index = z_index + 1
+		var vel = Vector2(450 * face_direction, 0).rotated(body_root.rotation)
+		laser_projectile.set_velocity(vel)
+		laser_projectile.set_direction(vel)
+		
+		attack_cooldown_timer.wait_time = laser_guns_cooldown_duration
 	else:
 		# TODO: implement attacks for all weapons
 		action_player.play("swing")

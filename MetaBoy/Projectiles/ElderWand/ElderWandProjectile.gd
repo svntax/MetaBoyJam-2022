@@ -16,3 +16,9 @@ func take_hit() -> void:
 		body.hide()
 		# TODO: custom effect instead of immediate removal
 		queue_free()
+
+# Overridden to make this projectile pass through enemy laser shots.
+func should_remove_on_collision(other) -> bool:
+	if other.is_in_group("EnemyLasers"):
+		return false
+	return .should_remove_on_collision(other)

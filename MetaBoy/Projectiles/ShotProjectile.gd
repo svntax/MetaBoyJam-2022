@@ -59,7 +59,10 @@ func _handle_object_entered(other) -> void:
 	if other.has_method("take_hit"):
 		other.take_hit()
 	
-	alive = false
-	body.hide()
-	queue_free()
+	if should_remove_on_collision(other):
+		alive = false
+		body.hide()
+		queue_free()
 
+func should_remove_on_collision(other) -> bool:
+	return true

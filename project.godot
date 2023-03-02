@@ -42,7 +42,7 @@ LoopringGlobals="*res://addons/godot-loopring-sdk/LoopringGlobals.gd"
 
 window/size/width=640
 window/size/height=360
-window/stretch/mode="2d"
+window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 
 [gui]

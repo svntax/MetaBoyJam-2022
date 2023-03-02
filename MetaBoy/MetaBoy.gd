@@ -89,6 +89,11 @@ onready var laser_gun_far_spawn_pos = get_node("%LaserGunFarSpawn")\
 # For switching back and forth between the close and far laser guns
 onready var laser_gun_pos_switch = true
 
+const GravityGunProjectile = preload("res://MetaBoy/Projectiles/GravityGun/GravityGunProjectile.tscn")
+onready var gravity_gun_spawn_pos = get_node("%GravityGunSpawn")
+onready var gravity_gun_lightning_spawn = get_node("%GravityGunLightningSpawn")
+onready var gravity_gun_projectile_ref = null
+
 onready var explode_sound = $ExplodeSound
 onready var jump_sound = $JumpSound
 onready var jump_02_sound = $Jump02Sound
@@ -96,6 +101,7 @@ onready var hurt_sound = $HurtSound
 onready var slash_sound = $SlashSound
 onready var elder_wand_shoot_sound = $ElderWandShootSound
 onready var laser_gun_shoot_sound = $LaserGunShootSound
+onready var gravity_gun_shoot_sound = $GravityGunShootSound
 
 func _ready():
 	init_setup_parts()
@@ -183,6 +189,8 @@ func set_metaboy_attributes(attributes: Dictionary) -> void:
 					part_weapon.texture = load(path.replace("Elder-Wand.png", "Elder-Wand_Base.png"))
 				elif weapon_type == "Laser-Guns":
 					part_weapon.texture = load(path.replace("Laser-Guns.png", "Laser-Guns_Base.png"))
+				elif weapon_type == "Gravity-Gun":
+					part_weapon.texture = load(path.replace("Gravity-Gun.png", "Gravity-Gun_Base.png"))
 				else:
 					part_weapon.texture = load(path)
 	
@@ -277,9 +285,11 @@ func attack() -> void:
 	if weapon_type == "Yatagan":
 		action_player.play("swing")
 		slash_sound.play()
+		attack_cooldown_timer.start()
 	elif weapon_type == "Energy-Sword":
 		action_player.play("swing_energy_sword")
 		slash_sound.play()
+		attack_cooldown_timer.start()
 	elif weapon_type == "Bomb":
 		action_player.play("throw_bomb")
 		var bomb = Bomb.instance()
@@ -289,6 +299,7 @@ func attack() -> void:
 		bomb.set_velocity(Vector2(400 * face_direction, -80))
 		if face_direction == -1:
 			bomb.flip_direction()
+		attack_cooldown_timer.start()
 	elif weapon_type == "Dynamite-Stick":
 		action_player.play("throw_dynamite")
 		var dynamite = Dynamite.instance()
@@ -298,6 +309,7 @@ func attack() -> void:
 		dynamite.set_velocity(Vector2(400 * face_direction, -80))
 		if face_direction == -1:
 			dynamite.flip_direction()
+		attack_cooldown_timer.start()
 	elif weapon_type == "Snail-Shell":
 		action_player.play("throw_snail_shell")
 		var snail_shell = SnailShell.instance()
@@ -307,6 +319,7 @@ func attack() -> void:
 		snail_shell.set_velocity(Vector2(400 * face_direction, -80))
 		if face_direction == -1:
 			snail_shell.flip_direction()
+		attack_cooldown_timer.start()
 	elif weapon_type == "Bazooka":
 		var bazooka_projectile = Bomb.instance()
 		get_parent().add_child(bazooka_projectile)
@@ -315,6 +328,7 @@ func attack() -> void:
 		bazooka_projectile.set_velocity(Vector2(450 * face_direction, 0))
 		if face_direction == -1:
 			bazooka_projectile.flip_direction()
+		attack_cooldown_timer.start()
 	elif weapon_type == "Elder-Wand":
 		elder_wand_shoot_sound.play()
 		var elder_wand_projectile = ElderWandProjectile.instance()
@@ -328,6 +342,7 @@ func attack() -> void:
 		var shot_effect = ElderWandShotEffect.instance()
 		elder_wand_projectile_spawn_pos.add_child(shot_effect)
 		shot_effect.global_position = elder_wand_projectile_spawn_pos.global_position
+		attack_cooldown_timer.start()
 	elif weapon_type == "Laser-Guns":
 		laser_gun_shoot_sound.play()
 		var laser_projectile = LaserGunProjectile.instance()
@@ -347,14 +362,32 @@ func attack() -> void:
 		laser_projectile.set_direction(vel)
 		
 		attack_cooldown_timer.wait_time = laser_guns_cooldown_duration
+		attack_cooldown_timer.start()
+	elif weapon_type == "Gravity-Gun":
+		if gravity_gun_projectile_ref == null:
+			gravity_gun_shoot_sound.play() # TODO gravity gun shoot sound
+			var gravity_gun_projectile = GravityGunProjectile.instance()
+			get_parent().add_child(gravity_gun_projectile)
+			gravity_gun_projectile.global_position = gravity_gun_spawn_pos.global_position
+			gravity_gun_projectile.z_index = z_index + 1
+			var vel = Vector2(120 * face_direction, 0).rotated(body_root.rotation)
+			gravity_gun_projectile.set_velocity(vel)
+			gravity_gun_projectile.set_direction(vel)
+			gravity_gun_projectile.set_spawn_position(gravity_gun_lightning_spawn)
+			gravity_gun_projectile_ref = gravity_gun_projectile
+			attack_cooldown_timer.start()
+		else:
+			gravity_gun_projectile_ref.explode()
 	else:
 		# TODO: implement attacks for all weapons
 		action_player.play("swing")
 		slash_sound.play()
-	
-	attack_cooldown_timer.start()
+		attack_cooldown_timer.start()
 
 func can_attack() -> bool:
+	if weapon_type == "Gravity-Gun" and gravity_gun_projectile_ref != null:
+		# Can remote detonate the projectile
+		return state_machine.is_in_movement_state()
 	return attack_cooldown_timer.is_stopped() and state_machine.is_in_movement_state()
 
 func can_move() -> bool:

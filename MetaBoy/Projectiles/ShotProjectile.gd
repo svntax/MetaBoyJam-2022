@@ -29,7 +29,7 @@ func take_hit() -> void:
 	if alive:
 		alive = false
 		body.hide()
-		queue_free()
+		destroy()
 
 func _on_body_entered(other_body):
 	_handle_object_entered(other_body)
@@ -62,7 +62,10 @@ func _handle_object_entered(other) -> void:
 	if should_remove_on_collision(other):
 		alive = false
 		body.hide()
-		queue_free()
+		destroy()
+
+func destroy() -> void:
+	queue_free()
 
 func should_remove_on_collision(other) -> bool:
 	return true

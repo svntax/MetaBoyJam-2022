@@ -131,5 +131,3 @@ margin_right = 192.0
 text = "Press Esc to leave the practice room."
 align = 1
 valign = 1
-
-[node name="Node2D" type="Node2D" parent="."]

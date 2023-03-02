@@ -15,4 +15,7 @@ func take_hit() -> void:
 		alive = false
 		body.hide()
 		# TODO: custom effect instead of immediate removal
-		queue_free()
+		destroy()
+
+func _on_VisibilityNotifier2D_screen_exited():
+	destroy()

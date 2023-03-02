@@ -121,6 +121,14 @@ text = "High Score:
 align = 1
 autowrap = true
 
+[node name="SubTitle" type="Label" parent="Bg"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 128.0
+margin_bottom = 43.0
+text = "(Alpha)"
+autowrap = true
+
 [node name="Menu" type="VBoxContainer" parent="."]
 margin_left = 70.0
 margin_top = 152.0

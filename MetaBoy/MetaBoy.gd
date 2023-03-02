@@ -209,14 +209,6 @@ func set_metaboy_attributes(attributes: Dictionary) -> void:
 			if face_light_version_texture:
 				part_face.texture = face_light_version_texture
 
-func _process(_delta):
-	# TODO: temporary for testing purposes
-	if Input.is_action_just_pressed("move_down"):
-		MetaBoyGlobals.selected_metaboy["Weapon"] = MetaBoyGlobals.WEAPONS_TO_TEST[MetaBoyGlobals.current_weapon_index]
-		MetaBoyGlobals.current_weapon_index += 1
-		MetaBoyGlobals.current_weapon_index %= MetaBoyGlobals.WEAPONS_TO_TEST.size()
-		set_metaboy_attributes(MetaBoyGlobals.selected_metaboy)
-
 func _physics_process(delta):
 	# Movement
 	if can_move():

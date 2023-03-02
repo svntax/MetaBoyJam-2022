@@ -10,7 +10,7 @@
 [ext_resource path="res://Maps/PracticeRoom.gd" type="Script" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32, 128 )
+extents = Vector2( 32, 204 )
 
 [node name="PracticeRoom" type="Node2D"]
 script = ExtResource( 8 )
@@ -80,12 +80,14 @@ position = Vector2( 512, -32 )
 position = Vector2( 96, 128 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallLeftBase"]
+position = Vector2( 0, -76 )
 shape = SubResource( 1 )
 
 [node name="WallRightBase" type="StaticBody2D" parent="Walls"]
 position = Vector2( 544, 128 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallRightBase"]
+position = Vector2( 0, -76 )
 shape = SubResource( 1 )
 
 [node name="Crate" parent="." instance=ExtResource( 1 )]

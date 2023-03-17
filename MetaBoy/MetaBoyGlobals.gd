@@ -26,7 +26,7 @@ var test_metaboy = {
 	"Face": "Loud-Crying",
 	"Weapon": "Yatagan",
 }
-const WEAPONS_TO_TEST = ["Yatagan", "Energy-Sword", "Bomb", "Dynamite-Stick", "Snail-Shell", "Elder-Wand", "Bazooka", "Laser-Guns", "Gravity-Gun"]
+const WEAPONS_TO_TEST = ["Yatagan", "Energy-Sword", "Bomb", "Dynamite-Stick", "Snail-Shell", "Elder-Wand", "Bazooka", "Laser-Guns", "Gravity-Gun", "Retro-Futuristic-Rifle"]
 var current_weapon_index = 0
 
 # The MetaBoy the user has selected.

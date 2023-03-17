@@ -94,6 +94,9 @@ onready var gravity_gun_spawn_pos = get_node("%GravityGunSpawn")
 onready var gravity_gun_lightning_spawn = get_node("%GravityGunLightningSpawn")
 onready var gravity_gun_projectile_ref = null
 
+# TODO temporary, unless we want a different type of laser
+onready var retro_futuristic_rifle_projectile_spawn = get_node("%RetroFuturisticRifleSpawn")
+
 onready var explode_sound = $ExplodeSound
 onready var jump_sound = $JumpSound
 onready var jump_02_sound = $Jump02Sound
@@ -191,6 +194,8 @@ func set_metaboy_attributes(attributes: Dictionary) -> void:
 					part_weapon.texture = load(path.replace("Laser-Guns.png", "Laser-Guns_Base.png"))
 				elif weapon_type == "Gravity-Gun":
 					part_weapon.texture = load(path.replace("Gravity-Gun.png", "Gravity-Gun_Base.png"))
+				elif weapon_type == "Retro-Futuristic-Rifle":
+					part_weapon.texture = load(path.replace("Retro-Futuristic-Rifle.png", "Retro-Futuristic-Rifle_Base.png"))
 				else:
 					part_weapon.texture = load(path)
 	
@@ -370,6 +375,19 @@ func attack() -> void:
 			attack_cooldown_timer.start()
 		else:
 			gravity_gun_projectile_ref.explode()
+	elif weapon_type == "Retro-Futuristic-Rifle":
+		laser_gun_shoot_sound.play()
+		# NOTE: Using the same projectile as Laser-Guns
+		var laser_projectile = LaserGunProjectile.instance()
+		get_parent().add_child(laser_projectile)
+		laser_projectile.global_position = retro_futuristic_rifle_projectile_spawn.global_position
+		#laser_projectile.global_position.y += 3
+		laser_projectile.z_index = z_index + 1
+		var vel = Vector2(450 * face_direction, 0).rotated(body_root.rotation)
+		laser_projectile.set_velocity(vel)
+		laser_projectile.set_direction(vel)
+		
+		attack_cooldown_timer.start()
 	else:
 		# TODO: implement attacks for all weapons
 		action_player.play("swing")

@@ -97,6 +97,19 @@ onready var gravity_gun_projectile_ref = null
 # TODO temporary, unless we want a different type of laser
 onready var retro_futuristic_rifle_projectile_spawn = get_node("%RetroFuturisticRifleSpawn")
 
+const LightningProjectile = preload("res://MetaBoy/Projectiles/Lightning/LightningProjectile.tscn")
+onready var lightning_ray_c1 = get_node("%LightningRayC1")
+onready var lightning_ray_c2 = get_node("%LightningRayC2")
+onready var lightning_ray_c3 = get_node("%LightningRayC3")
+onready var lightning_ray_f1 = get_node("%LightningRayF1")
+onready var lightning_ray_f2 = get_node("%LightningRayF2")
+onready var lightning_ray_f3 = get_node("%LightningRayF3")
+onready var lightning_rays = [
+	lightning_ray_c1, lightning_ray_c2, lightning_ray_c3,
+	lightning_ray_f1, lightning_ray_f2, lightning_ray_f3
+]
+onready var lightning_timer = $LightningTimer
+
 onready var explode_sound = $ExplodeSound
 onready var jump_sound = $JumpSound
 onready var jump_02_sound = $Jump02Sound
@@ -196,6 +209,8 @@ func set_metaboy_attributes(attributes: Dictionary) -> void:
 					part_weapon.texture = load(path.replace("Gravity-Gun.png", "Gravity-Gun_Base.png"))
 				elif weapon_type == "Retro-Futuristic-Rifle":
 					part_weapon.texture = load(path.replace("Retro-Futuristic-Rifle.png", "Retro-Futuristic-Rifle_Base.png"))
+				elif weapon_type == "Lightning":
+					part_weapon.texture = load(path.replace("Lightning.png", "Lightning_Base.png"))
 				else:
 					part_weapon.texture = load(path)
 	
@@ -233,6 +248,21 @@ func _physics_process(delta):
 	
 	if not state_machine.state == state_machine.States.DEAD:
 		_handle_movement(delta)
+	
+	#_lightning_rays_logic() # TODO deprecated
+
+# TODO deprecated
+#func _lightning_rays_logic() -> void:
+#	if not lightning_timer.is_stopped():
+#		for lightning_ray in lightning_rays:
+#			if !lightning_ray.visible:
+#				lightning_ray.show()
+#			lightning_ray.set_start_point(lightning_ray.global_position)
+#			# TODO: target nearest enemy
+#			lightning_ray.set_end_point(self.global_position + Vector2(100, -100))
+#			lightning_ray.create_segments()
+#			lightning_ray.generate_offsets()
+#			lightning_ray.set_fluctuating(true)
 
 func _handle_movement(_delta):
 	# Running
@@ -388,6 +418,21 @@ func attack() -> void:
 		laser_projectile.set_direction(vel)
 		
 		attack_cooldown_timer.start()
+	elif weapon_type == "Lightning":
+		var i = 0
+		for ray in lightning_rays:
+			var lightning_projectile = LightningProjectile.instance()
+			get_parent().add_child(lightning_projectile)
+			lightning_projectile.global_position = ray.global_position
+			lightning_projectile.z_index = z_index + 1
+			var ray_angle = deg2rad(-20 + i*20) + body_root.rotation
+			var vel = Vector2(320 * face_direction, 0).rotated(ray_angle) # Spread out
+			lightning_projectile.set_velocity(vel)
+			lightning_projectile.set_spawn_position(ray)
+			i += 1
+			i %= 3
+		
+		attack_cooldown_timer.start()
 	else:
 		# TODO: implement attacks for all weapons
 		action_player.play("swing")
@@ -531,3 +576,11 @@ func _on_JumpGraceTimer_timeout():
 
 func _on_DamageFlashTimer_timeout():
 	effects_player.play("RESET")
+
+func _on_LightningTimer_timeout():
+	for lightning_ray in lightning_rays:
+		lightning_ray.hide()
+		lightning_ray.set_fluctuating(false)
+		lightning_ray.set_start_point(lightning_ray.global_position)
+		lightning_ray.set_end_point(lightning_ray.global_position)
+		lightning_ray.create_segments()

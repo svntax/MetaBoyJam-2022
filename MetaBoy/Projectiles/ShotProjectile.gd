@@ -18,7 +18,7 @@ func _ready():
 func set_velocity(vel: Vector2) -> void:
 	velocity = vel
 
-func set_direction(dir: Vector2) -> void:
+func set_direction(_dir: Vector2) -> void:
 	pass # If we need to rotate the projectile sprite
 
 func _physics_process(delta):
@@ -62,10 +62,12 @@ func _handle_object_entered(other) -> void:
 	if should_remove_on_collision(other):
 		alive = false
 		body.hide()
+		collision_layer = 0
+		collision_mask = 0
 		destroy()
 
 func destroy() -> void:
 	queue_free()
 
-func should_remove_on_collision(other) -> bool:
+func should_remove_on_collision(_other) -> bool:
 	return true

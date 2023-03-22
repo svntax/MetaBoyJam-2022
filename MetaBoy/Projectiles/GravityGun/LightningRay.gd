@@ -45,6 +45,8 @@ func create_segments() -> void:
 	var x2 = end_point.x
 	var y2 = end_point.y
 	var line_length = end_point.distance_to(start_point)
+	if line_length <= 0:
+		line_length = 1
 	var num_segments: int = line_length / line_division_length
 	if num_segments <= 1:
 		num_segments = 2
@@ -92,4 +94,5 @@ func _process(delta):
 		if fluctuation_timer > fluctuation_cycle_time:
 			fluctuation_timer = 0
 			generate_offsets()
-	update()
+	if visible:
+		update()

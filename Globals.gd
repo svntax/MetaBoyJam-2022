@@ -16,7 +16,6 @@ func _ready():
 	randomize()
 	
 	# Read Loopring API key
-	var signed_in = false
 	var env_config = ConfigFile.new()
 	var err = env_config.load(API_ENV_PATH)
 	if err == ERR_FILE_NOT_FOUND:

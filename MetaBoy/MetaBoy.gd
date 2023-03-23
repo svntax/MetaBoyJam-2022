@@ -118,6 +118,7 @@ onready var slash_sound = $SlashSound
 onready var elder_wand_shoot_sound = $ElderWandShootSound
 onready var laser_gun_shoot_sound = $LaserGunShootSound
 onready var gravity_gun_shoot_sound = $GravityGunShootSound
+onready var lightning_shoot_sound = $LightningShootSound
 
 func _ready():
 	init_setup_parts()
@@ -432,6 +433,7 @@ func attack() -> void:
 			i += 1
 			i %= 3
 		
+		lightning_shoot_sound.play()
 		attack_cooldown_timer.start()
 	else:
 		# TODO: implement attacks for all weapons

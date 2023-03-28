@@ -38,7 +38,7 @@ func _ready():
 
 func _process(delta):
 	if Input.is_action_just_pressed("ui_cancel"):
-		SceneManager.switch_to_scene("res://UI/Screens/TitleScreen.tscn", true)
+		get_tree().change_scene("res://UI/Screens/LoginScreen.tscn")
 	
 	if loading_bg.visible:
 		# No navigation handling while loading data

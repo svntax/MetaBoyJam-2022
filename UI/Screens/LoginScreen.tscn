@@ -32,7 +32,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 208, 179 ) ]
+"values": [ Vector2( 72, 190 ) ]
 }
 
 [sub_resource type="Animation" id=7]
@@ -48,7 +48,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 208, 179 ) ]
+"values": [ Vector2( 72, 190 ) ]
 }
 
 [sub_resource type="Animation" id=8]
@@ -64,7 +64,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 208, 109 ) ]
+"values": [ Vector2( 72, 122 ) ]
 }
 
 [sub_resource type="Animation" id=9]
@@ -80,14 +80,14 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 208, 248 ) ]
+"values": [ Vector2( 72, 262 ) ]
 }
 
 [node name="LoginScreen" type="Node2D"]
 script = ExtResource( 5 )
-button_metamask_path = NodePath("LoginUI/Buttons/ButtonMetamask")
-button_walletconnect_path = NodePath("LoginUI/Buttons/ButtonWalletConnect")
-button_gamestop_path = NodePath("LoginUI/Buttons/ButtonGamestop")
+button_metamask_path = NodePath("LoginUI/LoopringMenu/Buttons/ButtonMetamask")
+button_walletconnect_path = NodePath("LoginUI/LoopringMenu/Buttons/ButtonWalletConnect")
+button_gamestop_path = NodePath("LoginUI/LoopringMenu/Buttons/ButtonGamestop")
 wallet_connector_path = NodePath("WalletConnector")
 
 [node name="Bg" type="ColorRect" parent="."]
@@ -103,70 +103,109 @@ color = Color( 0.329412, 0.454902, 0.607843, 1 )
 script = ExtResource( 1 )
 
 [node name="LoginUI" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="WhiteArrow" type="Sprite" parent="LoginUI"]
-position = Vector2( 208, 179 )
+position = Vector2( 72, 190 )
 texture = ExtResource( 9 )
 
 [node name="Title2" type="Label" parent="LoginUI"]
-margin_left = 128.0
+margin_left = 48.0
 margin_top = 24.0
-margin_right = 512.0
+margin_right = 432.0
 margin_bottom = 72.0
 custom_fonts/font = ExtResource( 6 )
 text = "Connect your wallet"
 align = 1
 
-[node name="Buttons" type="VBoxContainer" parent="LoginUI"]
+[node name="LoopringMenu" type="Control" parent="LoginUI"]
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 1
+
+[node name="Buttons" type="VBoxContainer" parent="LoginUI/LoopringMenu"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -91.5
-margin_top = -89.0
-margin_right = 91.5
-margin_bottom = 89.0
+margin_left = 76.0
+margin_top = 84.0
+margin_right = 259.0
+margin_bottom = 262.0
+rect_min_size = Vector2( 183, 178 )
 custom_constants/separation = 32
 
-[node name="ButtonMetamask" type="TextureButton" parent="LoginUI/Buttons"]
+[node name="ButtonMetamask" type="TextureButton" parent="LoginUI/LoopringMenu/Buttons"]
 margin_right = 183.6
 margin_bottom = 38.4
 rect_min_size = Vector2( 183.6, 38.4 )
+focus_neighbour_top = NodePath("../../../WalletDropdown")
+focus_neighbour_right = NodePath("../../../DisconnectWalletButton")
 texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 2 )
 texture_hover = ExtResource( 2 )
 texture_focused = ExtResource( 2 )
 expand = true
 
-[node name="ButtonGamestop" type="TextureButton" parent="LoginUI/Buttons"]
+[node name="ButtonGamestop" type="TextureButton" parent="LoginUI/LoopringMenu/Buttons"]
 margin_top = 70.0
 margin_right = 183.6
 margin_bottom = 108.4
 rect_min_size = Vector2( 183.6, 38.4 )
+focus_neighbour_right = NodePath("../../../DisconnectWalletButton")
 texture_normal = ExtResource( 3 )
 texture_pressed = ExtResource( 3 )
 texture_hover = ExtResource( 3 )
 texture_focused = ExtResource( 3 )
 expand = true
 
-[node name="ButtonWalletConnect" type="TextureButton" parent="LoginUI/Buttons"]
+[node name="ButtonWalletConnect" type="TextureButton" parent="LoginUI/LoopringMenu/Buttons"]
 margin_top = 140.0
 margin_right = 183.6
 margin_bottom = 178.4
 rect_min_size = Vector2( 183.6, 38.4 )
+focus_neighbour_right = NodePath("../../../DisconnectWalletButton")
 texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 4 )
 texture_hover = ExtResource( 4 )
 texture_focused = ExtResource( 4 )
 expand = true
 
+[node name="OtherMenu" type="Control" parent="LoginUI"]
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 1
+
+[node name="Buttons" type="VBoxContainer" parent="LoginUI/OtherMenu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 76.0
+margin_top = 84.0
+margin_right = 259.0
+margin_bottom = 262.0
+rect_min_size = Vector2( 183, 178 )
+custom_constants/separation = 32
+
+[node name="ButtonMetamask" type="TextureButton" parent="LoginUI/OtherMenu/Buttons"]
+margin_right = 183.6
+margin_bottom = 38.4
+rect_min_size = Vector2( 183.6, 38.4 )
+focus_neighbour_right = NodePath("../../../DisconnectWalletButton")
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 2 )
+texture_focused = ExtResource( 2 )
+expand = true
+
 [node name="LoadingRect" type="ColorRect" parent="LoginUI"]
+visible = false
 margin_right = 640.0
 margin_bottom = 360.0
 color = Color( 0.368627, 0.368627, 0.368627, 0.866667 )
 
 [node name="LoadingCancelButton" type="Button" parent="LoginUI"]
+visible = false
 margin_right = 640.0
 margin_bottom = 360.0
 custom_styles/hover = SubResource( 1 )
@@ -176,6 +215,7 @@ custom_styles/disabled = SubResource( 4 )
 custom_styles/normal = SubResource( 5 )
 
 [node name="LoadingLabel" type="Label" parent="LoginUI"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -190,8 +230,50 @@ align = 1
 valign = 1
 autowrap = true
 
+[node name="WalletInfo" type="PanelContainer" parent="LoginUI"]
+margin_left = 320.0
+margin_top = 91.0
+margin_right = 576.0
+margin_bottom = 296.0
+size_flags_horizontal = 3
+theme = ExtResource( 8 )
+
+[node name="WalletInfoLabel" type="Label" parent="LoginUI/WalletInfo"]
+unique_name_in_owner = true
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 249.0
+margin_bottom = 42.0
+size_flags_vertical = 0
+text = "Wallet Connected:
+0x1234567890abcdef"
+autowrap = true
+
+[node name="WalletDropdown" type="OptionButton" parent="LoginUI"]
+unique_name_in_owner = true
+margin_left = 456.0
+margin_top = 40.0
+margin_right = 584.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 128, 0 )
+focus_neighbour_bottom = NodePath("../DisconnectWalletButton")
+size_flags_horizontal = 0
+text = "Wallet Type"
+
+[node name="DisconnectWalletButton" type="Button" parent="LoginUI"]
+unique_name_in_owner = true
+margin_left = 384.0
+margin_top = 220.0
+margin_right = 512.0
+margin_bottom = 259.0
+focus_neighbour_left = NodePath("../LoopringMenu/Buttons/ButtonMetamask")
+focus_neighbour_top = NodePath("../WalletDropdown")
+size_flags_horizontal = 0
+text = "Disconnect"
+
 [node name="LoginPromptUI" type="CanvasLayer" parent="."]
 layer = 2
+visible = false
 
 [node name="Title" type="Label" parent="LoginPromptUI"]
 margin_left = 128.0
@@ -236,11 +318,14 @@ text = "Play as Guest"
 layer = 10
 
 [node name="ReturnLabel" type="Label" parent="FrontLayer"]
-margin_left = 64.0
-margin_top = 296.0
-margin_right = 576.0
-margin_bottom = 344.0
-custom_fonts/font = ExtResource( 7 )
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -256.0
+margin_top = -48.0
+margin_right = 256.0
+theme = ExtResource( 8 )
 text = "Press Esc to go back"
 align = 1
 valign = 1
@@ -252,5 +337,7 @@ anims/select_metamask = SubResource( 8 )
 anims/select_walletconnect = SubResource( 9 )
 
 [connection signal="pressed" from="LoginUI/LoadingCancelButton" to="." method="_on_LoadingCancelButton_pressed"]
+[connection signal="item_selected" from="LoginUI/WalletDropdown" to="." method="_on_WalletDropdown_item_selected"]
+[connection signal="pressed" from="LoginUI/DisconnectWalletButton" to="." method="_on_DisconnectWalletButton_pressed"]
 [connection signal="pressed" from="LoginPromptUI/Buttons/LoginProcessButton" to="." method="_on_LoginProcessButton_pressed"]
 [connection signal="pressed" from="LoginPromptUI/Buttons/GuestButton" to="." method="_on_GuestButton_pressed"]

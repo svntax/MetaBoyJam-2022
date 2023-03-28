@@ -9,7 +9,7 @@ func _ready():
 func _process(_delta):
 	if Input.is_action_just_pressed("ui_cancel"):
 		if MetaBoyGlobals.selected_metaboy == MetaBoyGlobals.default_metaboy:
-			SceneManager.switch_to_scene("res://UI/Screens/TitleScreen.tscn", true)
+			get_tree().change_scene("res://UI/Screens/LoginScreen.tscn")
 		else:
 			get_tree().change_scene("res://UI/Screens/CharacterSelectScreen.tscn")
 

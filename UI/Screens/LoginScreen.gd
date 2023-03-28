@@ -17,12 +17,20 @@ onready var loading_rect = $LoginUI/LoadingRect
 onready var loading_label = $LoginUI/LoadingLabel
 onready var loading_cancel_button = $LoginUI/LoadingCancelButton
 
+const WALLETS = ["Loopring", "Other"]
+onready var wallet_dropdown = get_node("%WalletDropdown")
+onready var wallet_info_label = get_node("%WalletInfoLabel")
+onready var disconnect_wallet_button = get_node("%DisconnectWalletButton")
+onready var loopring_menu = $LoginUI/LoopringMenu
+onready var other_menu = $LoginUI/OtherMenu
+
 onready var login_prompt_ui = $LoginPromptUI
 onready var login_process_button = get_node("%LoginProcessButton")
 
 onready var animation_player = $AnimationPlayer
 
 func _ready():
+	wallet_info_label.text = "No wallet connected."
 	hide_loading_ui()
 	login_ui.hide()
 	login_prompt_ui.show()
@@ -30,8 +38,15 @@ func _ready():
 	
 	var account = LoopringGlobals.wallet
 	if account != null and account != "":
-		# Wallet detected, skip the login screen
-		get_tree().change_scene("res://UI/Screens/CharacterSelectScreen.tscn")
+		# Wallet detected
+		wallet_info_label.text = "Wallet Connected:\n" + account
+	else:
+		wallet_info_label.text = "No wallet connected."
+	
+	# Set up the dropdown menu for different wallets
+	for item in WALLETS:
+		wallet_dropdown.add_item(item)
+	wallet_dropdown.select(0)
 	
 	# Connect the buttons to their respective callbacks
 	button_metamask = get_node(button_metamask_path)
@@ -62,7 +77,14 @@ func _process(_delta):
 		if loading_rect.visible:
 			hide_loading_ui()
 		else:
-			SceneManager.switch_to_scene("res://UI/Screens/TitleScreen.tscn", true)
+			if login_ui.visible:
+				# Go back to the "Login or Guest" menu
+				login_ui.hide()
+				login_prompt_ui.show()
+				login_process_button.grab_focus()
+			else:
+				# Go back to the title screen
+				SceneManager.switch_to_scene("res://UI/Screens/TitleScreen.tscn", true)
 
 func Button_GME():
 	if SceneManager.transition_running:
@@ -128,3 +150,35 @@ func _on_LoginProcessButton_pressed():
 	login_prompt_ui.hide()
 	login_ui.show()
 	button_gamestop.grab_focus()
+
+func _on_DisconnectWalletButton_pressed():
+	var item = wallet_dropdown.get_item_text(wallet_dropdown.selected)
+	if item == "Loopring":
+		var account = LoopringGlobals.wallet
+		if account != null and account != "":
+			# Wallet detected
+			Loopring.logout()
+			wallet_info_label.text = "No wallet connected."
+	elif item == "Other":
+		# TODO: disconnect other wallet type
+		print("Other disconnect")
+
+func _on_WalletDropdown_item_selected(index):
+	if index == 0:
+		loopring_menu.show()
+		disconnect_wallet_button.focus_neighbour_left = disconnect_wallet_button.get_path_to(button_metamask)
+		var account = LoopringGlobals.wallet
+		if account != null and account != "":
+			# Wallet detected
+			wallet_info_label.text = "Wallet Connected:\n" + account
+		else:
+			wallet_info_label.text = "No wallet connected."
+		
+		other_menu.hide()
+	elif index == 1:
+		loopring_menu.hide()
+		other_menu.show()
+		animation_player.play("select_metamask")
+		disconnect_wallet_button.focus_neighbour_left = NodePath("../OtherMenu/Buttons/ButtonMetamask")
+		# TODO: wallet info for other chain
+		wallet_info_label.text = "No wallet connected."

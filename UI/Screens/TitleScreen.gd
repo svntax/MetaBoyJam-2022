@@ -22,22 +22,10 @@ func _ready():
 	title_music.play()
 	
 	# Check if user already signed in
-	var signed_in = false
-	var user_config = ConfigFile.new()
-	var err = user_config.load(LoopringGlobals.USER_DATA_SAVE_PATH)
-	if err == ERR_FILE_NOT_FOUND:
-		print("No user data found.")
-	elif err != OK:
-		print("Error when attempting to load user data.")
-	else:
-		var account = user_config.get_value(LoopringGlobals.DATA_SECTION, "Account", "")
-		var wallet_type = user_config.get_value(LoopringGlobals.DATA_SECTION, "WalletType", -1)
-		if account != null and account != "" and wallet_type != null and LoopringGlobals.is_valid_wallet_type(wallet_type):
-			# Wallet account detected, skip the login screen
-			LoopringGlobals.wallet = account
-			LoopringGlobals.set_wallet_type(wallet_type)
-			signed_in = true
-	
+	var signed_in = _check_loopring_wallet_connected()
+	# TODO: need a new UI to display multiple connected wallets
+	var stacks_signed_in = _check_stacks_wallet_connected()
+	print("Stacks wallet: " + StacksGlobals.wallet)
 	if signed_in:
 		account_name_label.text = "Signed in as:\n" + str(LoopringGlobals.wallet)
 		account_info_ui.show()
@@ -52,6 +40,46 @@ func _ready():
 	
 	play_button.grab_focus()
 	MetaBoyGlobals.set_selected_metaboy(MetaBoyGlobals.default_metaboy)
+
+func _check_loopring_wallet_connected() -> bool:
+	var user_config = ConfigFile.new()
+	var err = user_config.load(LoopringGlobals.USER_DATA_SAVE_PATH)
+	if err == ERR_FILE_NOT_FOUND:
+		print("No Loopring user data found.")
+		return false
+	elif err != OK:
+		print("Error when attempting to load Loopring user data.")
+		return false
+	else:
+		var account = user_config.get_value(LoopringGlobals.DATA_SECTION, "LoopringAccount", "")
+		var wallet_type = user_config.get_value(LoopringGlobals.DATA_SECTION, "LoopringWalletType", -1)
+		if account != null and account != "" and wallet_type != null and LoopringGlobals.is_valid_wallet_type(wallet_type):
+			# Wallet account detected
+			LoopringGlobals.wallet = account
+			LoopringGlobals.set_wallet_type(wallet_type)
+			return true
+	
+	return false
+
+func _check_stacks_wallet_connected() -> bool:
+	var user_config = ConfigFile.new()
+	var err = user_config.load(StacksGlobals.USER_DATA_SAVE_PATH)
+	if err == ERR_FILE_NOT_FOUND:
+		print("No Stacks user data found.")
+		return false
+	elif err != OK:
+		print("Error when attempting to load Stacks user data.")
+		return false
+	else:
+		var account = user_config.get_value(StacksGlobals.DATA_SECTION, "StacksAccount", "")
+		var wallet_type = user_config.get_value(StacksGlobals.DATA_SECTION, "StacksWalletType", -1)
+		if account != null and account != "" and wallet_type != null and StacksGlobals.is_valid_wallet_type(wallet_type):
+			# Wallet account detected
+			StacksGlobals.wallet = account
+			StacksGlobals.set_wallet_type(wallet_type)
+			return true
+	
+	return false
 
 func _process(_delta):
 	# Hacky fix for web build

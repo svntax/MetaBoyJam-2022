@@ -74,6 +74,50 @@ rect_min_size = Vector2( 516, 0 )
 size_flags_horizontal = 6
 columns = 5
 
+[node name="MetaBoy - First Odyssey" type="Tabs" parent="UI/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 34.0
+margin_right = -4.0
+margin_bottom = -4.0
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/TabContainer/MetaBoy - First Odyssey"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+custom_constants/margin_right = 8
+custom_constants/margin_top = 4
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 4
+
+[node name="NoMetaBoySTXLabel" type="Label" parent="UI/TabContainer/MetaBoy - First Odyssey/MarginContainer"]
+unique_name_in_owner = true
+margin_left = 8.0
+margin_top = 93.0
+margin_right = 560.0
+margin_bottom = 109.0
+text = "No STX MetaBoys found."
+align = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/TabContainer/MetaBoy - First Odyssey/MarginContainer"]
+margin_left = 8.0
+margin_top = 4.0
+margin_right = 560.0
+margin_bottom = 198.0
+mouse_filter = 1
+follow_focus = true
+
+[node name="MetaBoySTXGrid" type="GridContainer" parent="UI/TabContainer/MetaBoy - First Odyssey/MarginContainer/ScrollContainer"]
+unique_name_in_owner = true
+margin_left = 18.0
+margin_right = 534.0
+rect_min_size = Vector2( 516, 0 )
+size_flags_horizontal = 6
+columns = 5
+
 [node name="\?\?\?" type="Tabs" parent="UI/TabContainer"]
 visible = false
 anchor_right = 1.0

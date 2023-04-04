@@ -3,9 +3,15 @@ extends Node2D
 const MetaBoyDisplay = preload("res://MetaBoy/MetaBoyDisplay.tscn")
 
 onready var tab_container = $UI/TabContainer
+
 onready var metaboy_tab = $UI/TabContainer/MetaBoy
 onready var metaboy_grid = get_node("%MetaBoyGrid")
 onready var no_metaboy_label = get_node("%NoMetaBoyLabel")
+
+# TODO: fetch STX MetaBoys
+onready var metaboy_stx_tab = get_node("UI/TabContainer/MetaBoy - First Odyssey")
+onready var metaboy_stx_grid = get_node("%MetaBoySTXGrid")
+onready var no_metaboy_stx_label = get_node("%NoMetaBoySTXLabel")
 
 onready var loading_bg = $FrontLayer/LoadingBg
 onready var loading_label = $FrontLayer/LoadingLabel

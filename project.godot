@@ -37,6 +37,8 @@ SceneManager="*res://SceneManager.tscn"
 MetaBoyGlobals="*res://MetaBoy/MetaBoyGlobals.gd"
 Loopring="*res://addons/godot-loopring-sdk/Loopring.tscn"
 LoopringGlobals="*res://addons/godot-loopring-sdk/LoopringGlobals.gd"
+Stacks="*res://addons/godot-stacks-sdk/Stacks.gd"
+StacksGlobals="*res://addons/godot-stacks-sdk/StacksGlobals.gd"
 
 [display]
 

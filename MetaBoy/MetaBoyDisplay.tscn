@@ -56,6 +56,11 @@ hframes = 5
 vframes = 3
 frame = 10
 
+[node name="Body2" type="Sprite" parent="MainBody"]
+hframes = 5
+vframes = 3
+frame = 10
+
 [node name="Neck" type="Sprite" parent="MainBody"]
 hframes = 5
 vframes = 3

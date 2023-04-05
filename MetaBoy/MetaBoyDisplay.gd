@@ -4,6 +4,7 @@ signal metaboy_selected(attributes)
 
 onready var part_back = $MainBody/Back
 onready var part_body = $MainBody/Body
+onready var part_body_02 = $MainBody/Body2
 onready var part_face = $MainBody/Face
 onready var part_hat = $MainBody/Hat
 onready var part_neck = $MainBody/Neck
@@ -29,9 +30,13 @@ func select() -> void:
 func set_metaboy_name(metaboy_name: String) -> void:
 	name_label.text = metaboy_name
 
-func set_metaboy_attributes(attributes: Dictionary) -> void:
+func set_metaboy_attributes(attributes: Dictionary, collection: int = MetaBoyGlobals.Collection.OG) -> void:
 	metaboy_attributes = attributes
-	var path_root = "res://MetaBoy/spritesheets/"
+	var path_root = ""
+	if collection == MetaBoyGlobals.Collection.OG:
+		path_root = "res://MetaBoy/spritesheets/"
+	elif collection == MetaBoyGlobals.Collection.STX:
+		path_root = "res://MetaBoy/spritesheets_stx/"
 	var show_back = false
 	var show_hat = false
 	var show_neck = false
@@ -45,6 +50,11 @@ func set_metaboy_attributes(attributes: Dictionary) -> void:
 				show_back = true
 			elif key == "Body":
 				part_body.texture = load(path)
+				# For the STX collection, Monster Suit has the teeth as an additional layer
+				if collection == MetaBoyGlobals.Collection.STX and \
+						(value.replace(" ", "-") == "Monster-Suit"):
+					var path_teeth = path_root + "/Teeth/Monster-Suit-Teeth.png"
+					part_body_02.texture = load(path_teeth)
 			elif key == "Face":
 				part_face.texture = load(path)
 			elif key == "Hat":
@@ -59,6 +69,8 @@ func set_metaboy_attributes(attributes: Dictionary) -> void:
 			elif key == "Weapon":
 				part_weapon.texture = load(path)
 	
+	metaboy_attributes["Collection"] = collection
+	
 	part_back.visible = show_back
 	part_hat.visible = show_hat
 	part_neck.visible = show_neck
@@ -68,9 +80,9 @@ func set_metaboy_attributes(attributes: Dictionary) -> void:
 	if attributes.has("Body") and attributes.has("Face"):
 		var body_type = attributes.get("Body").replace(" ", "-")
 		# Bodies with dark screens need the light version of the face
-		if MetaBoyGlobals.is_dark_screen_body(body_type):
+		if MetaBoyGlobals.is_dark_screen_body(body_type, collection):
 			var face_type = attributes.get("Face").replace(" ", "-")
-			var face_light_version_texture = MetaBoyGlobals.get_face_light_version(face_type)
+			var face_light_version_texture = MetaBoyGlobals.get_face_light_version(face_type, collection)
 			if face_light_version_texture:
 				part_face.texture = face_light_version_texture
 

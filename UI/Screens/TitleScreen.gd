@@ -107,5 +107,7 @@ func _on_ControlsButton_pressed():
 func _on_LogoutButton_pressed():
 	if not SceneManager.transition_running:
 		Loopring.logout()
+		# TODO: logout should either clear data for both Loopring and Stacks, or let
+		# the user logout each individually
 		MetaBoyGlobals.clear_data()
 		get_tree().reload_current_scene()

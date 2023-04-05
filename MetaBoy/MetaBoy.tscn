@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://MetaBoy/Loud-Crying.png" type="Texture" id=1]
 [ext_resource path="res://MetaBoy/Superhero.png" type="Texture" id=2]
@@ -19,7 +19,6 @@
 [ext_resource path="res://MetaBoy/spritesheets/Weapon/Laser-Guns_Base.png" type="Texture" id=17]
 [ext_resource path="res://MetaBoy/spritesheets/Weapon/Gravity-Gun_Base.png" type="Texture" id=18]
 [ext_resource path="res://MetaBoy/Projectiles/GravityGun/gravity_gun_shoot.wav" type="AudioStream" id=19]
-[ext_resource path="res://MetaBoy/spritesheets/Weapon/Lightning_Base.png" type="Texture" id=20]
 [ext_resource path="res://MetaBoy/Projectiles/GravityGun/LightningRay.tscn" type="PackedScene" id=21]
 [ext_resource path="res://MetaBoy/Projectiles/Lightning/lightning_shoot.wav" type="AudioStream" id=22]
 
@@ -386,6 +385,18 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0.0, 44.9999, 89.9999, 135.0, 180.0, 225.0, 270.0, 315.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MainBody:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 10 ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -1399,6 +1410,11 @@ hframes = 5
 vframes = 3
 frame = 5
 
+[node name="Body2" type="Sprite" parent="MainBody"]
+hframes = 5
+vframes = 3
+frame = 5
+
 [node name="Neck" type="Sprite" parent="MainBody"]
 hframes = 5
 vframes = 3
@@ -1415,7 +1431,6 @@ vframes = 3
 frame = 5
 
 [node name="Weapon" type="Sprite" parent="MainBody"]
-texture = ExtResource( 20 )
 hframes = 5
 vframes = 3
 frame = 5

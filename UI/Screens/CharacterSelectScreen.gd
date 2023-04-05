@@ -18,26 +18,44 @@ onready var loading_label = $FrontLayer/LoadingLabel
 
 var account_object : Dictionary = {}
 var num_metaboys = 0
+var num_stx_metaboys = 0
 
 func _ready():
 	no_metaboy_label.hide()
+	no_metaboy_stx_label.hide()
 	
-	if MetaBoyGlobals.user_nfts.empty():
+	if MetaBoyGlobals.user_nfts_loopring.empty():
 		# Attempt to fetch user's NFTs
 		yield(get_account(), "completed")
 		yield(get_metaboy_tokens(), "completed")
 	else:
-		_parse_metaboy_nfts(MetaBoyGlobals.user_nfts)
+		_parse_metaboy_nfts(MetaBoyGlobals.user_nfts_loopring)
+	
+	# TODO: Fetch STX MetaBoys
+	if MetaBoyGlobals.user_nfts_stacks.empty():
+		# Attempt to fetch user's NFTs
+		pass
+	else:
+		_parse_stx_metaboy_nfts(MetaBoyGlobals.user_nfts_stacks)
 	
 	# TODO: testing purposes only
 #	for i in range(5):
 #		num_metaboys += 1
-#		_add_metaboy_entry("Random\nMetaBoy", MetaBoyGlobals.get_random_attributes())
+#		_add_metaboy_entry("Random\nMetaBoy", MetaBoyGlobals.get_random_attributes(), MetaBoyGlobals.Collection.OG)
+#	for i in range(5):
+#		num_stx_metaboys += 1
+#		var random_attributes = MetaBoyGlobals.get_random_attributes(MetaBoyGlobals.Collection.STX)
+#		_add_metaboy_entry("Random\nSTX MetaBoy", random_attributes, MetaBoyGlobals.Collection.STX)
 	
 	if num_metaboys == 0:
 		no_metaboy_label.show()
 	else:
 		no_metaboy_label.queue_free()
+	
+	if num_stx_metaboys == 0:
+		no_metaboy_stx_label.show()
+	else:
+		no_metaboy_stx_label.queue_free()
 	
 	loading_bg.hide()
 	loading_label.hide()
@@ -50,24 +68,12 @@ func _process(delta):
 		# No navigation handling while loading data
 		return
 	
-	var tab_changed = false
-	if Input.is_action_just_pressed("ui_focus_next"):
-		if tab_container.current_tab < tab_container.get_tab_count() - 1:
-			tab_container.current_tab += 1
-			tab_changed = true
 	if Input.is_action_just_pressed("ui_focus_prev"):
 		if tab_container.current_tab > 0:
 			tab_container.current_tab -= 1
-			tab_changed = true
-	
-	# Focus on the first element in the grid after switching tabs.
-	if tab_changed:
-		if tab_container.get_current_tab_control() == metaboy_tab and \
-				metaboy_grid.get_child_count() > 0:
-			for entry in metaboy_grid.get_children():
-				if entry.has_method("select"):
-					entry.select()
-					break
+	elif Input.is_action_just_pressed("ui_focus_next"):
+		if tab_container.current_tab < tab_container.get_tab_count() - 1:
+			tab_container.current_tab += 1
 
 func _on_metaboy_selected(attributes: Dictionary) -> void:
 	if SceneManager.transition_running:
@@ -92,7 +98,7 @@ func get_metaboy_tokens() -> void:
 	var response_object = json.result
 	if response_object.has("data"):
 		var tokens : Array = response_object.get("data")
-		MetaBoyGlobals.user_nfts = tokens
+		MetaBoyGlobals.user_nfts_loopring = tokens
 		
 		if tokens.empty():
 			# No MetaBoys found
@@ -101,7 +107,7 @@ func get_metaboy_tokens() -> void:
 		_parse_metaboy_nfts(tokens)
 	else:
 		# No MetaBoys found
-		MetaBoyGlobals.user_nfts = []
+		MetaBoyGlobals.user_nfts_loopring = []
 
 func _parse_metaboy_nfts(tokens: Array) -> void:
 	# Loop through each dictionary of attributes for each MetaBoy and set
@@ -118,7 +124,7 @@ func _parse_metaboy_nfts(tokens: Array) -> void:
 			if nft_properties and !nft_properties.empty():
 				# Assuming names are "MetaBoy #xxxx"
 				var formatted_name = nft_name.replace(" ", "\n")
-				var metaboy_display = _add_metaboy_entry(formatted_name, nft_properties)
+				var metaboy_display = _add_metaboy_entry(formatted_name, nft_properties, MetaBoyGlobals.Collection.OG)
 				if first:
 					first = false
 					metaboy_display.select()
@@ -129,10 +135,33 @@ func _parse_metaboy_nfts(tokens: Array) -> void:
 		else:
 			printerr("Failed to parse token attributes.")
 
-func _add_metaboy_entry(mb_name: String, mb_attributes: Dictionary) -> Control:
+func _parse_stx_metaboy_nfts(tokens: Array) -> void:
+	# TODO
+	pass
+
+func _add_metaboy_entry(mb_name: String, mb_attributes: Dictionary, collection: int) -> Control:
 	var metaboy_display = MetaBoyDisplay.instance()
-	metaboy_grid.add_child(metaboy_display)
+	if collection == MetaBoyGlobals.Collection.OG:
+		metaboy_grid.add_child(metaboy_display)
+	elif collection == MetaBoyGlobals.Collection.STX:
+		metaboy_stx_grid.add_child(metaboy_display)
 	metaboy_display.set_metaboy_name(mb_name)
-	metaboy_display.set_metaboy_attributes(mb_attributes)
+	metaboy_display.set_metaboy_attributes(mb_attributes, collection)
 	metaboy_display.connect("metaboy_selected", self, "_on_metaboy_selected")
 	return metaboy_display
+
+
+func _on_TabContainer_tab_changed(tab):
+	# Focus on the first element in the grid after switching tabs.
+	if tab_container.get_current_tab_control() == metaboy_tab and \
+			metaboy_grid.get_child_count() > 0:
+		for entry in metaboy_grid.get_children():
+			if entry.has_method("select"):
+				entry.select()
+				break
+	if tab_container.get_current_tab_control() == metaboy_stx_tab and \
+			metaboy_stx_grid.get_child_count() > 0:
+		for entry in metaboy_stx_grid.get_children():
+			if entry.has_method("select"):
+				entry.select()
+				break

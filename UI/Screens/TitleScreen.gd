@@ -109,5 +109,5 @@ func _on_LogoutButton_pressed():
 		Loopring.logout()
 		# TODO: logout should either clear data for both Loopring and Stacks, or let
 		# the user logout each individually
-		MetaBoyGlobals.clear_data()
+		MetaBoyGlobals.clear_loopring_data()
 		get_tree().reload_current_scene()

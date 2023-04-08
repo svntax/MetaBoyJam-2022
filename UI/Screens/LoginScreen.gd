@@ -42,8 +42,10 @@ func _ready():
 	if account != null and account != "":
 		# Wallet detected
 		wallet_info_label.text = "Wallet Connected:\n" + account
+		disconnect_wallet_button.disabled = false
 	else:
 		wallet_info_label.text = "No wallet connected."
+		disconnect_wallet_button.disabled = true
 	
 	# Set up the dropdown menu for different wallets
 	for item in WALLETS:
@@ -199,13 +201,17 @@ func _on_DisconnectWalletButton_pressed():
 		if account != null and account != "":
 			# Wallet detected
 			Loopring.logout()
+			MetaBoyGlobals.clear_loopring_data()
 			wallet_info_label.text = "No wallet connected."
+			disconnect_wallet_button.disabled = true
 	elif item == "Stacks":
 		var account = StacksGlobals.wallet
 		if account != null and account != "":
 			# Wallet detected
 			Stacks.logout()
+			MetaBoyGlobals.clear_stx_data()
 			wallet_info_label.text = "No wallet connected."
+			disconnect_wallet_button.disabled = true
 
 func _on_WalletDropdown_item_selected(index):
 	if index == 0:
@@ -215,8 +221,10 @@ func _on_WalletDropdown_item_selected(index):
 		if account != null and account != "":
 			# Wallet detected
 			wallet_info_label.text = "Wallet Connected:\n" + account
+			disconnect_wallet_button.disabled = false
 		else:
 			wallet_info_label.text = "No wallet connected."
+			disconnect_wallet_button.disabled = true
 		
 		stacks_menu.hide()
 	elif index == 1:
@@ -228,5 +236,7 @@ func _on_WalletDropdown_item_selected(index):
 		if account != null and account != "":
 			# Wallet detected
 			wallet_info_label.text = "Wallet Connected:\n" + account
+			disconnect_wallet_button.disabled = false
 		else:
 			wallet_info_label.text = "No wallet connected."
+			disconnect_wallet_button.disabled = true

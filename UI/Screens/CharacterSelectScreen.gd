@@ -8,7 +8,6 @@ onready var metaboy_tab = $UI/TabContainer/MetaBoy
 onready var metaboy_grid = get_node("%MetaBoyGrid")
 onready var no_metaboy_label = get_node("%NoMetaBoyLabel")
 
-# TODO: fetch STX MetaBoys
 onready var metaboy_stx_tab = get_node("UI/TabContainer/MetaBoy - First Odyssey")
 onready var metaboy_stx_grid = get_node("%MetaBoySTXGrid")
 onready var no_metaboy_stx_label = get_node("%NoMetaBoySTXLabel")
@@ -17,26 +16,27 @@ onready var loading_bg = $FrontLayer/LoadingBg
 onready var loading_label = $FrontLayer/LoadingLabel
 
 var account_object : Dictionary = {}
-var num_metaboys = 0
-var num_stx_metaboys = 0
+onready var num_metaboys = 0
+onready var num_stx_metaboys = 0
 
 func _ready():
 	no_metaboy_label.hide()
-	no_metaboy_stx_label.hide()
+	no_metaboy_stx_label.show()
 	
-	if MetaBoyGlobals.user_nfts_loopring.empty():
-		# Attempt to fetch user's NFTs
-		yield(get_account(), "completed")
-		yield(get_metaboy_tokens(), "completed")
-	else:
-		_parse_metaboy_nfts(MetaBoyGlobals.user_nfts_loopring)
+	if not LoopringGlobals.wallet.empty():
+		if MetaBoyGlobals.user_nfts_loopring.empty():
+			# Attempt to fetch user's NFTs
+			yield(get_loopring_account(), "completed")
+			yield(get_metaboy_tokens(), "completed")
+		else:
+			_parse_metaboy_nfts(MetaBoyGlobals.user_nfts_loopring)
 	
-	# TODO: Fetch STX MetaBoys
-	if MetaBoyGlobals.user_nfts_stacks.empty():
-		# Attempt to fetch user's NFTs
-		pass
-	else:
-		_parse_stx_metaboy_nfts(MetaBoyGlobals.user_nfts_stacks)
+	if not StacksGlobals.wallet.empty():
+		if MetaBoyGlobals.user_nfts_stacks.empty():
+			# Attempt to fetch user's NFTs
+			yield(get_stx_metaboy_tokens(), "completed")
+		else:
+			_parse_stx_metaboy_nfts(MetaBoyGlobals.user_nfts_stacks)
 	
 	# TODO: testing purposes only
 #	for i in range(5):
@@ -51,11 +51,6 @@ func _ready():
 		no_metaboy_label.show()
 	else:
 		no_metaboy_label.queue_free()
-	
-	if num_stx_metaboys == 0:
-		no_metaboy_stx_label.show()
-	else:
-		no_metaboy_stx_label.queue_free()
 	
 	loading_bg.hide()
 	loading_label.hide()
@@ -82,7 +77,7 @@ func _on_metaboy_selected(attributes: Dictionary) -> void:
 	MetaBoyGlobals.set_selected_metaboy(attributes)
 	get_tree().change_scene("res://UI/Screens/PlaySelectScreen.tscn")
 
-func get_account() -> void:
+func get_loopring_account() -> void:
 	var json = Loopring.get_account_object(LoopringGlobals.wallet)
 	if json is GDScriptFunctionState:
 		json = yield(json, "completed")
@@ -135,9 +130,77 @@ func _parse_metaboy_nfts(tokens: Array) -> void:
 		else:
 			printerr("Failed to parse token attributes.")
 
-func _parse_stx_metaboy_nfts(tokens: Array) -> void:
-	# TODO
-	pass
+func get_stx_metaboy_tokens() -> void:
+	var json = Stacks.get_account_balance(StacksGlobals.wallet)
+	
+	if json is GDScriptFunctionState:
+		json = yield(json, "completed")
+	
+	var account_balance = json.result
+	
+	# Fetch the user's NFTs
+	if account_balance.has("non_fungible_tokens"):
+		var tokens : Dictionary = account_balance.get("non_fungible_tokens")
+		MetaBoyGlobals.user_nfts_stacks = tokens
+		
+		if tokens.empty():
+			# No STX MetaBoys found
+			return
+		
+		_parse_stx_metaboy_nfts(tokens)
+	else:
+		# No STX MetaBoys found
+		MetaBoyGlobals.user_nfts_stacks.clear()
+
+func _parse_stx_metaboy_nfts(tokens: Dictionary) -> void:
+	var token_address = MetaBoyGlobals.CONTRACT_STX
+	var first = true
+	for key in tokens:
+		var collection_address = key.split(".")[0]
+		if collection_address == token_address:
+			var asset_identifiers = [key]
+			var nft_holdings_json = Stacks.get_nft_holdings(StacksGlobals.wallet, asset_identifiers)
+			if nft_holdings_json is GDScriptFunctionState:
+				nft_holdings_json = yield(nft_holdings_json, "completed")
+			var nft_holdings = nft_holdings_json.result
+			if nft_holdings.has("results"):
+				var nft_results : Array = nft_holdings.get("results")
+				for nft in nft_results:
+					var nft_id = nft.get("value").get("repr")
+					# NFT ID is an unsigned int, so it starts with "u"
+					nft_id = str(nft_id).substr(1)
+					# Metadata is saved locally
+					var metadata = null
+					if MetaBoyGlobals.stx_metadata_json.empty():
+						metadata = MetaBoyGlobals.load_stx_metadata_json()
+						if metadata is GDScriptFunctionState:
+							metadata = yield(metadata, "completed")
+					else:
+						metadata = MetaBoyGlobals.stx_metadata_json
+					if metadata != null:
+						var formatted_name = "MetaBoy\n#" + nft_id
+						
+						var nft_properties = {}
+						# Assumes the metadata is ordered by ID
+						var nft_json_obj = metadata[int(nft_id) - 1]
+						var attributes : Array = nft_json_obj["attributes"]
+						for attribute in attributes:
+							var trait = attribute["trait"]
+							var value = attribute["value"]
+							nft_properties[trait] = value
+						var metaboy_display = _add_metaboy_entry(formatted_name, nft_properties, MetaBoyGlobals.Collection.STX)
+						if first:
+							first = false
+							metaboy_display.select()
+						num_stx_metaboys += 1
+	
+	# Update the STX label here so that the label doesn't check the count before
+	# the metadata reading is complete.
+	if num_stx_metaboys > 0:
+		no_metaboy_stx_label.queue_free()
+		
+	else:
+		no_metaboy_stx_label.show()
 
 func _add_metaboy_entry(mb_name: String, mb_attributes: Dictionary, collection: int) -> Control:
 	var metaboy_display = MetaBoyDisplay.instance()
@@ -149,7 +212,6 @@ func _add_metaboy_entry(mb_name: String, mb_attributes: Dictionary, collection: 
 	metaboy_display.set_metaboy_attributes(mb_attributes, collection)
 	metaboy_display.connect("metaboy_selected", self, "_on_metaboy_selected")
 	return metaboy_display
-
 
 func _on_TabContainer_tab_changed(tab):
 	# Focus on the first element in the grid after switching tabs.

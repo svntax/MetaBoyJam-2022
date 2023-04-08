@@ -2,9 +2,11 @@ extends Node
 
 # Address for the original MetaBoy collection smart contract
 const CONTRACT_OG = "0x1D006a27BD82E10F9194D30158d91201E9930420"
+# Address for the STX MetaBoy collection
+const CONTRACT_STX = "SP2W12MNM4SPV37VZHN4GCDG35G9ACG3FDKK7WF04"
 # For storing the response array of NFT metadata from Loopring
 var user_nfts_loopring : Array = []
-var user_nfts_stacks : Array = []
+var user_nfts_stacks : Dictionary = {}
 
 enum Collection { OG, STX }
 
@@ -83,8 +85,26 @@ func get_face_light_version(face_type: String, collection: int = Collection.OG) 
 	
 	return null
 
-func clear_data() -> void:
+func clear_loopring_data() -> void:
 	user_nfts_loopring = []
+
+func clear_stx_data() -> void:
+	user_nfts_stacks.clear()
+	#stx_metadata_json.clear() # TODO: unsure when this should be cleared
+
+const STX_METADATA_PATH = "res://MetaBoy/Metadata/metaboy_stx.json"
+var stx_metadata_json = {}
+# Loads the metadata for the MetaBoy STX collection.
+func load_stx_metadata_json():
+	var file = File.new()
+	file.open(STX_METADATA_PATH, file.READ)
+	var text = file.get_as_text()
+	var result_json = JSON.parse(text)
+	if result_json.error != OK:
+		printerr("Error loading JSON file: " + str(STX_METADATA_PATH))
+		return null
+	stx_metadata_json = result_json.result
+	return result_json.result
 
 # Generate a random mix of attributes. For testing purposes only.
 func get_random_attributes(collection: int = Collection.OG) -> Dictionary:

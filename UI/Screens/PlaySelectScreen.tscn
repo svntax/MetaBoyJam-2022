@@ -55,7 +55,7 @@ margin_bottom = 56.0
 rect_min_size = Vector2( 160, 56 )
 size_flags_horizontal = 6
 custom_fonts/font = ExtResource( 2 )
-text = "Start"
+text = "Play"
 
 [node name="PracticeButton" type="Button" parent="UI/Buttons"]
 unique_name_in_owner = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://addons/godot-loopring-sdk/utils/WalletConnector.gd" type="Script" id=1]
 [ext_resource path="res://addons/godot-loopring-sdk/images/Metamask-logo.png" type="Texture" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://UI/MainUITheme.tres" type="Theme" id=8]
 [ext_resource path="res://UI/white_arrow.png" type="Texture" id=9]
 [ext_resource path="res://addons/godot-stacks-sdk/utils/WalletConnector.gd" type="Script" id=10]
+[ext_resource path="res://TowerArea/sandy_hills.png" type="Texture" id=11]
+[ext_resource path="res://UI/menu_bg.png" type="Texture" id=12]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -86,9 +88,6 @@ tracks/0/keys = {
 
 [node name="LoginScreen" type="Node2D"]
 script = ExtResource( 5 )
-button_metamask_path = NodePath("LoginUI/LoopringMenu/Buttons/ButtonMetamask")
-button_walletconnect_path = NodePath("LoginUI/LoopringMenu/Buttons/ButtonWalletConnect")
-button_gamestop_path = NodePath("LoginUI/LoopringMenu/Buttons/ButtonGamestop")
 
 [node name="Bg" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -97,7 +96,30 @@ margin_right = 640.0
 margin_bottom = 360.0
 rect_min_size = Vector2( 640, 360 )
 mouse_filter = 2
-color = Color( 0.329412, 0.454902, 0.607843, 1 )
+color = Color( 0, 0.439216, 0.215686, 1 )
+
+[node name="Bg2" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 4.0
+margin_bottom = 4.0
+rect_min_size = Vector2( 4, 4 )
+mouse_filter = 2
+theme = ExtResource( 8 )
+
+[node name="BackgroundArt" type="Sprite" parent="Bg2"]
+texture = ExtResource( 12 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SandyHills" type="Sprite" parent="Bg2/BackgroundArt"]
+position = Vector2( 320, 259 )
+texture = ExtResource( 11 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="LoopringWalletConnector" type="Node" parent="."]
 script = ExtResource( 1 )
@@ -106,6 +128,13 @@ script = ExtResource( 1 )
 script = ExtResource( 10 )
 
 [node name="LoginUI" type="CanvasLayer" parent="."]
+
+[node name="WalletButtonsPanel" type="PanelContainer" parent="LoginUI"]
+margin_left = 82.0
+margin_top = 92.0
+margin_right = 296.0
+margin_bottom = 296.0
+rect_min_size = Vector2( 200, 178 )
 
 [node name="WhiteArrow" type="Sprite" parent="LoginUI"]
 position = Vector2( 72, 190 )
@@ -138,6 +167,7 @@ rect_min_size = Vector2( 183, 178 )
 custom_constants/separation = 32
 
 [node name="ButtonMetamask" type="TextureButton" parent="LoginUI/LoopringMenu/Buttons"]
+unique_name_in_owner = true
 margin_right = 183.6
 margin_bottom = 38.4
 rect_min_size = Vector2( 183.6, 38.4 )
@@ -150,6 +180,7 @@ texture_focused = ExtResource( 2 )
 expand = true
 
 [node name="ButtonGamestop" type="TextureButton" parent="LoginUI/LoopringMenu/Buttons"]
+unique_name_in_owner = true
 margin_top = 70.0
 margin_right = 183.6
 margin_bottom = 108.4
@@ -162,6 +193,7 @@ texture_focused = ExtResource( 3 )
 expand = true
 
 [node name="ButtonWalletConnect" type="TextureButton" parent="LoginUI/LoopringMenu/Buttons"]
+unique_name_in_owner = true
 margin_top = 140.0
 margin_right = 183.6
 margin_bottom = 178.4
@@ -272,6 +304,20 @@ align = 1
 valign = 1
 autowrap = true
 
+[node name="ReturnLabel" type="Label" parent="LoginUI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -256.0
+margin_top = -44.0
+margin_right = 256.0
+margin_bottom = 4.0
+theme = ExtResource( 8 )
+text = "Press Esc to go back"
+align = 1
+valign = 1
+
 [node name="LoginPromptUI" type="CanvasLayer" parent="."]
 layer = 2
 visible = false
@@ -282,54 +328,134 @@ margin_top = 24.0
 margin_right = 512.0
 margin_bottom = 72.0
 custom_fonts/font = ExtResource( 6 )
-text = "Login"
+text = "Main Menu"
 align = 1
 
-[node name="Buttons" type="HBoxContainer" parent="LoginPromptUI"]
+[node name="ButtonsOLD" type="HBoxContainer" parent="LoginPromptUI"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -256.0
+margin_left = -280.0
 margin_top = -40.0
-margin_right = 256.0
+margin_right = 280.0
 margin_bottom = 40.0
 theme = ExtResource( 8 )
 
-[node name="LoginProcessButton" type="Button" parent="LoginPromptUI/Buttons"]
-unique_name_in_owner = true
-margin_left = 35.0
-margin_right = 219.0
+[node name="LoginProcessButtonOLD" type="Button" parent="LoginPromptUI/ButtonsOLD"]
+margin_left = 6.0
+margin_right = 190.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 184, 80 )
 size_flags_horizontal = 6
 custom_fonts/font = ExtResource( 7 )
 text = "Connect"
 
-[node name="GuestButton" type="Button" parent="LoginPromptUI/Buttons"]
-margin_left = 293.0
-margin_right = 477.0
+[node name="GuestButtonOLD" type="Button" parent="LoginPromptUI/ButtonsOLD"]
+margin_left = 206.0
+margin_right = 390.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 184, 80 )
 size_flags_horizontal = 6
 custom_fonts/font = ExtResource( 7 )
 text = "Play as Guest"
 
+[node name="Buttons" type="VBoxContainer" parent="LoginPromptUI"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -280.0
+margin_top = -100.0
+margin_right = 280.0
+margin_bottom = 172.0
+theme = ExtResource( 8 )
+custom_constants/separation = 8
+alignment = 1
+
+[node name="LoginProcessButton" type="Button" parent="LoginPromptUI/Buttons"]
+unique_name_in_owner = true
+margin_left = 188.0
+margin_top = 12.0
+margin_right = 372.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 184, 56 )
+size_flags_horizontal = 6
+custom_fonts/font = ExtResource( 7 )
+text = "Connect"
+
+[node name="GuestButton" type="Button" parent="LoginPromptUI/Buttons"]
+margin_left = 188.0
+margin_top = 76.0
+margin_right = 372.0
+margin_bottom = 132.0
+rect_min_size = Vector2( 184, 56 )
+size_flags_horizontal = 6
+custom_fonts/font = ExtResource( 7 )
+text = "Play as Guest"
+
+[node name="ControlsButton" type="Button" parent="LoginPromptUI/Buttons"]
+margin_left = 200.0
+margin_top = 140.0
+margin_right = 360.0
+margin_bottom = 196.0
+rect_min_size = Vector2( 160, 56 )
+size_flags_horizontal = 6
+custom_fonts/font = ExtResource( 7 )
+text = "Controls"
+
+[node name="BackButton" type="Button" parent="LoginPromptUI/Buttons"]
+margin_left = 200.0
+margin_top = 204.0
+margin_right = 360.0
+margin_bottom = 260.0
+rect_min_size = Vector2( 160, 56 )
+size_flags_horizontal = 6
+custom_fonts/font = ExtResource( 7 )
+text = "Back"
+
+[node name="AccountInfo" type="Control" parent="LoginPromptUI"]
+visible = false
+margin_left = 96.0
+margin_top = -72.0
+margin_right = 136.0
+margin_bottom = -32.0
+theme = ExtResource( 8 )
+
+[node name="Bg2" type="ColorRect" parent="LoginPromptUI/AccountInfo"]
+margin_left = 4.0
+margin_top = 296.0
+margin_right = 436.0
+margin_bottom = 359.0
+
+[node name="Bg" type="ColorRect" parent="LoginPromptUI/AccountInfo"]
+margin_left = 8.0
+margin_top = 299.0
+margin_right = 432.0
+margin_bottom = 355.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="AccountName" type="Label" parent="LoginPromptUI/AccountInfo"]
+margin_left = 16.0
+margin_top = 307.0
+margin_right = 328.0
+margin_bottom = 342.0
+text = "Signed in as 0xe1234567890abcdefABCDEFghijklGHIJKLmnopq"
+autowrap = true
+
+[node name="LogoutButton" type="Button" parent="LoginPromptUI/AccountInfo"]
+margin_left = 336.0
+margin_top = 307.0
+margin_right = 416.0
+margin_bottom = 345.0
+rect_min_size = Vector2( 80, 38 )
+focus_neighbour_left = NodePath("../../Menu/ControlsButton")
+focus_neighbour_top = NodePath("../../Menu/ControlsButton")
+text = "Sign Out"
+
 [node name="FrontLayer" type="CanvasLayer" parent="."]
 layer = 10
-
-[node name="ReturnLabel" type="Label" parent="FrontLayer"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -256.0
-margin_top = -48.0
-margin_right = 256.0
-theme = ExtResource( 8 )
-text = "Press Esc to go back"
-align = 1
-valign = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 6 )
@@ -342,3 +468,5 @@ anims/select_third = SubResource( 9 )
 [connection signal="pressed" from="LoginUI/LoadingCancelButton" to="." method="_on_LoadingCancelButton_pressed"]
 [connection signal="pressed" from="LoginPromptUI/Buttons/LoginProcessButton" to="." method="_on_LoginProcessButton_pressed"]
 [connection signal="pressed" from="LoginPromptUI/Buttons/GuestButton" to="." method="_on_GuestButton_pressed"]
+[connection signal="pressed" from="LoginPromptUI/Buttons/ControlsButton" to="." method="_on_ControlsButton_pressed"]
+[connection signal="pressed" from="LoginPromptUI/Buttons/BackButton" to="." method="_on_BackButton_pressed"]

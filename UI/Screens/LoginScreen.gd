@@ -1,14 +1,11 @@
 extends Node2D
 
-export (NodePath) var button_metamask_path = NodePath()
-var button_metamask
+# Loopring wallet buttons
+onready var button_metamask = get_node("%ButtonMetamask")
+onready var button_walletconnect = get_node("%ButtonWalletConnect")
+onready var button_gamestop = get_node("%ButtonGamestop")
 
-export (NodePath) var button_walletconnect_path = NodePath()
-var button_walletconnect
-
-export (NodePath) var button_gamestop_path = NodePath()
-var button_gamestop
-
+# Stacks wallet buttons
 onready var button_hiro = get_node("%ButtonHiro")
 
 onready var loopring_wallet_connector = $LoopringWalletConnector
@@ -53,13 +50,8 @@ func _ready():
 	wallet_dropdown.select(0)
 	
 	# Connect the buttons to their respective callbacks
-	button_metamask = get_node(button_metamask_path)
 	button_metamask.connect("pressed", self, "Button_Metamask")
-
-	button_walletconnect = get_node(button_walletconnect_path)
 	button_walletconnect.connect("pressed", self, "Button_Metamask")
-
-	button_gamestop = get_node(button_gamestop_path)
 	button_gamestop.connect("pressed", self, "Button_GME")
 	
 	button_hiro.connect("pressed", self, "Button_Hiro")
@@ -240,3 +232,11 @@ func _on_WalletDropdown_item_selected(index):
 		else:
 			wallet_info_label.text = "No wallet connected."
 			disconnect_wallet_button.disabled = true
+
+func _on_ControlsButton_pressed():
+	if not SceneManager.transition_running:
+		SceneManager.switch_to_scene("res://UI/Screens/ControlsScreen.tscn", true)
+
+func _on_BackButton_pressed():
+	if not SceneManager.transition_running:
+		SceneManager.switch_to_scene("res://UI/Screens/TitleScreen.tscn", true)

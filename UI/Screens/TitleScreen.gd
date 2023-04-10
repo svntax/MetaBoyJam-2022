@@ -6,9 +6,6 @@ onready var play_button = get_node("%PlayButton")
 onready var controls_button = get_node("%ControlsButton")
 onready var title_music = $TitleMusic
 onready var animation_player = $AnimationPlayer
-onready var account_info_ui = $AccountInfo
-onready var account_name_label = $AccountInfo/AccountName
-onready var logout_button = $AccountInfo/LogoutButton
 
 func _ready():
 	# Default size 1280x720
@@ -22,21 +19,8 @@ func _ready():
 	title_music.play()
 	
 	# Check if user already signed in
-	var signed_in = _check_loopring_wallet_connected()
-	# TODO: need a new UI to display multiple connected wallets
-	var stacks_signed_in = _check_stacks_wallet_connected()
-	print("Stacks wallet: " + StacksGlobals.wallet)
-	if signed_in:
-		account_name_label.text = "Signed in as:\n" + str(LoopringGlobals.wallet)
-		account_info_ui.show()
-	else:
-		account_info_ui.hide()
-		logout_button.disabled = true
-		var null_path = NodePath()
-		play_button.focus_neighbour_top = null_path
-		play_button.focus_neighbour_right = null_path
-		controls_button.focus_neighbour_right = null_path
-		controls_button.focus_neighbour_bottom = null_path
+	_check_loopring_wallet_connected()
+	_check_stacks_wallet_connected()
 	
 	play_button.grab_focus()
 	MetaBoyGlobals.set_selected_metaboy(MetaBoyGlobals.default_metaboy)
@@ -91,23 +75,8 @@ func _process(_delta):
 		var focus_owner = menu.get_focus_owner()
 		if focus_owner == play_button:
 			_on_PlayButton_pressed()
-		elif focus_owner == controls_button:
-			_on_ControlsButton_pressed()
 
 func _on_PlayButton_pressed():
 	if not SceneManager.transition_running:
 		animation_player.play("transition")
 		SceneManager.switch_to_scene("res://UI/Screens/LoginScreen.tscn", true)
-
-func _on_ControlsButton_pressed():
-	if not SceneManager.transition_running:
-		animation_player.play("transition")
-		SceneManager.switch_to_scene("res://UI/Screens/ControlsScreen.tscn", true)
-
-func _on_LogoutButton_pressed():
-	if not SceneManager.transition_running:
-		Loopring.logout()
-		# TODO: logout should either clear data for both Loopring and Stacks, or let
-		# the user logout each individually
-		MetaBoyGlobals.clear_loopring_data()
-		get_tree().reload_current_scene()

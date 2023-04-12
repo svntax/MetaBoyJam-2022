@@ -54,6 +54,8 @@ func _ready():
 	
 	loading_bg.hide()
 	loading_label.hide()
+	
+	_focus_first_grid_element()
 
 func _process(delta):
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -198,9 +200,10 @@ func _parse_stx_metaboy_nfts(tokens: Dictionary) -> void:
 	# the metadata reading is complete.
 	if num_stx_metaboys > 0:
 		no_metaboy_stx_label.queue_free()
-		
 	else:
 		no_metaboy_stx_label.show()
+	
+	_focus_first_grid_element()
 
 func _add_metaboy_entry(mb_name: String, mb_attributes: Dictionary, collection: int) -> Control:
 	var metaboy_display = MetaBoyDisplay.instance()
@@ -214,6 +217,9 @@ func _add_metaboy_entry(mb_name: String, mb_attributes: Dictionary, collection: 
 	return metaboy_display
 
 func _on_TabContainer_tab_changed(tab):
+	_focus_first_grid_element()
+
+func _focus_first_grid_element() -> void:
 	# Focus on the first element in the grid after switching tabs.
 	if tab_container.get_current_tab_control() == metaboy_tab and \
 			metaboy_grid.get_child_count() > 0:

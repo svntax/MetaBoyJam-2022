@@ -111,6 +111,10 @@ onready var lightning_rays = [
 ]
 onready var lightning_timer = $LightningTimer
 
+const STXBlasterProjectile = preload("res://MetaBoy/Projectiles/STXBlaster/STXBlasterProjectile.tscn")
+onready var stx_blaster_projectile_spawn_pos = get_node("%STXBlasterSpawn")
+onready var stx_blaster_sides = get_node("%STXBlasterSides")
+
 onready var explode_sound = $ExplodeSound
 onready var jump_sound = $JumpSound
 onready var jump_02_sound = $Jump02Sound
@@ -120,6 +124,7 @@ onready var elder_wand_shoot_sound = $ElderWandShootSound
 onready var laser_gun_shoot_sound = $LaserGunShootSound
 onready var gravity_gun_shoot_sound = $GravityGunShootSound
 onready var lightning_shoot_sound = $LightningShootSound
+onready var stx_blaster_shoot_sound = $STXBlasterShootSound
 
 func _ready():
 	init_setup_parts()
@@ -141,6 +146,7 @@ func init_setup_parts() -> void:
 	dynamite_root.hide()
 	snail_shell_root.hide()
 	energy_sword_root.hide()
+	stx_blaster_sides.get_parent().hide()
 
 func set_metaboy_attributes(attributes: Dictionary, collection: int = MetaBoyGlobals.Collection.OG) -> void:
 	init_setup_parts()
@@ -223,6 +229,9 @@ func set_metaboy_attributes(attributes: Dictionary, collection: int = MetaBoyGlo
 					part_weapon.texture = load(path.replace("Retro-Futuristic-Rifle.png", "Retro-Futuristic-Rifle_Base.png"))
 				elif weapon_type == "Lightning":
 					part_weapon.texture = load(path.replace("Lightning.png", "Lightning_Base.png"))
+				elif weapon_type == "STX-Blaster":
+					part_weapon.texture = load(path.replace("STX-Blaster.png", "STX-Blaster_Base.png"))
+					stx_blaster_sides.get_parent().show()
 				else:
 					part_weapon.texture = load(path)
 	
@@ -404,7 +413,7 @@ func attack() -> void:
 		attack_cooldown_timer.start()
 	elif weapon_type == "Gravity-Gun":
 		if gravity_gun_projectile_ref == null:
-			gravity_gun_shoot_sound.play() # TODO gravity gun shoot sound
+			gravity_gun_shoot_sound.play()
 			var gravity_gun_projectile = GravityGunProjectile.instance()
 			get_parent().add_child(gravity_gun_projectile)
 			gravity_gun_projectile.global_position = gravity_gun_spawn_pos.global_position
@@ -445,6 +454,20 @@ func attack() -> void:
 			i %= 3
 		
 		lightning_shoot_sound.play()
+		attack_cooldown_timer.start()
+	elif weapon_type == "STX-Blaster":
+		stx_blaster_shoot_sound.play()
+		
+		var stx_blaster_projectile = STXBlasterProjectile.instance()
+		get_parent().add_child(stx_blaster_projectile)
+		stx_blaster_projectile.global_position = stx_blaster_projectile_spawn_pos.global_position
+		stx_blaster_projectile.z_index = z_index + 1
+		var vel = Vector2(450 * face_direction, 0).rotated(body_root.rotation)
+		stx_blaster_projectile.set_velocity(vel)
+		stx_blaster_projectile.set_direction(vel)
+		
+		stx_blaster_sides.play_effect()
+
 		attack_cooldown_timer.start()
 	else:
 		# TODO: implement attacks for all weapons

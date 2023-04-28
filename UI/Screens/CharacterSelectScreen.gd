@@ -87,7 +87,7 @@ func get_loopring_account() -> void:
 
 func get_metaboy_tokens() -> void:
 	var token_address = MetaBoyGlobals.CONTRACT_OG
-	var json = Loopring.get_token_balance(str(account_object.get("accountId")), Globals.loopring_api_key, token_address, true)
+	var json = Loopring.get_token_balance(str(account_object.get("accountId")), Globals.loopring_api_key, token_address, false)
 	
 	if json is GDScriptFunctionState:
 		json = yield(json, "completed")
@@ -107,30 +107,58 @@ func get_metaboy_tokens() -> void:
 		MetaBoyGlobals.user_nfts_loopring = []
 
 func _parse_metaboy_nfts(tokens: Array) -> void:
+	if tokens.empty():
+		return
+	
 	# Loop through each dictionary of attributes for each MetaBoy and set
 	# the corresponding values.
+
+	# Mapping from token address to ID is saved locally
+	var metadata_mapping = null
+	if MetaBoyGlobals.og_token_id_map_json.empty():
+		metadata_mapping = MetaBoyGlobals.load_og_token_id_map_json()
+		if metadata_mapping is GDScriptFunctionState:
+			metadata_mapping = yield(metadata_mapping, "completed")
+	else:
+		metadata_mapping = MetaBoyGlobals.og_token_id_map_json
+	
+	# Metadata is saved locally
+	var metadata = null
+	if MetaBoyGlobals.og_metadata_json.empty():
+		metadata = MetaBoyGlobals.load_og_metadata_json()
+		if metadata is GDScriptFunctionState:
+			metadata = yield(metadata, "completed")
+	else:
+		metadata = MetaBoyGlobals.og_metadata_json
+	
 	var first = true
 	for token in tokens:
 		# Read the NFT metadata
-		var metadata = token.get("metadata")
-		var nft_name = metadata.get("base").get("name")
+		var nft_id_address = token.get("nftId") # Hex address of NFT
+		var nft_id = MetaBoyGlobals.get_og_id_from_token(nft_id_address)
 		
-		var nft_properties_json = JSON.parse(metadata.get("base").get("properties"))
-		if nft_properties_json.error == OK:
-			var nft_properties = nft_properties_json.result
-			if nft_properties and !nft_properties.empty():
-				# Assuming names are "MetaBoy #xxxx"
-				var formatted_name = nft_name.replace(" ", "\n")
-				var metaboy_display = _add_metaboy_entry(formatted_name, nft_properties, MetaBoyGlobals.Collection.OG)
-				if first:
-					first = false
-					metaboy_display.select()
-				num_metaboys += 1
-			else:
-				# No attributes found
-				pass
-		else:
-			printerr("Failed to parse token attributes.")
+		if nft_id == -1:
+			# Not part of the collection
+			continue
+		
+		if metadata != null and metadata_mapping != null: # TODO: add a refresh/retry button
+			var formatted_name = "MetaBoy\n#"
+			
+			var nft_properties = {}
+			var nft_json_obj = MetaBoyGlobals.get_og_metadata_for_token(nft_id_address)
+			if !nft_json_obj.empty():
+				if nft_json_obj.has("Id") and nft_json_obj.has("Traits"):
+					formatted_name += str(nft_json_obj["Id"])
+					var attributes : Array = nft_json_obj["Traits"]
+					for attribute in attributes:
+						var trait = attribute["TraitType"]
+						var value = attribute["TraitValue"]
+						nft_properties[trait] = value
+					var metaboy_display = _add_metaboy_entry(formatted_name, nft_properties, MetaBoyGlobals.Collection.OG)
+					if first:
+						first = false
+						metaboy_display.select()
+					num_metaboys += 1
 
 func get_stx_metaboy_tokens() -> void:
 	var json = Stacks.get_account_balance(StacksGlobals.wallet)
@@ -183,18 +211,18 @@ func _parse_stx_metaboy_nfts(tokens: Dictionary) -> void:
 						var formatted_name = "MetaBoy\n#" + nft_id
 						
 						var nft_properties = {}
-						# Assumes the metadata is ordered by ID
-						var nft_json_obj = metadata[int(nft_id) - 1]
-						var attributes : Array = nft_json_obj["attributes"]
-						for attribute in attributes:
-							var trait = attribute["trait"]
-							var value = attribute["value"]
-							nft_properties[trait] = value
-						var metaboy_display = _add_metaboy_entry(formatted_name, nft_properties, MetaBoyGlobals.Collection.STX)
-						if first:
-							first = false
-							metaboy_display.select()
-						num_stx_metaboys += 1
+						var nft_json_obj = MetaBoyGlobals.get_stx_metadata_for_id(int(nft_id))
+						if !nft_json_obj.empty():
+							var attributes : Array = nft_json_obj["attributes"]
+							for attribute in attributes:
+								var trait = attribute["trait"]
+								var value = attribute["value"]
+								nft_properties[trait] = value
+							var metaboy_display = _add_metaboy_entry(formatted_name, nft_properties, MetaBoyGlobals.Collection.STX)
+							if first:
+								first = false
+								metaboy_display.select()
+							num_stx_metaboys += 1
 	
 	# Update the STX label here so that the label doesn't check the count before
 	# the metadata reading is complete.

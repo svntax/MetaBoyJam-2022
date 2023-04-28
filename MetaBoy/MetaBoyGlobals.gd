@@ -4,7 +4,7 @@ extends Node
 const CONTRACT_OG = "0x1D006a27BD82E10F9194D30158d91201E9930420"
 # Address for the STX MetaBoy collection
 const CONTRACT_STX = "SP2W12MNM4SPV37VZHN4GCDG35G9ACG3FDKK7WF04"
-# For storing the response array of NFT metadata from Loopring
+# For storing the responses of NFT metadata
 var user_nfts_loopring : Array = []
 var user_nfts_stacks : Dictionary = {}
 
@@ -105,6 +105,63 @@ func load_stx_metadata_json():
 		return null
 	stx_metadata_json = result_json.result
 	return result_json.result
+
+const OG_METADATA_PATH = "res://MetaBoy/Metadata/metaboy_og.json"
+var og_metadata_json = {}
+# Loads the metadata for the MetaBoy OG collection.
+func load_og_metadata_json():
+	var file = File.new()
+	file.open(OG_METADATA_PATH, file.READ)
+	var text = file.get_as_text()
+	var result_json = JSON.parse(text)
+	if result_json.error != OK:
+		printerr("Error loading JSON file: " + str(OG_METADATA_PATH))
+		return null
+	og_metadata_json = result_json.result
+	return result_json.result
+
+const OG_TOKEN_ID_MAP_PATH = "res://MetaBoy/Metadata/metaboy_og_token_id_map.json"
+var og_token_id_map_json = {}
+func load_og_token_id_map_json():
+	var file = File.new()
+	file.open(OG_TOKEN_ID_MAP_PATH, file.READ)
+	var text = file.get_as_text()
+	var result_json = JSON.parse(text)
+	if result_json.error != OK:
+		printerr("Error loading JSON file: " + str(OG_TOKEN_ID_MAP_PATH))
+		return null
+	og_token_id_map_json = result_json.result
+	return result_json.result
+
+# Get the corresponding ID for a given OG MetaBoy token address
+func get_og_id_from_token(token_address: String) -> int:
+	if !og_token_id_map_json.empty():
+		return og_token_id_map_json.get(token_address, -1)
+	return -1
+
+# Get the metadata for an OG MetaBoy
+func get_og_metadata_for_token(nft_id_address: String) -> Dictionary:
+	var nft_id = get_og_id_from_token(nft_id_address)
+	return get_og_metadata_for_id(nft_id)
+
+func get_og_metadata_for_id(nft_id: int) -> Dictionary:
+	var metadata = {}
+	
+	if !og_metadata_json.empty():
+		# Assumes the metadata is ordered by ID
+		metadata = og_metadata_json[nft_id - 1]
+	
+	return metadata
+
+# Get the metadata for a STX MetaBoy
+func get_stx_metadata_for_id(nft_id: int) -> Dictionary:
+	var metadata = {}
+	
+	if !stx_metadata_json.empty():
+		# Assumes the metadata is ordered by ID
+		metadata = stx_metadata_json[int(nft_id) - 1]
+	
+	return metadata
 
 # Generate a random mix of attributes. For testing purposes only.
 func get_random_attributes(collection: int = Collection.OG) -> Dictionary:

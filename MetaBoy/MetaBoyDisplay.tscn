@@ -1,9 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://MetaBoy/Layers.gd" type="Script" id=1]
-[ext_resource path="res://MetaBoy/Loud-Crying.png" type="Texture" id=2]
 [ext_resource path="res://MetaBoy/Superhero.png" type="Texture" id=3]
-[ext_resource path="res://MetaBoy/spritesheets/Weapon/Yatagan.png" type="Texture" id=4]
 [ext_resource path="res://MetaBoy/MetaBoyDisplay.gd" type="Script" id=5]
 [ext_resource path="res://UI/MainUITheme.tres" type="Theme" id=6]
 
@@ -77,13 +75,11 @@ vframes = 3
 frame = 10
 
 [node name="Weapon" type="Sprite" parent="MainBody"]
-texture = ExtResource( 4 )
 hframes = 5
 vframes = 3
 frame = 10
 
 [node name="Face" type="Sprite" parent="MainBody"]
-texture = ExtResource( 2 )
 hframes = 5
 vframes = 3
 frame = 10

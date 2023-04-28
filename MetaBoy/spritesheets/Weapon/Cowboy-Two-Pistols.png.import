@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Cowboy-Both-Pistols.png-beb9f3e67901eac53a594d004f2ea26b.stex"
+path="res://.import/Cowboy-Two-Pistols.png-03b0df72f9526b905122e9cae2768b67.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MetaBoy/spritesheets/Weapon/Cowboy-Both-Pistols.png"
-dest_files=[ "res://.import/Cowboy-Both-Pistols.png-beb9f3e67901eac53a594d004f2ea26b.stex" ]
+source_file="res://MetaBoy/spritesheets/Weapon/Cowboy-Two-Pistols.png"
+dest_files=[ "res://.import/Cowboy-Two-Pistols.png-03b0df72f9526b905122e9cae2768b67.stex" ]
 
 [params]
 

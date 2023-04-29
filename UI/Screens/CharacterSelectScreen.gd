@@ -140,6 +140,9 @@ func _parse_metaboy_nfts(tokens: Array) -> void:
 		if nft_id == -1:
 			# Not part of the collection
 			continue
+		elif MetaBoyGlobals.is_iconic_og(nft_id):
+			# TODO: iconics are unique and must be handled differently
+			continue
 		
 		if metadata != null and metadata_mapping != null: # TODO: add a refresh/retry button
 			var formatted_name = "MetaBoy\n#"

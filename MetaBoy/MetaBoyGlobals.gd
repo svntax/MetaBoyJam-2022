@@ -139,6 +139,10 @@ func get_og_id_from_token(token_address: String) -> int:
 		return og_token_id_map_json.get(token_address, -1)
 	return -1
 
+# The iconics in the OG collection are #9,981 to #10,000
+func is_iconic_og(nft_id: int) -> bool:
+	return 9981 <= nft_id and nft_id <= 10000
+
 # Get the metadata for an OG MetaBoy
 func get_og_metadata_for_token(nft_id_address: String) -> Dictionary:
 	var nft_id = get_og_id_from_token(nft_id_address)

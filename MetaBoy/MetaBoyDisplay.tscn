@@ -59,12 +59,7 @@ hframes = 5
 vframes = 3
 frame = 10
 
-[node name="Neck" type="Sprite" parent="MainBody"]
-hframes = 5
-vframes = 3
-frame = 10
-
-[node name="Waist" type="Sprite" parent="MainBody"]
+[node name="Face" type="Sprite" parent="MainBody"]
 hframes = 5
 vframes = 3
 frame = 10
@@ -74,12 +69,17 @@ hframes = 5
 vframes = 3
 frame = 10
 
-[node name="Weapon" type="Sprite" parent="MainBody"]
+[node name="Waist" type="Sprite" parent="MainBody"]
 hframes = 5
 vframes = 3
 frame = 10
 
-[node name="Face" type="Sprite" parent="MainBody"]
+[node name="Neck" type="Sprite" parent="MainBody"]
+hframes = 5
+vframes = 3
+frame = 10
+
+[node name="Weapon" type="Sprite" parent="MainBody"]
 hframes = 5
 vframes = 3
 frame = 10

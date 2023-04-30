@@ -35,7 +35,11 @@ const DARK_SCREEN_BODIES = ["Bloodied", "Bread-Slice", "Camouflage", "Demon",
 "Open-Jacket", "Red-Dress", "Stone", "Supervillain", "Survivor", "Suspenders",
 "Tiger", "Turtle", "Water", "Watermelon", "Wood", "Yellow", "Zombie"]
 # STX Collection
-const DARK_SCREEN_STX_BODIES = ["Ape", "Superhero"] + DARK_SCREEN_BODIES
+const DARK_SCREEN_STX_BODIES = ["Ape", "Superhero",
+"Bloodied", "Bread-Slice", "Camouflage", "Demon",
+"Galaxy", "Lizard", "Monk", "Muscular-Warrior", "Neon-Solid", 
+"Open-Jacket", "Red-Dress", "Stone", "Supervillain", "Survivor", "Suspenders",
+"Tiger", "Turtle", "Water", "Watermelon", "Wood", "Yellow", "Zombie"]
 
 # TODO temp testing
 var test_metaboy = {

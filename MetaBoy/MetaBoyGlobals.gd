@@ -6,7 +6,7 @@ const CONTRACT_OG = "0x1D006a27BD82E10F9194D30158d91201E9930420"
 const CONTRACT_STX = "SP2W12MNM4SPV37VZHN4GCDG35G9ACG3FDKK7WF04"
 # For storing the responses of NFT metadata
 var user_nfts_loopring : Array = []
-var user_nfts_stacks : Dictionary = {}
+var user_nfts_stacks : Array = []
 
 enum Collection { OG, STX }
 

@@ -97,6 +97,7 @@ func get_metaboy_tokens() -> void:
 	var response_object = json.result
 	if response_object.has("data"):
 		var tokens : Array = response_object.get("data")
+		
 		var total_tokens : int = response_object.get("totalNum", 0)
 		if tokens.empty():
 			# No MetaBoys found
@@ -187,59 +188,85 @@ func get_stx_metaboy_tokens() -> void:
 	
 	# Fetch the user's NFTs
 	if account_balance.has("non_fungible_tokens"):
-		var tokens : Dictionary = account_balance.get("non_fungible_tokens")
-		MetaBoyGlobals.user_nfts_stacks = tokens
+		var token_collections : Dictionary = account_balance.get("non_fungible_tokens")
 		
-		if tokens.empty():
-			# No STX MetaBoys found
+		if token_collections.empty():
+			# No STX collections found
+			MetaBoyGlobals.user_nfts_stacks = []
 			return
 		
-		_parse_stx_metaboy_nfts(tokens)
+		var token_address = MetaBoyGlobals.CONTRACT_STX
+		for key in token_collections:
+			var collection_address = key.split(".")[0]
+			if collection_address == token_address:
+				var asset_identifiers = [key]
+				# To avoid triggering the API limits, fetch 50 tokens at a time.
+				var nft_holdings_json = Stacks.get_nft_holdings(StacksGlobals.wallet, asset_identifiers, 50)
+				if nft_holdings_json is GDScriptFunctionState:
+					nft_holdings_json = yield(nft_holdings_json, "completed")
+				var nft_holdings = nft_holdings_json.result
+				if nft_holdings.has("results"):
+					var tokens = nft_holdings.get("results")
+					
+					var total_tokens : int = nft_holdings.get("total", 0)
+					if tokens.empty():
+						# No MetaBoys found
+						MetaBoyGlobals.user_nfts_loopring = []
+						return
+					elif total_tokens > 50:
+						var num_calls = int(floor(total_tokens / 50))
+						for i in range(1, num_calls + 1):
+							var json_next_batch = Stacks.get_nft_holdings(StacksGlobals.wallet, asset_identifiers, 50, i * 50)
+							if json_next_batch is GDScriptFunctionState:
+								json_next_batch = yield(json_next_batch, "completed")
+							var response_object_next_batch = json_next_batch.result
+							if response_object_next_batch.has("results"):
+								var tokens_next_batch : Array = response_object_next_batch.get("results")
+								for token in tokens_next_batch:
+									tokens.append({
+										"value": {
+											"repr": token.get("value").get("repr")
+										}
+									})
+					
+					MetaBoyGlobals.user_nfts_stacks = tokens
+					_parse_stx_metaboy_nfts(tokens)
 	else:
 		# No STX MetaBoys found
 		MetaBoyGlobals.user_nfts_stacks.clear()
 
-func _parse_stx_metaboy_nfts(tokens: Dictionary) -> void:
-	var token_address = MetaBoyGlobals.CONTRACT_STX
+func _parse_stx_metaboy_nfts(tokens: Array) -> void:
 	var first = true
-	for key in tokens:
-		var collection_address = key.split(".")[0]
-		if collection_address == token_address:
-			var asset_identifiers = [key]
-			var nft_holdings_json = Stacks.get_nft_holdings(StacksGlobals.wallet, asset_identifiers)
-			if nft_holdings_json is GDScriptFunctionState:
-				nft_holdings_json = yield(nft_holdings_json, "completed")
-			var nft_holdings = nft_holdings_json.result
-			if nft_holdings.has("results"):
-				var nft_results : Array = nft_holdings.get("results")
-				for nft in nft_results:
-					var nft_id = nft.get("value").get("repr")
-					# NFT ID is an unsigned int, so it starts with "u"
-					nft_id = str(nft_id).substr(1)
-					# Metadata is saved locally
-					var metadata = null
-					if MetaBoyGlobals.stx_metadata_json.empty():
-						metadata = MetaBoyGlobals.load_stx_metadata_json()
-						if metadata is GDScriptFunctionState:
-							metadata = yield(metadata, "completed")
-					else:
-						metadata = MetaBoyGlobals.stx_metadata_json
-					if metadata != null:
-						var formatted_name = "MetaBoy\n#" + nft_id
-						
-						var nft_properties = {}
-						var nft_json_obj = MetaBoyGlobals.get_stx_metadata_for_id(int(nft_id))
-						if !nft_json_obj.empty():
-							var attributes : Array = nft_json_obj["attributes"]
-							for attribute in attributes:
-								var trait = attribute["trait"]
-								var value = attribute["value"]
-								nft_properties[trait] = value
-							var metaboy_display = _add_metaboy_entry(formatted_name, nft_properties, MetaBoyGlobals.Collection.STX)
-							if first:
-								first = false
-								metaboy_display.select()
-							num_stx_metaboys += 1
+	
+	#var nft_results : Array = nft_holdings.get("results")
+	for nft in tokens:
+		var nft_id = nft.get("value").get("repr")
+		# NFT ID is an unsigned int, so it starts with "u"
+		nft_id = str(nft_id).substr(1)
+		# Metadata is saved locally
+		var metadata = null
+		if MetaBoyGlobals.stx_metadata_json.empty():
+			metadata = MetaBoyGlobals.load_stx_metadata_json()
+			if metadata is GDScriptFunctionState:
+				metadata = yield(metadata, "completed")
+		else:
+			metadata = MetaBoyGlobals.stx_metadata_json
+		if metadata != null:
+			var formatted_name = "MetaBoy\n#" + nft_id
+			
+			var nft_properties = {}
+			var nft_json_obj = MetaBoyGlobals.get_stx_metadata_for_id(int(nft_id))
+			if !nft_json_obj.empty():
+				var attributes : Array = nft_json_obj["attributes"]
+				for attribute in attributes:
+					var trait = attribute["trait"]
+					var value = attribute["value"]
+					nft_properties[trait] = value
+				var metaboy_display = _add_metaboy_entry(formatted_name, nft_properties, MetaBoyGlobals.Collection.STX)
+				if first:
+					first = false
+					metaboy_display.select()
+				num_stx_metaboys += 1
 	
 	# Update the STX label here so that the label doesn't check the count before
 	# the metadata reading is complete.

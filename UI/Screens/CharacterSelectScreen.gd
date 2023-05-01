@@ -87,7 +87,9 @@ func get_loopring_account() -> void:
 
 func get_metaboy_tokens() -> void:
 	var token_address = MetaBoyGlobals.CONTRACT_OG
-	var json = Loopring.get_token_balance(str(account_object.get("accountId")), Globals.loopring_api_key, token_address, false)
+	var account_id = str(account_object.get("accountId"))
+	# To avoid triggering the API limits, fetch 50 tokens at a time.
+	var json = Loopring.get_token_balance(account_id, Globals.loopring_api_key, token_address, false, 50)
 	
 	if json is GDScriptFunctionState:
 		json = yield(json, "completed")
@@ -95,12 +97,24 @@ func get_metaboy_tokens() -> void:
 	var response_object = json.result
 	if response_object.has("data"):
 		var tokens : Array = response_object.get("data")
-		MetaBoyGlobals.user_nfts_loopring = tokens
-		
+		var total_tokens : int = response_object.get("totalNum", 0)
 		if tokens.empty():
 			# No MetaBoys found
+			MetaBoyGlobals.user_nfts_loopring = []
 			return
+		elif total_tokens > 50:
+			var num_calls = int(floor(total_tokens / 50))
+			for i in range(1, num_calls + 1):
+				var json_next_batch = Loopring.get_token_balance(account_id, Globals.loopring_api_key, token_address, false, 50, i * 50)
+				if json_next_batch is GDScriptFunctionState:
+					json_next_batch = yield(json_next_batch, "completed")
+				var response_object_next_batch = json_next_batch.result
+				if response_object_next_batch.has("data"):
+					var tokens_next_batch : Array = response_object_next_batch.get("data")
+					for token in tokens_next_batch:
+						tokens.append({"nftId": token.get("nftId")})
 		
+		MetaBoyGlobals.user_nfts_loopring = tokens
 		_parse_metaboy_nfts(tokens)
 	else:
 		# No MetaBoys found

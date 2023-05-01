@@ -126,7 +126,7 @@ margin_left = 8.0
 margin_top = 8.0
 margin_right = 128.0
 margin_bottom = 43.0
-text = "(Alpha 0.1.0)"
+text = "(Alpha 0.2.0)"
 autowrap = true
 
 [node name="Props" type="Node2D" parent="."]

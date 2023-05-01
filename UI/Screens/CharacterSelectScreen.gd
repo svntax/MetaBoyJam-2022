@@ -38,15 +38,6 @@ func _ready():
 		else:
 			_parse_stx_metaboy_nfts(MetaBoyGlobals.user_nfts_stacks)
 	
-	# TODO: testing purposes only
-#	for i in range(5):
-#		num_metaboys += 1
-#		_add_metaboy_entry("Random\nMetaBoy", MetaBoyGlobals.get_random_attributes(), MetaBoyGlobals.Collection.OG)
-#	for i in range(5):
-#		num_stx_metaboys += 1
-#		var random_attributes = MetaBoyGlobals.get_random_attributes(MetaBoyGlobals.Collection.STX)
-#		_add_metaboy_entry("Random\nSTX MetaBoy", random_attributes, MetaBoyGlobals.Collection.STX)
-	
 	if num_metaboys == 0:
 		no_metaboy_label.show()
 	else:
@@ -238,7 +229,6 @@ func get_stx_metaboy_tokens() -> void:
 func _parse_stx_metaboy_nfts(tokens: Array) -> void:
 	var first = true
 	
-	#var nft_results : Array = nft_holdings.get("results")
 	for nft in tokens:
 		var nft_id = nft.get("value").get("repr")
 		# NFT ID is an unsigned int, so it starts with "u"

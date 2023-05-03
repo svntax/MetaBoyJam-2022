@@ -150,7 +150,7 @@ func _parse_metaboy_nfts(tokens: Array) -> void:
 			# TODO: iconics are unique and must be handled differently
 			continue
 		
-		if metadata != null and metadata_mapping != null: # TODO: add a refresh/retry button
+		if metadata != null and metadata_mapping != null:
 			var formatted_name = "MetaBoy\n#"
 			
 			var nft_properties = {}

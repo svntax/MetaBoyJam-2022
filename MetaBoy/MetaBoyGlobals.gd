@@ -41,16 +41,6 @@ const DARK_SCREEN_STX_BODIES = ["Ape", "Superhero",
 "Open-Jacket", "Red-Dress", "Stone", "Supervillain", "Survivor", "Suspenders",
 "Tiger", "Turtle", "Water", "Watermelon", "Wood", "Yellow", "Zombie"]
 
-# TODO temp testing
-var test_metaboy = {
-	"Body": "Ape",
-	"Face": "Got You",
-	"Weapon": "STX-Blaster",
-	"Hat": "Green Headphones"
-}
-const WEAPONS_TO_TEST = ["Yatagan", "Energy-Sword", "Bomb", "Dynamite-Stick", "Snail-Shell", "Elder-Wand", "Bazooka", "Laser-Guns", "Gravity-Gun", "Retro-Futuristic-Rifle", "Lightning"]
-var current_weapon_index = 0
-
 # The MetaBoy the user has selected.
 var default_metaboy = {
 	"Body": "Superhero",
@@ -90,11 +80,10 @@ func get_face_light_version(face_type: String, collection: int = Collection.OG) 
 	return null
 
 func clear_loopring_data() -> void:
-	user_nfts_loopring = []
+	user_nfts_loopring.clear()
 
 func clear_stx_data() -> void:
 	user_nfts_stacks.clear()
-	#stx_metadata_json.clear() # TODO: unsure when this should be cleared
 
 const STX_METADATA_PATH = "res://MetaBoy/Metadata/metaboy_stx.json"
 var stx_metadata_json = {}
@@ -167,7 +156,7 @@ func get_stx_metadata_for_id(nft_id: int) -> Dictionary:
 	
 	if !stx_metadata_json.empty():
 		# Assumes the metadata is ordered by ID
-		metadata = stx_metadata_json[int(nft_id) - 1]
+		metadata = stx_metadata_json[nft_id - 1]
 	
 	return metadata
 

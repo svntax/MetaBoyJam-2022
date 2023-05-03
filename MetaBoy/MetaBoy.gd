@@ -269,21 +269,6 @@ func _physics_process(delta):
 	
 	if not state_machine.state == state_machine.States.DEAD:
 		_handle_movement(delta)
-	
-	#_lightning_rays_logic() # TODO deprecated
-
-# TODO deprecated
-#func _lightning_rays_logic() -> void:
-#	if not lightning_timer.is_stopped():
-#		for lightning_ray in lightning_rays:
-#			if !lightning_ray.visible:
-#				lightning_ray.show()
-#			lightning_ray.set_start_point(lightning_ray.global_position)
-#			# TODO: target nearest enemy
-#			lightning_ray.set_end_point(self.global_position + Vector2(100, -100))
-#			lightning_ray.create_segments()
-#			lightning_ray.generate_offsets()
-#			lightning_ray.set_fluctuating(true)
 
 func _handle_movement(_delta):
 	# Running

@@ -63,11 +63,11 @@ func _process(delta):
 		if tab_container.current_tab < tab_container.get_tab_count() - 1:
 			tab_container.current_tab += 1
 
-func _on_metaboy_selected(attributes: Dictionary) -> void:
+func _on_metaboy_selected(metaboy: MetaBoyData) -> void:
 	if SceneManager.transition_running:
 		return
 	
-	MetaBoyGlobals.set_selected_metaboy(attributes)
+	MetaBoyGlobals.selected_metaboy = metaboy
 	get_tree().change_scene("res://UI/Screens/PlaySelectScreen.tscn")
 
 func get_loopring_account() -> void:
@@ -274,7 +274,8 @@ func _add_metaboy_entry(mb_name: String, mb_attributes: Dictionary, collection: 
 	elif collection == MetaBoyGlobals.Collection.STX:
 		metaboy_stx_grid.add_child(metaboy_display)
 	metaboy_display.set_metaboy_name(mb_name)
-	metaboy_display.set_metaboy_attributes(mb_attributes, collection)
+	mb_attributes["Collection"] = collection
+	metaboy_display.set_metaboy_attributes(mb_attributes)
 	metaboy_display.connect("metaboy_selected", self, "_on_metaboy_selected")
 	return metaboy_display
 

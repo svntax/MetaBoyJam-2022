@@ -15,11 +15,11 @@ onready var animation_player = $AnimationPlayer
 onready var name_label = $Name
 onready var button = $Button
 
-var metaboy_attributes = { # Default to developer's MetaBoy
+var metaboy = MetaBoyData.new({
 	"Body": "Superhero",
 	"Face": "Loud-Crying",
 	"Weapon": "Yatagan",
-}
+})
 
 func _ready():
 	animation_player.play("run", -1, 2)
@@ -30,8 +30,9 @@ func select() -> void:
 func set_metaboy_name(metaboy_name: String) -> void:
 	name_label.text = metaboy_name
 
-func set_metaboy_attributes(attributes: Dictionary, collection: int = MetaBoyGlobals.Collection.OG) -> void:
-	metaboy_attributes = attributes
+func set_metaboy_attributes(attributes: Dictionary) -> void:
+	var collection = attributes.get("Collection", MetaBoyGlobals.Collection.OG)
+	metaboy.collection = collection
 	var path_root = ""
 	if collection == MetaBoyGlobals.Collection.OG:
 		path_root = "res://MetaBoy/spritesheets/"
@@ -46,9 +47,11 @@ func set_metaboy_attributes(attributes: Dictionary, collection: int = MetaBoyGlo
 		var path = path_root + str(key) + "/" + str(value).replace(" ", "-") + ".png"
 		if ResourceLoader.exists(path):
 			if key == "Back":
+				metaboy.back = value
 				part_back.texture = load(path)
 				show_back = true
 			elif key == "Body":
+				metaboy.body = value
 				part_body.texture = load(path)
 				# For the STX collection, Monster Suit has the teeth as an additional layer
 				if collection == MetaBoyGlobals.Collection.STX and \
@@ -56,35 +59,36 @@ func set_metaboy_attributes(attributes: Dictionary, collection: int = MetaBoyGlo
 					var path_teeth = path_root + "/Teeth/Monster-Suit-Teeth.png"
 					part_body_02.texture = load(path_teeth)
 			elif key == "Face":
+				metaboy.face = value
 				part_face.texture = load(path)
 			elif key == "Hat":
+				metaboy.hat = value
 				part_hat.texture = load(path)
 				show_hat = true
 			elif key == "Neck":
+				metaboy.neck = value
 				part_neck.texture = load(path)
 				show_neck = true
 			elif key == "Waist":
+				metaboy.waist = value
 				part_waist.texture = load(path)
 				show_waist = true
 			elif key == "Weapon":
+				metaboy.weapon = value
 				part_weapon.texture = load(path)
-	
-	metaboy_attributes["Collection"] = collection
 	
 	part_back.visible = show_back
 	part_hat.visible = show_hat
 	part_neck.visible = show_neck
 	part_waist.visible = show_waist
 	
-	# Check for key in case of mismints that are missing these attributes
-	if attributes.has("Body") and attributes.has("Face"):
-		var body_type = attributes.get("Body").replace(" ", "-")
-		# Bodies with dark screens need the light version of the face
-		if MetaBoyGlobals.is_dark_screen_body(body_type, collection):
-			var face_type = attributes.get("Face").replace(" ", "-")
-			var face_light_version_texture = MetaBoyGlobals.get_face_light_version(face_type, collection)
-			if face_light_version_texture:
-				part_face.texture = face_light_version_texture
+	# Bodies with dark screens need the light version of the face
+	var body_type = metaboy.body.replace(" ", "-")
+	if MetaBoyGlobals.is_dark_screen_body(body_type, collection):
+		var face_type = attributes.get("Face").replace(" ", "-")
+		var face_light_version_texture = MetaBoyGlobals.get_face_light_version(face_type, collection)
+		if face_light_version_texture:
+			part_face.texture = face_light_version_texture
 
 func _on_Button_pressed():
-	emit_signal("metaboy_selected", metaboy_attributes)
+	emit_signal("metaboy_selected", metaboy)

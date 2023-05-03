@@ -24,19 +24,43 @@ func set_collection(new_collection: int) -> void:
 		collection = new_collection
 
 func set_metadata(metadata: Dictionary) -> void:
-	collection = metadata.get("Collection", Collection.OG)
-	back = metadata.get("Back", "")
-	body = metadata.get("Body", "")
-	face = metadata.get("Face", "")
-	hat = metadata.get("Hat", "")
-	neck = metadata.get("Neck", "")
-	weapon = metadata.get("Weapon", "")
-	waist = metadata.get("Waist", "")
-	background = metadata.get("Background", "")
-	id = metadata.get("ID", -1)
+	for attribute in metadata.keys():
+		if attribute == "Collection":
+			collection = metadata.get("Collection", Collection.OG)
+		elif attribute == "Back":
+			back = metadata.get("Back", "")
+		elif attribute == "Body":
+			body = metadata.get("Body", "")
+		elif attribute == "Face":
+			face = metadata.get("Face", "")
+		elif attribute == "Hat":
+			hat = metadata.get("Hat", "")
+		elif attribute == "Neck":
+			neck = metadata.get("Neck", "")
+		elif attribute == "Weapon":
+			weapon = metadata.get("Weapon", "")
+		elif attribute == "Waist":
+			waist = metadata.get("Waist", "")
+		elif attribute == "Background":
+			background = metadata.get("Background", "")
+		elif attribute == "ID":
+			id = metadata.get("ID", -1)
 
 func set_id(new_id: int):
 	id = new_id
 
 func get_collection_by_name() -> String:
 	return Collection.keys()[collection]
+
+func get_attributes_as_dictionary() -> Dictionary:
+	return {
+		"Back": back,
+		"Body": body,
+		"Face": face,
+		"Hat": hat,
+		"Neck": neck,
+		"Weapon": weapon,
+		"Waist": waist,
+		"Background": background,
+		"Collection": collection,
+	}

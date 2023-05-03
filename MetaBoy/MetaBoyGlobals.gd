@@ -28,12 +28,14 @@ const STX_NECK_TYPES = ["Black-Cape", "Black-Scarf", "Blue-Bandana", "BTC-Scarf"
 const STX_WAIST_TYPES = ["Belt-empty-Holsters", "Belt-with-Both-Pistols", "Belt-with-Left-Pistol", "Belt-with-Right-Pistol", "BTC-Belt", "Chain-Belt", "Champion-Belt", "Fighter-Belt", "Grenade-Belt", "Potion-Belt", "Satchel", "STX-Belt", "Warrior-Belt"]
 const STX_WEAPON_TYPES = ["Axe-and-Shield", "Banana", "Bazooka", "Blade", "Blue-Boxing-Gloves", "Bomb", "Bow-and-Arrow", "Bow", "BTC-Blade", "Chainsaw", "Cowboy-Both-Pistols", "Cowboy-Left-Pistol", "Cowboy-Right-Pistol", "Crowbar", "Daggers", "Dark-Staff", "Dynamite-Stick", "Elder-Wand", "Energy-Sword", "Flamethrower", "Golden-Blades", "Golden-Sword", "Gravity-Gun", "Harpoon", "Hook", "Katana", "Kunai", "Laser-Guns", "Lightning", "Medusas-Head", "Neon-Solid", "Neon-Transparent", "Red-Boxing-Gloves", "Retro-Futuristic-Rifle", "Robot-Claw", "Sai", "Side-Gun", "Slingshot", "Snail-Shell", "Sniper", "Spear-and-Shield", "STX-Blaster", "Surrender-Flag", "Trident", "Wooden-Staff", "Wrist-Straps", "Yatagan", "Zombie-Hands"]
 
-# These bodies need the light version of a face if applicable.
+# These body attributes need the light version of a face if applicable.
+
 # OG Collection
 const DARK_SCREEN_BODIES = ["Bloodied", "Bread-Slice", "Camouflage", "Demon",
 "Galaxy", "Goth-Girl", "Lizard", "Monk", "Muscular-Warrior", "Neon-Solid", 
 "Open-Jacket", "Red-Dress", "Stone", "Supervillain", "Survivor", "Suspenders",
 "Tiger", "Turtle", "Water", "Watermelon", "Wood", "Yellow", "Zombie"]
+
 # STX Collection
 const DARK_SCREEN_STX_BODIES = ["Ape", "Superhero",
 "Bloodied", "Bread-Slice", "Camouflage", "Demon",
@@ -41,19 +43,19 @@ const DARK_SCREEN_STX_BODIES = ["Ape", "Superhero",
 "Open-Jacket", "Red-Dress", "Stone", "Supervillain", "Survivor", "Suspenders",
 "Tiger", "Turtle", "Water", "Watermelon", "Wood", "Yellow", "Zombie"]
 
-# The MetaBoy the user has selected.
-var default_metaboy = {
+var default_metaboy = MetaBoyData.new({
 	"Body": "Superhero",
 	"Face": "Loud-Crying",
 	"Weapon": "Yatagan",
-	"Collection": Collection.OG
-}
-var selected_metaboy = {} setget set_selected_metaboy, get_selected_metaboy
+	"Collection": MetaBoyData.Collection.OG
+})
+# The MetaBoy the user has selected.
+var selected_metaboy = MetaBoyData.new() setget set_selected_metaboy, get_selected_metaboy
 
-func set_selected_metaboy(metaboy_attributes: Dictionary) -> void:
-	selected_metaboy = metaboy_attributes
+func set_selected_metaboy(metaboy: MetaBoyData) -> void:
+	selected_metaboy = metaboy
 
-func get_selected_metaboy() -> Dictionary:
+func get_selected_metaboy() -> MetaBoyData:
 	return selected_metaboy
 
 func is_dark_screen_body(body_type: String, collection: int = Collection.OG) -> bool:

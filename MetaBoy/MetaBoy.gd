@@ -131,8 +131,7 @@ func _ready():
 	attack_cooldown_timer.wait_time = attack_cooldown_duration
 	
 	input_controls = KEYBOARD_CONTROLS
-	var collection = MetaBoyGlobals.selected_metaboy.get("Collection", MetaBoyGlobals.Collection.OG)
-	set_metaboy_attributes(MetaBoyGlobals.selected_metaboy, collection)
+	set_metaboy_attributes(MetaBoyGlobals.selected_metaboy)
 
 func init_setup_parts() -> void:
 	action_player.stop()
@@ -148,9 +147,10 @@ func init_setup_parts() -> void:
 	energy_sword_root.hide()
 	stx_blaster_sides.get_parent().hide()
 
-func set_metaboy_attributes(attributes: Dictionary, collection: int = MetaBoyGlobals.Collection.OG) -> void:
+func set_metaboy_attributes(metaboy: MetaBoyData) -> void:
 	init_setup_parts()
 	
+	var collection = metaboy.collection
 	var path_root = ""
 	if collection == MetaBoyGlobals.Collection.OG:
 		path_root = "res://MetaBoy/spritesheets/"
@@ -160,6 +160,7 @@ func set_metaboy_attributes(attributes: Dictionary, collection: int = MetaBoyGlo
 	var show_hat = false
 	var show_neck = false
 	var show_waist = false
+	var attributes = metaboy.get_attributes_as_dictionary()
 	for key in attributes.keys():
 		var value = attributes.get(key)
 		var path = path_root + str(key) + "/" + str(value).replace(" ", "-") + ".png"
@@ -240,15 +241,13 @@ func set_metaboy_attributes(attributes: Dictionary, collection: int = MetaBoyGlo
 	part_neck.visible = show_neck
 	part_waist.visible = show_waist
 	
-	# Check for key in case of mismints that are missing these attributes
-	if attributes.has("Body") and attributes.has("Face"):
-		var body_type = attributes.get("Body").replace(" ", "-")
-		# Bodies with dark screens need the light version of the face
-		if MetaBoyGlobals.is_dark_screen_body(body_type, collection):
-			var face_type = attributes.get("Face").replace(" ", "-")
-			var face_light_version_texture = MetaBoyGlobals.get_face_light_version(face_type, collection)
-			if face_light_version_texture:
-				part_face.texture = face_light_version_texture
+	# Bodies with dark screens need the light version of the face
+	var body_type = metaboy.body.replace(" ", "-")
+	if MetaBoyGlobals.is_dark_screen_body(body_type, collection):
+		var face_type = attributes.get("Face").replace(" ", "-")
+		var face_light_version_texture = MetaBoyGlobals.get_face_light_version(face_type, collection)
+		if face_light_version_texture:
+			part_face.texture = face_light_version_texture
 
 func _physics_process(delta):
 	# Movement

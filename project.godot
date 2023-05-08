@@ -41,7 +41,7 @@ config/icon="res://game_icon.png"
 Globals="*res://Globals.gd"
 SceneManager="*res://SceneManager.tscn"
 MetaBoyGlobals="*res://MetaBoy/MetaBoyGlobals.gd"
-Loopring="*res://addons/godot-loopring-sdk/Loopring.tscn"
+Loopring="*res://addons/godot-loopring-sdk/Loopring.gd"
 LoopringGlobals="*res://addons/godot-loopring-sdk/LoopringGlobals.gd"
 Stacks="*res://addons/godot-stacks-sdk/Stacks.gd"
 StacksGlobals="*res://addons/godot-stacks-sdk/StacksGlobals.gd"
@@ -52,6 +52,10 @@ window/size/width=640
 window/size/height=360
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/godot-loopring-sdk/plugin.cfg", "res://addons/godot-stacks-sdk/plugin.cfg" )
 
 [gui]
 

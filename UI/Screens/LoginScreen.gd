@@ -6,7 +6,7 @@ onready var button_walletconnect = get_node("%ButtonWalletConnect")
 onready var button_gamestop = get_node("%ButtonGamestop")
 
 # Stacks wallet buttons
-onready var button_hiro = get_node("%ButtonHiro")
+onready var button_leather = get_node("%ButtonLeather")
 
 onready var loopring_wallet_connector = $LoopringWalletConnector
 onready var stacks_wallet_connector = $StacksWalletConnector
@@ -54,7 +54,7 @@ func _ready():
 	button_walletconnect.connect("pressed", self, "Button_Metamask")
 	button_gamestop.connect("pressed", self, "Button_GME")
 	
-	button_hiro.connect("pressed", self, "Button_Hiro")
+	button_leather.connect("pressed", self, "Button_Leather")
 	
 	# Connect the WalletConnector signal to handle wallet sign ins
 	loopring_wallet_connector.connect("wallet_connected", self, "_on_loopring_wallet_connected")
@@ -118,7 +118,7 @@ func _on_loopring_wallet_connected(wallet: String):
 	save_loopring_login()
 	get_tree().change_scene("res://UI/Screens/CharacterSelectScreen.tscn")
 
-func Button_Hiro():
+func Button_Leather():
 	if SceneManager.transition_running:
 		return
 	show_loading_ui()
@@ -223,7 +223,7 @@ func _on_WalletDropdown_item_selected(index):
 		loopring_menu.hide()
 		stacks_menu.show()
 		animation_player.play("select_first")
-		disconnect_wallet_button.focus_neighbour_left = disconnect_wallet_button.get_path_to(button_hiro)
+		disconnect_wallet_button.focus_neighbour_left = disconnect_wallet_button.get_path_to(button_leather)
 		var account = StacksGlobals.wallet
 		if account != null and account != "":
 			# Wallet detected
